@@ -26,5 +26,7 @@ namespace PDC.Web.Models
         public DbSet<tUser> tUser { get; set; }
         public DbSet<tApplicantHistory> tApplicantHistory { get; set; }
         public DbSet<tApplicantTutorial> tApplicantTutorial { get; set; }
+        public DbSet<tType> tType { get; set; }
+        public DbSet<tDomain> tDomain { get; set; }
     }
 }

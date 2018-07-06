@@ -21,6 +21,15 @@ namespace PDC.Web.Models
         [DefaultValue("")]
         public string approved_by { get; set; }
         public DateTime approved_date { get; set; }
+        [ForeignKey("type_name")]
+        public tType type { get; set; }
+        [Required(ErrorMessage = "Type cannot be empty")]
+        [DefaultValue("Avoid")]
+        public string type_name { get; set; }
+        [ForeignKey("domain_id")]
+        public tDomain domain { get; set; }
+        [Required(ErrorMessage ="Domain cannot be empty")]
+        public int domain_id { get; set; }
         [DefaultValue(0)]
         public int score { get; set; }
         public string create_by { get; set; }
