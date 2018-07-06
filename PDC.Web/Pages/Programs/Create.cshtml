@@ -1,0 +1,50 @@
+@page
+@model PDC.Web.Pages.Programs.CreateModel
+
+@{
+    ViewData["Title"] = "Program";
+}
+
+<h2>Create</h2>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="tProgram.program_name" class="control-label">Program Name</label>
+                        <input asp-for="tProgram.program_name" class="form-control" placeholder="Program Name" />
+                        <span asp-validation-for="tProgram.program_name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label asp-for="tProgram.program_detail" class="control-label">Details</label>
+                        <input asp-for="tProgram.program_detail" class="form-control" placeholder="Program Details" />
+                        <span asp-validation-for="tProgram.program_detail" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input asp-for="tProgram.approval_status" class="form-control" value="Requested" readonly/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

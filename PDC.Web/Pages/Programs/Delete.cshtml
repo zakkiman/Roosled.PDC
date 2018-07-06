@@ -1,0 +1,57 @@
+@page
+@model PDC.Web.Pages.Programs.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete (@Html.DisplayFor(model => model.tProgram.program_name))</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Program Name</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.program_name)
+        </dd>
+        <dt>Details</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.program_detail)
+        </dd>
+        <dt>Status</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.approval_status)
+        </dd>
+        <dt>Approved By</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.approved_by)
+        </dd>
+        <dt>Approved Date</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.approved_date)
+        </dd>
+        <dt>Create By</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.create_by)
+        </dd>
+        <dt>Create Date</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.create_date)
+        </dd>
+        <dt>Edit By</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.edit_by)
+        </dd>
+        <dt>Edit Date</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.edit_date)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="tProgram.program_id" />
+        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to reject this program?');" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

@@ -1,0 +1,72 @@
+@page
+@model PDC.Web.Pages.Applicants.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Applicant Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>First Name</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tApplicant.first_name)
+        </dd>
+        <dt>Middle Name</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tApplicant.middle_name)
+        </dd>
+        <dt>Last Name</dt>
+        <dd>@Html.DisplayFor(model => model.tApplicant.last_name)</dd>
+        <dt>Address 1</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tApplicant.address1)
+        </dd>
+        <dt></dt>
+        <dd>
+            @Html.DisplayFor(model => model.tApplicant.address2)
+        </dd>
+        <dt></dt>
+        <dd>
+            @Html.DisplayFor(model => model.tApplicant.address3)
+        </dd>
+        <dt>E-mail</dt>
+        <dd>@Html.DisplayFor(model => model.tApplicant.email)</dd>
+        <dt>Status</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tApplicant.status)
+        </dd>
+        <dt>Phone</dt>
+        <dd><a href="tel:@Html.DisplayFor(model => model.tApplicant.phone)">@Html.DisplayFor(model => model.tApplicant.phone)</a></dd>
+        <dt>Last Login</dt>
+        <dd>
+            @if (Model.tApplicant.last_login == DateTime.MinValue || Model.tApplicant.last_login == DateTime.MaxValue) { }
+            else
+            {
+                @Html.DisplayFor(model => model.tApplicant.last_login)
+            }
+        </dd>
+        <dt>Create By</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tApplicant.create_by)
+        </dd>
+        <dt>Create Date</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tApplicant.create_date)
+        </dd>
+        <dt>Edit By</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tApplicant.edit_by)
+        </dd>
+        <dt>Edit Date</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tApplicant.edit_date)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.tApplicant.applicant_id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

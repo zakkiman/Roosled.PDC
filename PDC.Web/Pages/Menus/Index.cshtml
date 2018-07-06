@@ -1,0 +1,72 @@
+@page
+@model PDC.Web.Pages.Menus.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.tMenu[0].menu_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tMenu[0].is_parent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tMenu[0].parent_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tMenu[0].create_by)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tMenu[0].create_date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tMenu[0].edit_by)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tMenu[0].edit_date)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.tMenu) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.menu_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.is_parent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.parent_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.create_by)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.create_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.edit_by)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.edit_date)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.menu_id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.menu_id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.menu_id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

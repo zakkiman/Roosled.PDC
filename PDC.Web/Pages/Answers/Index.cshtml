@@ -1,0 +1,66 @@
+@page
+@model PDC.Web.Pages.Answers.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.tAnswer[0].answer_detail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tAnswer[0].score)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tAnswer[0].create_by)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tAnswer[0].create_date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tAnswer[0].edit_by)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tAnswer[0].edit_date)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.tAnswer) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.answer_detail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.score)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.create_by)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.create_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.edit_by)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.edit_date)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.answer_id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.answer_id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.answer_id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

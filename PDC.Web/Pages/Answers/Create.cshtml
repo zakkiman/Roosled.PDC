@@ -1,0 +1,192 @@
+@page
+@model PDC.Web.Pages.Answers.CreateModel
+@section header{
+    <style>
+        .panel-heading {
+            padding: 0;
+            border: 0;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #DDD;
+        }
+
+            .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+                border-width: 0;
+            }
+
+            .nav-tabs > li > a {
+                border: none;
+                color: #666;
+            }
+
+                .nav-tabs > li.active > a, .nav-tabs > li > a:hover {
+                    border: none;
+                    color: #4285F4 !important;
+                    background: transparent;
+                }
+
+                .nav-tabs > li > a::after {
+                    content: "";
+                    background: #4285F4;
+                    height: 2px;
+                    position: absolute;
+                    width: 100%;
+                    left: 0px;
+                    bottom: -1px;
+                    transition: all 250ms ease 0s;
+                    transform: scale(0);
+                }
+
+            .nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after {
+                transform: scale(1);
+            }
+
+        .tab-nav > li > a::after {
+            background: #21527d none repeat scroll 0% 0%;
+            color: #fff;
+        }
+
+        .tab-pane {
+            padding: 15px 0;
+        }
+
+        .tab-content {
+            padding: 20px
+        }
+
+        .card {
+            background: #FFF none repeat scroll 0% 0%;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+    </style>
+    <script>
+        $('.panel-collapse').on('show.bs.collapse', function () {
+            $(this).siblings('.panel-heading').addClass('active');
+        });
+
+        $('.panel-collapse').on('hide.bs.collapse', function () {
+            $(this).siblings('.panel-heading').removeClass('active');
+        });
+    </script>
+}
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4><a href="/Questions">Back to Question List</a></h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="question.question_detail" class="control-label">Question:</label>
+                        <textarea asp-for="question.question_detail" class="form-control" disabled></textarea>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#answer" aria-controls="answer" role="tab" data-toggle="tab">Create Answer</a></li>
+                <li role="presentation"><a href="#list" aria-controls="list" role="tab" data-toggle="tab">Answer List</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="answer">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label asp-for="tAnswer.answer_detail" class="control-label">Answer</label>
+                                <input asp-for="tAnswer.answer_detail" class="form-control" autofocus />
+                                <span asp-validation-for="tAnswer.answer_detail" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label asp-for="tAnswer.score" class="control-label">Score</label>
+                                <input asp-for="tAnswer.score" class="form-control" />
+                                <span asp-validation-for="tAnswer.score" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div style="margin:2px;">&nbsp;</div>
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div role="tabpanel" class="tab-pane" id="list">
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Details</th>
+                                    <th>Score</th>
+                                    <th>Create By</th>
+                                    <th>Create Date</th>
+                                    <th>Edit By</th>
+                                    <th>Edit Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.answers)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.answer_detail)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.score)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.create_by)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.create_date)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.edit_by)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.edit_date)
+                                        </td>
+                                        <td>
+                                            <a asp-page="./Edit" asp-route-id="@item.answer_id">Edit</a> |
+                                            <a asp-page="./Delete" asp-route-id="@item.answer_id">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="/Questions">Back to Question List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

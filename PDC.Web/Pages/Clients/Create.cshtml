@@ -1,0 +1,71 @@
+@page
+@model PDC.Web.Pages.Clients.CreateModel
+
+@{
+    ViewData["Title"] = "Create Client";
+}
+
+<h2>Create</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="tClient.client_name" class="control-label">Client Name</label>
+                        <input asp-for="tClient.client_name" class="form-control" placeholder="Client Name" />
+                        <span asp-validation-for="tClient.client_name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="tClient.contact_email" class="control-label">E-mail</label>
+                        <input asp-for="tClient.contact_email" class="form-control" placeholder="e-mail" />
+                        <span asp-validation-for="tClient.contact_email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="tClient.phone" class="control-label">Phone</label>
+                        <input asp-for="tClient.phone" class="form-control" placeholder="Phone" />
+                        <span asp-validation-for="tClient.phone" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="tClient.address1" class="control-label">Address</label>
+                        <input asp-for="tClient.address1" class="form-control" placeholder="Address 1" />
+                        <span asp-validation-for="tClient.address1" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="tClient.address2" class="control-label">&nbsp;</label>
+                        <input asp-for="tClient.address2" class="form-control" placeholder="Address 2" />
+                        <span asp-validation-for="tClient.address2" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

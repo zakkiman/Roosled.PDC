@@ -1,0 +1,61 @@
+@page
+@model PDC.Web.Pages.Questions.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="tQuestion.question_id" />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="tQuestion.question_detail" class="control-label">Details</label>
+                        <input asp-for="tQuestion.question_detail" class="form-control" type="text" />
+                        <span asp-validation-for="tQuestion.question_detail" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="tQuestion.score" class="control-label">Score</label>
+                        <input asp-for="tQuestion.score" class="form-control" />
+                        <span asp-validation-for="tQuestion.score" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="tQuestion.approval_status" class="control-label">Status</label>
+                        <select asp-for="tQuestion.approval_status" class="form-control">
+                            <option>Requested</option>
+                            <option>Approved</option>
+                            <option>Rejected</option>
+                        </select>
+                        <span asp-validation-for="tQuestion.approval_status" class="text-danger"></span>
+                    </div>
+                </div>
+                <input type="hidden" asp-for="tQuestion.create_by" />
+                <input type="hidden" asp-for="tQuestion.create_date" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-warning" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

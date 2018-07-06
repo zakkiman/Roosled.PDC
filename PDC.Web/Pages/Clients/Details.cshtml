@@ -1,0 +1,55 @@
+@page
+@model PDC.Web.Pages.Clients.DetailsModel
+
+@{
+    ViewData["Title"] = "Client Details";
+}
+
+<h2>Client Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Client Name</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tClient.client_name)
+    </dd>
+    <dt>Address</dt>
+    <dd>
+        @Html.DisplayFor(model => model.tClient.address1)
+    </dd>
+    <dt></dt>
+    <dd>
+        @Html.DisplayFor(model => model.tClient.address2)
+    </dd>
+    <dt>Phone</dt>
+    <dd>
+        @Html.DisplayFor(model => model.tClient.phone)
+    </dd>
+    <dt>e-mail</dt>
+    <dd>
+        <a href="mailto:@Html.DisplayFor(model => model.tClient.contact_email)">@Html.DisplayFor(model => model.tClient.contact_email)</a>
+
+    </dd>
+    <dt>Create By</dt>
+    <dd>
+        @Html.DisplayFor(model => model.tClient.create_by)
+    </dd>
+    <dt>Create Date</dt>
+    <dd>
+        @Html.DisplayFor(model => model.tClient.create_date)
+    </dd>
+    <dt>Edit By</dt>
+    <dd>
+        @Html.DisplayFor(model => model.tClient.edit_by)
+    </dd>
+    <dt>Edit Date</dt>
+    <dd>
+        @Html.DisplayFor(model => model.tClient.edit_date)
+    </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.tClient.client_id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

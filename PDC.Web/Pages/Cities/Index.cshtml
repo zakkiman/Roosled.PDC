@@ -1,0 +1,55 @@
+@page
+@model PDC.Web.Pages.Cities.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>City Name</th>
+            <th>Province</th>
+            <th>Create By</th>
+            <th>Create Date</th>
+            <th>Edit By</th>
+            <th>Edit Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.tCity) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.city_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.province.province_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.create_by)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.create_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.edit_by)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.edit_date)
+            </td>
+
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.city_id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.city_id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.city_id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

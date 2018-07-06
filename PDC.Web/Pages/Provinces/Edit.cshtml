@@ -1,0 +1,55 @@
+@page
+@model PDC.Web.Pages.Provinces.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>tProvince</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="tProvince.province_id" />
+            <div class="form-group">
+                <label asp-for="tProvince.province_name" class="control-label"></label>
+                <input asp-for="tProvince.province_name" class="form-control" />
+                <span asp-validation-for="tProvince.province_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProvince.create_by" class="control-label"></label>
+                <input asp-for="tProvince.create_by" class="form-control" />
+                <span asp-validation-for="tProvince.create_by" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProvince.create_date" class="control-label"></label>
+                <input asp-for="tProvince.create_date" class="form-control" />
+                <span asp-validation-for="tProvince.create_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProvince.edit_by" class="control-label"></label>
+                <input asp-for="tProvince.edit_by" class="form-control" />
+                <span asp-validation-for="tProvince.edit_by" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProvince.edit_date" class="control-label"></label>
+                <input asp-for="tProvince.edit_date" class="form-control" />
+                <span asp-validation-for="tProvince.edit_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

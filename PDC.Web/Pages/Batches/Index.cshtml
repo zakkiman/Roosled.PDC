@@ -1,0 +1,144 @@
+﻿@page
+@model PDC.Web.Pages.Batches.IndexModel
+@section header{
+    <style type="text/css">
+        .Requested {
+            background-color: grey;
+            color: #fff;
+        }
+
+        .Approved {
+            background-color: green;
+            color: #fff;
+        }
+
+        .Rejected {
+            background-color: red;
+            color: #fff;
+        }
+
+        .Pending {
+            background-color: lime;
+            color: #fff;
+        }
+    </style>
+    <style>
+        .panel-heading {
+            padding: 0;
+            border: 0;
+        }
+
+        .panel-title > a, .panel-title > a:active {
+            display: block;
+            padding: 15px;
+            color: #555;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            word-spacing: 3px;
+            text-decoration: none;
+        }
+    </style>
+    <script>
+        $('.panel-collapse').on('show.bs.collapse', function () {
+            $(this).siblings('.panel-heading').addClass('active');
+        });
+
+        $('.panel-collapse').on('hide.bs.collapse', function () {
+            $(this).siblings('.panel-heading').removeClass('active');
+        });
+    </script>
+}
+@{
+    ViewData["Title"] = "Batches";
+}
+
+<h2>Batches List</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+    <div class="panel panel-default">
+        @{int rowNum = 0; }
+        @foreach (var item in Model.batch)
+        {
+            rowNum += 1;
+            <div class="panel-heading " role="tab" id="heading1">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href='#collapse_@rowNum' aria-expanded="true" aria-controls="collapseOne">@item.batch_name</a>
+                </h4>
+                <table class="table" style="margin-bottom:0px;">
+                    <tbody>
+                        <tr>
+                            <td>Client Name: @item.client_name</td>
+                            @if (item.approval_status == "Requested")
+                            {
+                                <td>Approval Status: <label class="label-info">&nbsp;@item.approval_status&nbsp;</label></td>
+                            }
+                            else if (item.approval_status == "Approved")
+                            {
+                                <td>Approval Status: <label class="label-success">&nbsp;@item.approval_status&nbsp;</label></td>
+                            }
+                            else
+                            {
+                                <td>Approval Status: <label class="label-danger">&nbsp;@item.approval_status&nbsp;</label></td>
+                            }
+                            <td>Approved By: @item.approved_by</td>
+                            @if (item.approved_date != "9999-31-12T23:59:59")
+                            {
+                                <td>@item.approved_date</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            <td>Batch Start: <label class="label-info">&nbsp;@item.batch_start.ToString("dd MMM yy HH:mm")&nbsp;</label></td>
+                            <td>Batch End: <label class="label-info">&nbsp;@item.batch_end.ToString("dd MMM yy HH:mm")&nbsp;</label></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id='collapse_@rowNum' class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <td>Program</td>
+                                <td>Client</td>
+                                <td><a asp-page="./Index" asp-route-sortOrder="@Model.nameSort">Applicant</a></td>
+                                <td><a asp-page="./Index" asp-route-sortOrder="@Model.genderSort">Gender</a></td>
+                                <td>Date of Birth</td>
+                                <td>Age</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var itm in Model.Batches.Where(p => p.program_id == item.program_id && p.batch_name == item.batch_name))
+                            {
+                                <tr>
+                                    <td>@itm.program_name</td>
+                                    <td>@itm.client_name</td>
+                                    <td>@itm.first_name&nbsp;@itm.last_name</td>
+                                    @if (itm.gender == 0) {
+                                        <td>Male</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Female</td>
+                                    }
+                                    <td>@itm.dob.ToString("dd MMM yy")</td>
+                                    <td>
+                                        @{
+                                            DateTime.Now.Date.Subtract(itm.dob.Date);
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>

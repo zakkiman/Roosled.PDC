@@ -1,0 +1,66 @@
+@page
+@model PDC.Web.Pages.Menus.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>tMenu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="tMenu.menu_name" class="control-label"></label>
+                <input asp-for="tMenu.menu_name" class="form-control" />
+                <span asp-validation-for="tMenu.menu_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="tMenu.is_parent" /> @Html.DisplayNameFor(model => model.is_parent))
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="tMenu.parent_id" class="control-label"></label>
+                <input asp-for="tMenu.parent_id" class="form-control" />
+                <span asp-validation-for="tMenu.parent_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tMenu.create_by" class="control-label"></label>
+                <input asp-for="tMenu.create_by" class="form-control" />
+                <span asp-validation-for="tMenu.create_by" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tMenu.create_date" class="control-label"></label>
+                <input asp-for="tMenu.create_date" class="form-control" />
+                <span asp-validation-for="tMenu.create_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tMenu.edit_by" class="control-label"></label>
+                <input asp-for="tMenu.edit_by" class="form-control" />
+                <span asp-validation-for="tMenu.edit_by" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tMenu.edit_date" class="control-label"></label>
+                <input asp-for="tMenu.edit_date" class="form-control" />
+                <span asp-validation-for="tMenu.edit_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

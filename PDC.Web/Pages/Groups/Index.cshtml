@@ -1,0 +1,211 @@
+@page
+@model PDC.Web.Pages.Groups.IndexModel
+@section header{
+    <style>
+        .panel-heading {
+            padding: 0;
+            border: 0;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #DDD;
+        }
+
+            .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+                border-width: 0;
+            }
+
+            .nav-tabs > li > a {
+                border: none;
+                color: #666;
+            }
+
+                .nav-tabs > li.active > a, .nav-tabs > li > a:hover {
+                    border: none;
+                    color: #4285F4 !important;
+                    background: transparent;
+                }
+
+                .nav-tabs > li > a::after {
+                    content: "";
+                    background: #4285F4;
+                    height: 2px;
+                    position: absolute;
+                    width: 100%;
+                    left: 0px;
+                    bottom: -1px;
+                    transition: all 250ms ease 0s;
+                    transform: scale(0);
+                }
+
+            .nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after {
+                transform: scale(1);
+            }
+
+        .tab-nav > li > a::after {
+            background: #21527d none repeat scroll 0% 0%;
+            color: #fff;
+        }
+
+        .tab-pane {
+            padding: 15px 0;
+        }
+
+        .tab-content {
+            padding: 20px
+        }
+
+        .card {
+            background: #FFF none repeat scroll 0% 0%;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+    </style>
+    <script>
+        $('.panel-collapse').on('show.bs.collapse', function () {
+            $(this).siblings('.panel-heading').addClass('active');
+        });
+
+        $('.panel-collapse').on('hide.bs.collapse', function () {
+            $(this).siblings('.panel-heading').removeClass('active');
+        });
+    </script>
+}
+@{
+    ViewData["Title"] = "Groups";
+}
+
+<h2>Group List</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+@foreach (var item in Model.tGroup)
+{
+<div class="row">
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel-heading " role="tab" id="heading1">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapseOne">@Html.DisplayFor(modelItem => item.group_name)</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+                    <div class="panel-body">
+                        <div class="row">
+                            <table width="100%">
+                                <tr>
+                                    <td>Create By</td>
+                                    <td>: @Html.DisplayFor(modelItem => item.create_by)</td>
+                                    <td>Create Date</td>
+                                    <td>: @item.create_date.ToString("dd MMM yyyy HH:mm")</td>
+                                    <td>Edit By</td>
+                                    <td>: @Html.DisplayFor(modelItem => item.edit_by)</td>
+                                    <td>Edit Date</td>
+                                    <td>: @item.edit_date.ToString("dd MMM yyyy HH:mm")</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#question" aria-controls="question" role="tab" data-toggle="tab">Questions</a></li>
+                                    <li role="presentation"><a href="#applicant" aria-controls="applicant" role="tab" data-toggle="tab">Clients &amp; Applicants</a></li>
+                                    <li role="presentation"><a href="#program" aria-controls="program" role="tab" data-toggle="tab">Program &amp; Batches</a></li>
+                                    <li role="presentation"><a href="#menu" aria-controls="menu" role="tab" data-toggle="tab">Menus</a></li>
+                                    <li role="presentation"><a href="#province" aria-controls="province" role="tab" data-toggle="tab">Provinces &amp; Cities</a></li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="question">
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_question)&nbsp;Add Question</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_question)&nbsp;Update Question</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_question)&nbsp;Delete Question</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.approve_question)&nbsp;Approve Question</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_answer)&nbsp;Add Answer</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_answer)&nbsp;Update Answer</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_answer)&nbsp;Delete Answer</div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="applicant">
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_client)&nbsp;Add Client</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_client)&nbsp;Update Client</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_client)&nbsp;Delete Client</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_applicant)&nbsp;Add Applicant</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_applicant)&nbsp;Update Applicant</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_applicant)&nbsp;Delete Applicant</div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="program">
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_program)&nbsp;Add Program</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_program)&nbsp;Update Program</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_program)&nbsp;Delete Program</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.approve_program)&nbsp;Approve Program</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_batch)&nbsp;Add Batch</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_batch)&nbsp;Update Batch</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_batch)&nbsp;Delete Batch</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.approve_batch)&nbsp;Approve Batch</div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="menu">
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_menu)&nbsp;Add Menu</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_menu)&nbsp;Update Menu</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_menu)&nbsp;Delete Menu</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_group)&nbsp;Add Group</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_group)&nbsp;Update Group</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_group)&nbsp;Delete Group</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_user)&nbsp;Add User</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_user)&nbsp;Update User</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_user)&nbsp;Delete User</div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="province">
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_province)&nbsp;Add Province</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_province)&nbsp;Update Province</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_province)&nbsp;Delete Province</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.add_city)&nbsp;Add City</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.edit_city)&nbsp;Update City</div>
+                                            <div class="col-md-3">@Html.DisplayFor(modelItem => item.delete_city)&nbsp;Delete City</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 pull-right">
+        <table>
+            <tr>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.group_id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.group_id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.group_id">Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+}

@@ -1,0 +1,49 @@
+@page
+@model PDC.Web.Pages.Provinces.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tProvince</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tProvince.province_name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProvince.province_name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tProvince.create_by)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProvince.create_by)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tProvince.create_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProvince.create_date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tProvince.edit_by)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProvince.edit_by)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tProvince.edit_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProvince.edit_date)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.tProvince.province_id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

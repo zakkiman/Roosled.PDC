@@ -1,0 +1,77 @@
+@page
+@model PDC.Web.Pages.Programs.IndexModel
+@section header{
+    <style type="text/css">
+        .Requested {background-color: grey; color:#fff;}
+        .Approved { background-color: green; color: #fff; }
+        .Rejected { background-color: red; color: #fff; }
+        .Pending { background-color: lime; color: #fff; }
+    </style>
+}
+@{
+    ViewData["Title"] = "Programs";
+}
+
+<h2>Program List</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Program Name</th>
+            <th>Program Details</th>
+            <th>Status</th>
+            <th>Approved By</th>
+            <th>Approved Date</th>
+            <th>Create By</th>
+            <th>Create Date</th>
+            <th>Edit By</th>
+            <th>Edit Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.tProgram)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.program_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.program_detail)
+                </td>
+                <td class="@item.approval_status">
+                    @Html.DisplayFor(modelItem => item.approval_status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.approved_by)
+                </td>
+                <td>
+                    @if (item.approved_date != DateTime.MaxValue)
+                    {
+                        @item.approved_date.ToString("dd MMM yyyy HH:mm")
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.create_by)
+                </td>
+                <td>
+                    @item.create_date.ToString("dd MMM yyyy HH:mm")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.edit_by)
+                </td>
+                <td>
+                    @item.edit_date.ToString("dd MMM yyyy HH:mm")
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.program_id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.program_id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.program_id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

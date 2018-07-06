@@ -1,0 +1,54 @@
+@page
+@model PDC.Web.Pages.Programs.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details (@Html.DisplayFor(model => model.tProgram.program_name))</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Program Name</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.program_name)
+        </dd>
+        <dt>Details</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.program_detail)
+        </dd>
+        <dt>Status</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.approval_status)
+        </dd>
+        <dt>Approved By</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.approved_by)
+        </dd>
+        <dt>Approved Date</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.approved_date)
+        </dd>
+        <dt>Create By</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.create_by)
+        </dd>
+        <dt>Create Date</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.create_date)
+        </dd>
+        <dt>Edit By</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.edit_by)
+        </dd>
+        <dt>Edit Date</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tProgram.edit_date)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.tProgram.program_id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

@@ -1,0 +1,60 @@
+@page
+@model PDC.Web.Pages.Clients.IndexModel
+
+@{
+    ViewData["Title"] = "Clients";
+}
+
+<h2>Clients List</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table table-striped table-bordered dataTable no-footer">
+    <thead>
+        <tr>
+                <th>Client Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Contact E-mail</th>
+                <th>Create By</th>
+                <th>Create Date</th>
+                <th>Edit By</th>
+                <th>Edit Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.tClient) {
+        <tr>
+            <td>
+                <a asp-page="./Details" asp-route-id="@item.client_id">@Html.DisplayFor(modelItem => item.client_name)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.address1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+            <td><a href="mailto:@item.contact_email">@item.contact_email</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.create_by)
+            </td>
+            <td>
+                @item.create_date.ToString("dd MMM yy HH:mm")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.edit_by)
+            </td>
+            <td>
+                @item.edit_date.ToString("dd MMM yy HH:mm")
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.client_id">Edit</a> |
+                <a asp-page="./Delete" asp-route-id="@item.client_id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

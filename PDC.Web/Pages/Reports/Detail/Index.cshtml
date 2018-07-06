@@ -1,0 +1,70 @@
+﻿@page
+@model PDC.Web.Pages.Reports.Detail.IndexModel
+
+@{
+    ViewData["Title"] = "Reports - Detail";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Applicant Result List</h2>
+<form>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Client</label>
+                <select asp-for="applicant.client_id" class="form-control" asp-items="ViewBag.client" name="ID">
+                    <option value="All"></option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">First Name</label>
+                <input class="form-control" placeholder="First Name" name="FirstName" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Last Name</label>
+                <input class="form-control" placeholder="First Name" name="LastName" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-warning" />
+            </div>
+        </div>
+    </div>
+</form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.tAppllicantAnswer[0].selected_time)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.tAppllicantAnswer != null)
+            {
+                @foreach (var item in Model.tAppllicantAnswer)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.selected_time)
+                        </td>
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.applicant_answer_id">Edit</a> |
+                            <a asp-page="./Details" asp-route-id="@item.applicant_answer_id">Details</a> |
+                            <a asp-page="./Delete" asp-route-id="@item.applicant_answer_id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="2">No data found</td></tr>
+            }
+        </tbody>
+    </table>

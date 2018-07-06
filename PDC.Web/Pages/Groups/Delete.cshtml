@@ -1,0 +1,214 @@
+@page
+@model PDC.Web.Pages.Groups.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>tGroup</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.group_name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.group_name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.create_by)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.create_by)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.create_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.create_date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_by)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_by)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.add_answer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.add_answer)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_answer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_answer)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.delete_answer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.delete_answer)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.add_applicant)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.add_applicant)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_applicant)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_applicant)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.delete_applicant)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.delete_applicant)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.add_city)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.add_city)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_city)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_city)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.delete_city)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.delete_city)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.add_client)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.add_client)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_client)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_client)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.delete_client)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.delete_client)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.add_group)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.add_group)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_group)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_group)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.delete_group)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.delete_group)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.add_menu)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.add_menu)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_menu)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_menu)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.delete_menu)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.delete_menu)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.add_program)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.add_program)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_program)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_program)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.delete_program)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.delete_program)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.add_province)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.add_province)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_province)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_province)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.delete_province)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.delete_province)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.add_user)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.add_user)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.edit_user)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.edit_user)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tGroup.delete_user)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tGroup.delete_user)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="tGroup.group_id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

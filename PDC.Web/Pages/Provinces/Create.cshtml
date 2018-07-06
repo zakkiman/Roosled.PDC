@@ -1,0 +1,44 @@
+@page
+@model PDC.Web.Pages.Provinces.CreateModel
+@section header{
+    <script src="~/css/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <link type="text/css" href="~/css/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <script>
+        $(function () {
+            $(".datepicker").datetimepicker({
+                "format": "DD/MM/YYYY"
+            })
+        });
+    </script>
+}
+@{
+    ViewData["Title"] = "Provinces";
+}
+
+<h2>Create</h2>
+
+<h4>Province</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="tProvince.province_name" class="form-control" placeholder="Province Name" autofocus />
+                <span asp-validation-for="tProvince.province_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <input type="text" asp-for="tProvince.create_date" class="form-control datepicker" />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

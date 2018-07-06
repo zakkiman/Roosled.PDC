@@ -1,0 +1,75 @@
+@page
+@model PDC.Web.Pages.Programs.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>tProgram</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="tProgram.program_id" />
+            <div class="form-group">
+                <label asp-for="tProgram.program_name" class="control-label"></label>
+                <input asp-for="tProgram.program_name" class="form-control" />
+                <span asp-validation-for="tProgram.program_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProgram.program_detail" class="control-label"></label>
+                <input asp-for="tProgram.program_detail" class="form-control" />
+                <span asp-validation-for="tProgram.program_detail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProgram.approval_status" class="control-label"></label>
+                <input asp-for="tProgram.approval_status" class="form-control" />
+                <span asp-validation-for="tProgram.approval_status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProgram.approved_by" class="control-label"></label>
+                <input asp-for="tProgram.approved_by" class="form-control" />
+                <span asp-validation-for="tProgram.approved_by" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProgram.approved_date" class="control-label"></label>
+                <input asp-for="tProgram.approved_date" class="form-control" />
+                <span asp-validation-for="tProgram.approved_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProgram.create_by" class="control-label"></label>
+                <input asp-for="tProgram.create_by" class="form-control" />
+                <span asp-validation-for="tProgram.create_by" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProgram.create_date" class="control-label"></label>
+                <input asp-for="tProgram.create_date" class="form-control" />
+                <span asp-validation-for="tProgram.create_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProgram.edit_by" class="control-label"></label>
+                <input asp-for="tProgram.edit_by" class="form-control" />
+                <span asp-validation-for="tProgram.edit_by" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tProgram.edit_date" class="control-label"></label>
+                <input asp-for="tProgram.edit_date" class="form-control" />
+                <span asp-validation-for="tProgram.edit_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

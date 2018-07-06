@@ -1,0 +1,62 @@
+@page
+@model PDC.Web.Pages.Questions.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>tQuestion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Details</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.question_detail)
+        </dd>
+        <dt>Status</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.approval_status)
+        </dd>
+        @if (Model.tQuestion.approved_by != "")
+        {
+            <dt>Approved By</dt>
+            <dd>
+                @Html.DisplayFor(model => model.tQuestion.approved_by)
+            </dd>
+            <dt>Approved Date</dt>
+            <dd>
+                @Html.DisplayFor(model => model.tQuestion.approved_date)
+            </dd>
+        }
+        <dt>Score
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.score)
+        </dd>
+        <dt>Create By</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.create_by)
+        </dd>
+        <dt>Create Date</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.create_date)
+        </dd>
+        <dt>Edit By</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.edit_by)
+        </dd>
+        <dt>Edit Date</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.edit_date)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="tQuestion.question_id" />
+        <input type="submit" value="Delete" class="btn btn-default" onclick="return confirm('Are you sure you want to delete this question?');" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

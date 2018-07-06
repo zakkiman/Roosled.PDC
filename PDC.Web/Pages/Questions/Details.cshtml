@@ -1,0 +1,73 @@
+@page
+@model PDC.Web.Pages.Questions.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tQuestion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tQuestion.question_detail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.question_detail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tQuestion.approval_status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.approval_status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tQuestion.approved_by)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.approved_by)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tQuestion.approved_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.approved_date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tQuestion.score)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.score)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tQuestion.create_by)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.create_by)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tQuestion.create_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.create_date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tQuestion.edit_by)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.edit_by)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tQuestion.edit_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.edit_date)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.tQuestion.question_id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
