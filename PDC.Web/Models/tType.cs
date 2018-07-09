@@ -12,11 +12,15 @@ namespace PDC.Web.Models
     {
         [Key]
         [Required(ErrorMessage ="Type name cannot be empty")]
+        [StringLength(50)]
         public string type_name { get; set; }
         [Required(ErrorMessage ="Alias cannot be empty")]
+        [StringLength(50)]
         public string type_alias { get; set; }
+        [StringLength(50)]
         public string create_by { get; set; }
         public DateTime create_date { get; set; }
+        [StringLength(50)]
         public string edit_by { get; set; }
         public DateTime edit_date { get; set; }
     }

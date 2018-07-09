@@ -1,0 +1,44 @@
+﻿@page
+@model PDC.Web.Pages.Types.IndexModel
+
+@{
+    ViewData["Title"] = "Types";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Type Name</th>
+            <th>Alias</th>
+            <th>Create By</th>
+            <th>Create Date</th>
+            <th>Edit By</th>
+            <th>Edit Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.tType) {
+        <tr>
+            <td>@item.type_name</td>
+            <td>@Html.DisplayFor(modelItem => item.type_alias)</td>
+            <td>@Html.DisplayFor(modelItem => item.create_by)</td>
+            <td>@item.create_date.ToString("dd MMM yy HH:mm")</td>
+            <td>@Html.DisplayFor(modelItem => item.edit_by)</td>
+            <td>item.edit_date.ToString("dd MMM yy HH:mm")
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.type_name">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.type_name">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.type_name">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

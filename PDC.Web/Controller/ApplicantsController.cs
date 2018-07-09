@@ -42,7 +42,7 @@ namespace PDC.Web.Controller
             //var tApplicant = await _context.tApplicant.Where(m => m.client_id == id).ToListAsync();
             var tApplicant = (from a in _context.tApplicant
                               where a.client_id == id && a.status == "Approved"
-                              select new tApplicant { applicant_id = a.applicant_id, first_name = a.first_name, last_name = a.last_name, status = a.status, email=a.email });
+                              select new tApplicant { applicant_id = a.applicant_id, first_name = a.first_name, last_name = a.last_name, status = a.status, email = a.email, dob = a.dob });
 
             if (tApplicant == null)
             {

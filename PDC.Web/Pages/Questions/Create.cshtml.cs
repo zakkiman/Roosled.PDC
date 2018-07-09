@@ -21,6 +21,8 @@ namespace PDC.Web.Pages.Questions
         public IActionResult OnGet()
         {
             ViewData["program"] = new SelectList(_context.tProgram, "program_id", "program_name");
+            ViewData["type"] = new SelectList(_context.tType, "type_name", "type_name");
+            ViewData["domain"] = new SelectList(_context.tDomain, "domain_id", "domain_name");
             return Page();
         }
 
@@ -36,9 +38,9 @@ namespace PDC.Web.Pages.Questions
             {
                 return Page();
             }
-            tQuestion.approval_status = "Requested";
-            tQuestion.approved_by = "";
-            tQuestion.approved_date = DateTime.MaxValue;
+            tQuestion.approval_status = "Approved";
+            tQuestion.approved_by = "System";
+            tQuestion.approved_date = DateTime.Now;
             tQuestion.create_by = "System";
             tQuestion.create_date = DateTime.Now;
             tQuestion.edit_by = "System";

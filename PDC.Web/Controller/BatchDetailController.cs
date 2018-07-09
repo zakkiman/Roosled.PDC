@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PDC.Web.Models;
@@ -9,24 +10,24 @@ using PDC.Web.Models;
 namespace PDC.Web.Controller
 {
     [Produces("application/json")]
-    [Route("api/Batch")]
-    public class BatchController : ControllerBase
+    [Route("api/BatchDetail")]
+    public class BatchDetailController : ControllerBase
     {
         private readonly PDCContext _context;
 
-        public BatchController(PDCContext context)
+        public BatchDetailController(PDCContext context)
         {
             _context = context;
         }
 
-        // GET: api/Batch
+        // GET: api/BatchDetail
         [HttpGet]
         public IEnumerable<tApplicantProgram> GettApplicantProgram()
         {
             return _context.tApplicantProgram;
         }
 
-        // GET: api/Batch/5
+        // GET: api/BatchDetail/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GettApplicantProgram([FromRoute] int id)
         {
@@ -45,7 +46,7 @@ namespace PDC.Web.Controller
             return Ok(tApplicantProgram);
         }
 
-        // PUT: api/Batch/5
+        // PUT: api/BatchDetail/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PuttApplicantProgram([FromRoute] int id, [FromBody] tApplicantProgram tApplicantProgram)
         {
@@ -80,26 +81,23 @@ namespace PDC.Web.Controller
             return NoContent();
         }
 
-        // POST: api/Batch
+        // POST: api/BatchDetail
         [HttpPost]
-        public async Task<IActionResult> PosttBatch([FromBody] tBatch batch)
+        public async Task<IActionResult> PosttApplicantProgram([FromBody] tApplicantProgram tApplicantProgram)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            batch.approval_status = "Requested";
-            batch.create_by = "System";
-            batch.create_date = DateTime.Now;
-            batch.edit_by = "System";
-            batch.edit_date = DateTime.Now;
-            _context.tBatch.Add(batch);
+
+            _context.tApplicantProgram.Add(tApplicantProgram);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GettBatch", new { id = batch.batch_id }, batch);
+
+            return CreatedAtAction("GettApplicantProgram", new { id = tApplicantProgram.applicant_program_id }, tApplicantProgram);
         }
 
-        // DELETE: api/Batch/5
+        // DELETE: api/BatchDetail/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletetApplicantProgram([FromRoute] int id)
         {
@@ -116,6 +114,7 @@ namespace PDC.Web.Controller
 
             _context.tApplicantProgram.Remove(tApplicantProgram);
             await _context.SaveChangesAsync();
+
             return Ok(tApplicantProgram);
         }
 

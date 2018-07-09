@@ -85,32 +85,14 @@
     <script>
         $(document).ready(function () {
             $('#btnCreate').click(function () {
-                //Loop through the Table rows and build a JSON array.
-                var applicants = new Array();
-
-                $("#tbl_applicants tbody tr").each(function () {
-                    var row = $(this);
-                    var applicant = {};
-                    var isChecked = row.find($('.chkSelect')).prop('checked')
-                    alert(isChecked);
-                    if (isChecked == true) {
-                        //applicant.applicant_program_id = parseInt(0);
-                        applicant.applicant_id = parseInt(row.find('input[type="hidden"]').eq(0).val());
-                        applicant.program_id = parseInt($('#tApplicantProgram_program_program_id').val());
-                        applicant.batch_name = $('#tApplicantProgram_batch_name').val();
-                        applicant.approval_status = 'Requested';
-                        //applicant.approved_by = '';
-                        applicant.approved_date = '9999-31-12T23:59:59';
-                        applicant.batch_start = $('#dateStart').val();
-                        applicant.batch_end = $('#dateEnd').val();
-                        applicants.push(applicant);
-                    } else {
-                        alert('unchecked');
-                    }
-
-                });
-                //Send the JSON array to Controller using AJAX.
-                $.each(applicants, function (index, item) {
+                var batches = new Array();
+                var batch = {};
+                batch.client_id = parseInt($('#client').val());
+                batch.batch_name = $('#tBatch_batch_name').val();
+                batch.batch_start = $('#dateStart').val();
+                batch.batch_end = $('#dateEnd').val();
+                batches.push(batch);
+                $.each(batches, function (index, item) {
                     $.ajax({
                         type: "POST",
                         url: "http://localhost:60754/api/batch",
@@ -118,9 +100,40 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (r) {
-                            alert(r + " record(s) inserted.");
-                            alert(JSON.stringify(item));
-                            window.location.replace("http://localhost:60754/Batches/");
+                            //Loop through the Table rows and build a JSON array.
+                            var applicants = new Array();
+
+                            $("#tbl_applicants tbody tr").each(function () {
+                                var row = $(this);
+                                var applicant = {};
+                                var isChecked = row.find($('.chkSelect')).prop('checked')
+                                if (isChecked == true) {
+                                    //applicant.applicant_program_id = parseInt(0);
+                                    applicant.applicant_id = parseInt(row.find('input[type="hidden"]').eq(0).val());
+                                    applicant.program_id = parseInt($('#tApplicantProgram_program_program_id').val());
+                                    applicant.batch_id = r.batch_id;
+                                    applicants.push(applicant);
+                                }
+                            });
+                            //Send the JSON array to Controller using AJAX.
+                            $.each(applicants, function (idx, itm) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "http://localhost:60754/api/batchdetail",
+                                    data: JSON.stringify(itm),
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (r) {
+                                        alert(r + " record(s) inserted.");
+                                        alert(JSON.stringify(itm));
+                                        window.location.replace("http://localhost:60754/Batches/");
+                                    },
+                                    error: function () {
+                                        alert('failure');
+                                        alert(JSON.stringify(itm));
+                                    }
+                                });
+                            });
                         },
                         error: function () {
                             alert('failure');
@@ -147,9 +160,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label asp-for="tApplicantProgram.batch_name" class="control-label">Batch Name</label>
-                        <input asp-for="tApplicantProgram.batch_name" class="form-control" placeholder="Batch Name" />
-                        <span asp-validation-for="tApplicantProgram.batch_name" class="text-danger"></span>
+                        <label asp-for="tBatch.batch_name" class="control-label">Batch Name</label>
+                        <input asp-for="tBatch.batch_name" class="form-control" placeholder="Batch Name" />
+                        <span asp-validation-for="tBatch.batch_name" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -170,15 +183,15 @@
                 </div>
                 <div class="col-md-4 has-feedback">
                     <div class="form-group">
-                        <label asp-for="tApplicantProgram.batch_start" class="control-label">Batch Start</label>
-                        <input type="text" asp-for="tApplicantProgram.batch_start" class="form-control has-feedback-left" id="dateStart" required />
+                        <label asp-for="tBatch.batch_start" class="control-label">Batch Start</label>
+                        <input type="text" asp-for="tBatch.batch_start" class="form-control has-feedback-left" id="dateStart" required />
                         <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                     </div>
                 </div>
                 <div class="col-md-4 has-feedback">
                     <div class="form-group">
-                        <label asp-for="tApplicantProgram.batch_end" class="control-label">Batch End</label>
-                        <input type="text" asp-for="tApplicantProgram.batch_end" class="form-control has-feedback-left" id="dateEnd" required />
+                        <label asp-for="tBatch.batch_end" class="control-label">Batch End</label>
+                        <input type="text" asp-for="tBatch.batch_end" class="form-control has-feedback-left" id="dateEnd" required />
                         <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                     </div>
                 </div>

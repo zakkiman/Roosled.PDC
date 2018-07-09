@@ -38,7 +38,7 @@ namespace PDC.Web.Pages.Applicants
             tApplicant.create_by = "System";
             tApplicant.create_date = DateTime.Now;
             tApplicant.edit_by = "System";
-            tApplicant.status = "Requested";
+            tApplicant.status = "Approved";
             tApplicant.edit_date = DateTime.Now;
             tApplicant.last_login = DateTime.MaxValue;
             _context.tApplicant.Add(tApplicant);

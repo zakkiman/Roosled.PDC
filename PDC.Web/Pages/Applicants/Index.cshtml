@@ -33,16 +33,16 @@
     <a asp-page="Create">Create New</a>
 </p>
 <form method="post">
-    <table class="table">
+    <table class="table table-responsive table-bordered table-hover">
         <thead>
             <tr>
-                <th></th>
+                <th style="display:none;"></th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>E-mail</th>
-                <th>Status</th>
+                <th style="display:none;">Status</th>
                 <th>Phone</th>
-                <th>Last Login</th>
+                <th style="display:none;">Last Login</th>
                 <th></th>
             </tr>
         </thead>
@@ -50,7 +50,7 @@
             @foreach (var item in Model.tApplicant)
             {
                 <tr>
-                    <td>
+                    <td style="display:none;">
                         @if (item.status == "Requested")
                         {
                             <input type="submit" value="Approve" class="btn btn-warning" asp-route-id="@item.applicant_id" asp-page-handler="Approve" onclick="return confirm('Are you sure you want to approve @item.full_name?');" />
@@ -66,13 +66,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.email)
                     </td>
-                    <td class="@item.status">
+                    <td class="@item.status" style="display:none;">
                         @Html.DisplayFor(modelItem => item.status)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.phone)
                     </td>
-                    <td>
+                    <td style="display:none;">
                         @if (item.last_login != DateTime.MaxValue || item.last_login!=DateTime.MinValue)
                         {@item.last_login.ToString("dd MMM yyyy HH:mm") }
                     </td>

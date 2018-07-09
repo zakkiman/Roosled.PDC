@@ -21,13 +21,9 @@ namespace PDC.Web.Models
         public int program_id { get; set; }
         [ForeignKey("program_id")]
         public tProgram program { get; set; }
-        [Required(ErrorMessage ="Batch name cannot be empty")]
-        public string batch_name { get; set; }
-        [DefaultValue("Requested")]
-        public string approval_status { get; set; }
-        public string approved_by { get; set; }
-        public string approved_date { get; set; }
-        public DateTime batch_start { get; set; }
-        public DateTime batch_end { get; set; }
+        [Required]
+        public int batch_id { get; set; }
+        [ForeignKey("batch_id")]
+        public tBatch batch { get; set; }
     }
 }

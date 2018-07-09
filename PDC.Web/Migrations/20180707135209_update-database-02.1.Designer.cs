@@ -11,9 +11,10 @@ using System;
 namespace PDC.Web.Migrations
 {
     [DbContext(typeof(PDCContext))]
-    partial class PDCContextModelSnapshot : ModelSnapshot
+    [Migration("20180707135209_update-database-02.1")]
+    partial class updatedatabase021
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,15 +180,24 @@ namespace PDC.Web.Migrations
 
                     b.Property<int>("applicant_id");
 
-                    b.Property<int>("batch_id");
+                    b.Property<string>("approval_status");
+
+                    b.Property<string>("approved_by");
+
+                    b.Property<string>("approved_date");
+
+                    b.Property<DateTime>("batch_end");
+
+                    b.Property<string>("batch_name")
+                        .IsRequired();
+
+                    b.Property<DateTime>("batch_start");
 
                     b.Property<int>("program_id");
 
                     b.HasKey("applicant_program_id");
 
                     b.HasIndex("applicant_id");
-
-                    b.HasIndex("batch_id");
 
                     b.HasIndex("program_id");
 
@@ -228,46 +238,6 @@ namespace PDC.Web.Migrations
                     b.HasIndex("applicant_id");
 
                     b.ToTable("tappllicantanswer");
-                });
-
-            modelBuilder.Entity("PDC.Web.Models.tBatch", b =>
-                {
-                    b.Property<int>("batch_id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("approval_status")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("approved_by")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("approved_date");
-
-                    b.Property<DateTime>("batch_end");
-
-                    b.Property<string>("batch_name")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("batch_start");
-
-                    b.Property<int>("client_id");
-
-                    b.Property<string>("create_by")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("create_date");
-
-                    b.Property<string>("edit_by")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("edit_date");
-
-                    b.HasKey("batch_id");
-
-                    b.HasIndex("client_id");
-
-                    b.ToTable("tbatch");
                 });
 
             modelBuilder.Entity("PDC.Web.Models.tCity", b =>
@@ -592,14 +562,9 @@ namespace PDC.Web.Migrations
                     b.Property<int>("score");
 
                     b.Property<string>("type_name")
-                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.HasKey("question_id");
-
-                    b.HasIndex("domain_id");
-
-                    b.HasIndex("type_name");
 
                     b.ToTable("tquestion");
                 });
@@ -721,11 +686,6 @@ namespace PDC.Web.Migrations
                         .HasForeignKey("applicant_id")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("PDC.Web.Models.tBatch", "batch")
-                        .WithMany("applicantPrograms")
-                        .HasForeignKey("batch_id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("PDC.Web.Models.tProgram", "program")
                         .WithMany()
                         .HasForeignKey("program_id")
@@ -742,14 +702,6 @@ namespace PDC.Web.Migrations
                     b.HasOne("PDC.Web.Models.tApplicant", "applicant")
                         .WithMany()
                         .HasForeignKey("applicant_id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PDC.Web.Models.tBatch", b =>
-                {
-                    b.HasOne("PDC.Web.Models.tClient", "client")
-                        .WithMany()
-                        .HasForeignKey("client_id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -781,19 +733,6 @@ namespace PDC.Web.Migrations
                     b.HasOne("PDC.Web.Models.tQuestion", "question")
                         .WithMany()
                         .HasForeignKey("question_id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PDC.Web.Models.tQuestion", b =>
-                {
-                    b.HasOne("PDC.Web.Models.tDomain", "domain")
-                        .WithMany()
-                        .HasForeignKey("domain_id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("PDC.Web.Models.tType", "type")
-                        .WithMany()
-                        .HasForeignKey("type_name")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

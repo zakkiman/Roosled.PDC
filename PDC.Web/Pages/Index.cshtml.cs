@@ -19,7 +19,8 @@ namespace PDC.Web.Pages
         public IList<tProgram> tPrograms { get; set; }
         public IList<tProvince> tProvinces { get; set; }
         public IList<tApplicant> applicants { get; set; }
-        public IList<Batch> batches { get; set; }
+        //public IList<Batch> batches { get; set; }
+        public IList<tBatch> batches { get; set; }
         public int sumApprovedApplicants { get; set; }
         //public int percentApplicants { get; set; }
         public async Task OnGetAsync()
@@ -27,12 +28,14 @@ namespace PDC.Web.Pages
             tPrograms = await _context.tProgram.ToListAsync();
             tProvinces = await _context.tProvince.ToListAsync();
             applicants = await _context.tApplicant.ToListAsync();
-            var smt = (from baru in _context.tApplicantProgram
-                       select new Batch()
-                       { client_name = baru.applicant.client.client_name, batch_name = baru.batch_name, program_id = baru.program_id, approval_status = baru.approval_status, approved_by = baru.approved_by, approved_date = baru.approved_date, batch_start = baru.batch_start, batch_end = baru.batch_end }).Distinct();
-            batches = await smt.AsNoTracking().ToListAsync();
-            sumApprovedApplicants = _context.tApplicant
-                .Where(a => a.status == "Approved").Count();
+            //var smt = (from baru in _context.tApplicantProgram
+            //           select new Batch()
+            //           { client_name = baru.applicant.client.client_name, batch_name = baru.batch_name, program_id = baru.program_id, approval_status = baru.approval_status, approved_by = baru.approved_by, approved_date = baru.approved_date, batch_start = baru.batch_start, batch_end = baru.batch_end }).Distinct();
+            //batches = await smt.AsNoTracking().ToListAsync();
+            //sumApprovedApplicants = _context.tApplicant
+            //    .Where(a => a.status == "Approved").Count();
+
+            batches = await _context.tBatch.ToListAsync();
             
             //percentApplicants = (sumApprovedApplicants / applicants.Count());
         }

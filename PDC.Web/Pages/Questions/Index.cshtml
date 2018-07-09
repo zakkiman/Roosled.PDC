@@ -37,10 +37,8 @@
         <tr>
             <th>#</th>
             <th>Details</th>
-            <th>Status</th>
-            <th>Approved By</th>
-            <th>Approved Date</th>
-            <th>Score</th>
+            <th>Domain</th>
+            <th>Type</th>
             <th>Create By</th>
             <th>Create Date</th>
             <th>Edit By</th>
@@ -60,20 +58,11 @@
                 <td>
                     <a href="/Answers/Create?id=@item.question_id" data-toggle="tooltip" title="Answer count: @ansCount">@Html.DisplayFor(modelItem => item.question_detail)</a>
                 </td>
-                <td class="@item.approval_status">
-                    @Html.DisplayFor(modelItem => item.approval_status)
+                <td>
+                    @Html.DisplayFor(modelItem => item.domain.domain_name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.approved_by)
-                </td>
-                <td>
-                    @if (item.approved_by != "")
-                    {
-                        @item.approved_date.ToString("dd MMM yyyy HH:m")
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.score)
+                    @Html.DisplayFor(modelItem => item.type_name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.create_by)
@@ -88,15 +77,9 @@
                     @item.edit_date.ToString("dd MMM yyyy HH:m")
                 </td>
                 <td>
-                    @if (item.approved_by != "")
-                    {
-                        <a asp-page="./Delete" asp-route-id="@item.question_id">Delete</a>
-                    }
-                    else
-                    {
-                        <a asp-page="./Edit" asp-route-id="@item.question_id">Edit</a>
-                        <a asp-page="./Delete" asp-route-id="@item.question_id">Delete</a>
-                    }
+                    <a asp-page="./Delete" asp-route-id="@item.question_id">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.question_id">Edit</a>
+                    <a asp-page="./Delete" asp-route-id="@item.question_id">Delete</a>
                 </td>
             </tr>
         }

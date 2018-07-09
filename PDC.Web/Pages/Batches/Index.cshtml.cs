@@ -23,64 +23,53 @@ namespace PDC.Web.Pages.Batches
         public string genderSort { get; set; }
         public string currentSort { get; set; }
 
-        public IList<ClientApplicantProgram> Batches { get; set; }
-        //public IList<tApplicantProgram> Batches { get; set; }
-        public IList<Batch> batch { get; set; }
-        public async Task OnGetAsync(string sortOrder)
-        {
-            nameSort = string.IsNullOrEmpty(sortOrder) ? "first_desc" : "";
-            genderSort = sortOrder == "Gender" ? "gender_desc" : "Gender";
-            
-            ////var batches = _context.tApplicantProgram.Join(_context.tClient, ap => ap.applicant.client.client_id, c => c.client_id, (ap, c) => new { ap, c }).ToListAsync();
-            IQueryable<ClientApplicantProgram> batches = (from ap in _context.tApplicantProgram
-                           join a in _context.tApplicant on ap.applicant.applicant_id equals a.applicant_id
-                           join p in _context.tProgram on ap.program.program_id equals p.program_id
-                           join c in _context.tClient on a.client.client_id equals c.client_id
-                           select new ClientApplicantProgram()
-                           {
-                               id = ap.applicant_program_id,
-                               client_id = c.client_id,
-                               client_name = c.client_name,
-                               applicant_id = a.applicant_id,
-                               first_name = a.first_name,
-                               last_name = a.last_name,
-                               program_id = p.program_id,
-                               program_name = p.program_name,
-                               batch_name = ap.batch_name,
-                               status = ap.approval_status,
-                               approved_by = ap.approved_by,
-                               approved_date = ap.approved_date,
-                               gender = a.gender,
-                               dob = a.dob
-                           });
-            switch (sortOrder)
-            {
-                case "first_desc":
-                    batches = batches.OrderByDescending(b => b.first_name);break;
-                case "gender_desc":
-                    batches = batches.OrderByDescending(b => b.gender);break;
-                case "Gender":
-                    batches = batches.OrderBy(b => b.gender);break;
-                default:
-                    batches = batches.OrderBy(b => b.last_name);break;
-            }
-            Batches = await batches.ToListAsync();
-            IList<tApplicantProgram> temp;
-            temp = await _context.tApplicantProgram.AsNoTracking().ToListAsync();
+        public IList<tBatch> batches { get; set; }
+        public async Task OnGetAsync()
+        {   
+            batches = await _context.tBatch.ToListAsync();
 
-            foreach (tApplicantProgram ap in temp)
+            for(int i = 0; i < batches.Count; i++)
             {
-                tApplicant apl = _context.tApplicant.SingleOrDefault(a => a.applicant_id == ap.applicant_id);
-                tClient clt = _context.tClient.SingleOrDefault(c => c.client_id == apl.client_id);
-                apl.client = new tClient();
-                apl.client = clt;
-                ap.applicant = new tApplicant();
-                ap.applicant = apl;
+                batches[i].applicantPrograms = await _context.tApplicantProgram.Where(ap => ap.batch_id == batches[i].batch_id).ToListAsync();
+                // get applicants list
+                for (int j = 0; j < batches[i].applicantPrograms.Count; j++)
+                {
+                    batches[i].applicantPrograms[j].applicant = await _context.tApplicant.SingleOrDefaultAsync(a => a.applicant_id == batches[i].applicantPrograms[j].applicant_id);
+                    batches[i].applicantPrograms[j].program = await _context.tProgram.SingleOrDefaultAsync(p => p.program_id == batches[i].applicantPrograms[j].program_id);
+                }
+                // get client data
+                batches[i].client = await _context.tClient.SingleOrDefaultAsync(c => c.client_id == batches[i].client_id);
+
             }
-            var smt = (from baru in _context.tApplicantProgram
-                       select new Batch()
-                       { client_name = baru.applicant.client.client_name, batch_name = baru.batch_name, program_id = baru.program_id, approval_status = baru.approval_status, approved_by = baru.approved_by, approved_date = baru.approved_date, batch_start = baru.batch_start, batch_end = baru.batch_end }).Distinct();
-            batch = await smt.AsNoTracking().ToListAsync();
+
+            //switch (sortOrder)
+            //{
+            //    case "first_desc":
+            //        batches = batches.OrderByDescending(b => b.applicantPrograms);break;
+            //    case "gender_desc":
+            //        batches = batches.OrderByDescending(b => b.gender);break;
+            //    case "Gender":
+            //        batches = batches.OrderBy(b => b.gender);break;
+            //    default:
+            //        batches = batches.OrderBy(b => b.last_name);break;
+            //}
+            //Batches = await batches.ToListAsync();
+            //IList<tApplicantProgram> temp;
+            //temp = await _context.tApplicantProgram.AsNoTracking().ToListAsync();
+
+            //foreach (tApplicantProgram ap in temp)
+            //{
+            //    tApplicant apl = _context.tApplicant.SingleOrDefault(a => a.applicant_id == ap.applicant_id);
+            //    tClient clt = _context.tClient.SingleOrDefault(c => c.client_id == apl.client_id);
+            //    apl.client = new tClient();
+            //    apl.client = clt;
+            //    ap.applicant = new tApplicant();
+            //    ap.applicant = apl;
+            //}
+            //var smt = (from baru in _context.tApplicantProgram
+            //           select new Batch()
+            //           { client_name = baru.applicant.client.client_name, batch_name = baru.batch_name, program_id = baru.program_id, approval_status = baru.approval_status, approved_by = baru.approved_by, approved_date = baru.approved_date, batch_start = baru.batch_start, batch_end = baru.batch_end }).Distinct();
+            //batch = await smt.AsNoTracking().ToListAsync();
         }
     }
 }

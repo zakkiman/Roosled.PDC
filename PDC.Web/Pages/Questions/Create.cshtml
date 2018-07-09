@@ -20,13 +20,23 @@
                         <span asp-validation-for="tQuestion.question_detail" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="pq.program_id" class="control-label">Program</label>
                         <select asp-for="pq.program_id" class="form-control" asp-items="ViewBag.program"></select>
                     </div>
                 </div>
-                <div class="col-md-1">
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label asp-for="tQuestion.domain_id" class="control-label">Domain</label>
+                    <select asp-for="tQuestion.domain_id" class="form-control" asp-items="ViewBag.domain"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="tQuestion.type_name" class="control-label">Type</label>
+                    <select asp-for="tQuestion.type_name" class="form-control" asp-items="ViewBag.type"></select>
+                </div>
+                <div class="col-md-2">
                     <div class="form-group">
                         <label asp-for="tQuestion.score" class="control-label">Score</label>
                         <input asp-for="tQuestion.score" class="form-control" />

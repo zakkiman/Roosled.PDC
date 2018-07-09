@@ -21,6 +21,9 @@ namespace PDC.Web.Pages.Questions
 
         [BindProperty]
         public tQuestion tQuestion { get; set; }
+        public static tQuestion oldQuestion { get; set; }
+        [BindProperty]
+        public tProgramQuestion pq { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,6 +33,10 @@ namespace PDC.Web.Pages.Questions
             }
 
             tQuestion = await _context.tQuestion.SingleOrDefaultAsync(m => m.question_id == id);
+            oldQuestion = tQuestion;
+            ViewData["program"] = new SelectList(_context.tProgram, "program_id", "program_name");
+            ViewData["type"] = new SelectList(_context.tType, "type_name", "type_name");
+            ViewData["domain"] = new SelectList(_context.tDomain, "domain_id", "domain_name");
 
             if (tQuestion == null)
             {
@@ -48,18 +55,11 @@ namespace PDC.Web.Pages.Questions
             _context.Attach(tQuestion).State = EntityState.Modified;
             tQuestion.edit_by = "System";
             tQuestion.edit_date = DateTime.Now;
-            tQuestion.create_by = tQuestion.create_by;
-            tQuestion.create_date = tQuestion.create_date;
-            if (tQuestion.approval_status != "Requested")
-            {
-                tQuestion.approved_by = "System";
-                tQuestion.approved_date = DateTime.Now;
-            }
-            else
-            {
-                tQuestion.approved_by = "";
-                tQuestion.approved_date = DateTime.MaxValue;
-            }
+            tQuestion.create_by = oldQuestion.create_by;
+            tQuestion.create_date = oldQuestion.create_date;
+            tQuestion.approval_status = "Approved";
+            tQuestion.approved_by = "System";
+            tQuestion.approved_date = DateTime.Now;
             try
             {
                 await _context.SaveChangesAsync();

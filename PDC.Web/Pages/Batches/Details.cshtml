@@ -1,0 +1,86 @@
+﻿@page
+@model PDC.Web.Pages.Batches.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tBatch</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.batch_name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.batch_name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.approval_status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.approval_status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.approved_by)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.approved_by)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.approved_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.approved_date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.batch_start)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.batch_start)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.batch_end)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.batch_end)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.create_by)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.create_by)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.create_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.create_date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.edit_by)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.edit_by)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.edit_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.edit_date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tBatch.client)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tBatch.client.address1)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.tBatch.batch_id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

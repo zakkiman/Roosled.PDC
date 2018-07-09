@@ -34,6 +34,14 @@
     <Compile Remove="Migrations\20180624020631_update-database-9.Designer.cs" />
     <Compile Remove="Migrations\20180703045751_update-database-01.cs" />
     <Compile Remove="Migrations\20180703045751_update-database-01.Designer.cs" />
+    <Compile Remove="Migrations\20180707133702_update-database-02.1.cs" />
+    <Compile Remove="Migrations\20180707133702_update-database-02.1.Designer.cs" />
+    <Compile Remove="Migrations\20180707140855_update-database-03.cs" />
+    <Compile Remove="Migrations\20180707140855_update-database-03.Designer.cs" />
+    <Compile Remove="Migrations\20180708153452_update-database-04.cs" />
+    <Compile Remove="Migrations\20180708153452_update-database-04.Designer.cs" />
+    <Compile Remove="Migrations\20180708153640_update-database-04.cs" />
+    <Compile Remove="Migrations\20180708153640_update-database-04.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="wwwroot\css\parsleyjs\bower_components\bootstrap\bower.json" />
@@ -62,6 +70,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Pages\Domains\" />
     <Folder Include="Pages\Programs\" />
     <Folder Include="Pages\Reports\Summary\" />
   </ItemGroup>
