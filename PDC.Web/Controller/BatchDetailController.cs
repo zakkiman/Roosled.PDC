@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -93,6 +95,26 @@ namespace PDC.Web.Controller
             _context.tApplicantProgram.Add(tApplicantProgram);
             await _context.SaveChangesAsync();
 
+            SmtpClient smtp = new SmtpClient();
+            NetworkCredential cre = new NetworkCredential();
+            cre.UserName = "27f93334bdb8f9bb088985f804619269";
+            cre.Password = "8b4359d011cc5fd1389c2c0df7f71724";
+            smtp.Credentials = cre;
+            smtp.UseDefaultCredentials = false;
+            smtp.Host = "in-v3.mailjet.com";
+            smtp.Port = 587;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.EnableSsl = true;
+            MailMessage msg = new MailMessage();
+            MailAddress mailAddress = new MailAddress("a@b.com", "Test");
+            msg.From = mailAddress;
+            msg.Body = "test";
+            msg.IsBodyHtml = true;
+            msg.Priority = MailPriority.High;
+            msg.Sender = mailAddress;
+            msg.Subject = "Test";
+            msg.To.Add(new MailAddress("ahmad.zakki@bolt.id", "Ahmad Zakki Bolt"));
+            //smtp.Send(msg);
 
             return CreatedAtAction("GettApplicantProgram", new { id = tApplicantProgram.applicant_program_id }, tApplicantProgram);
         }

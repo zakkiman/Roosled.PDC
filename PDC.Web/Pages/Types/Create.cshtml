@@ -1,6 +1,32 @@
 ﻿@page
 @model PDC.Web.Pages.Types.CreateModel
+@section header{
+    <style>
+        .form-group input[type="checkbox"] {
+            display: none;
+        }
 
+            .form-group input[type="checkbox"] + .btn-group > label span {
+                width: 20px;
+            }
+
+                .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+                    display: none;
+                }
+
+                .form-group input[type="checkbox"] + .btn-group > label span:last-child {
+                    display: inline-block;
+                }
+
+            .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+                display: inline-block;
+            }
+
+            .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+                display: none;
+            }
+    </style>
+}
 @{
     ViewData["Title"] = "Types";
     Layout = "~/Pages/_Layout.cshtml";
@@ -8,36 +34,56 @@
 
 <h2>Create</h2>
 
-<h4>tType</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="tType.type_alias" class="control-label"></label>
-                <input asp-for="tType.type_alias" class="form-control" />
-                <span asp-validation-for="tType.type_alias" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="tType.create_by" class="control-label"></label>
-                <input asp-for="tType.create_by" class="form-control" />
-                <span asp-validation-for="tType.create_by" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="tType.create_date" class="control-label"></label>
-                <input asp-for="tType.create_date" class="form-control" />
-                <span asp-validation-for="tType.create_date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="tType.edit_by" class="control-label"></label>
-                <input asp-for="tType.edit_by" class="form-control" />
-                <span asp-validation-for="tType.edit_by" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="tType.edit_date" class="control-label"></label>
-                <input asp-for="tType.edit_date" class="form-control" />
-                <span asp-validation-for="tType.edit_date" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="tType.type_name" class="control-label">Type Name</label>
+                        <input asp-for="tType.type_name" class="form-control" />
+                        <span asp-validation-for="tType.type_name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="tType.type_alias" class="control-label">Type Alias</label>
+                        <input asp-for="tType.type_alias" class="form-control" />
+                        <span asp-validation-for="tType.type_alias" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <br />
+                        <input type="checkbox" autocomplete="off" asp-for="tType.display" />
+                        <div class="btn-group">
+                            <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                <span> </span>
+                            </label>
+                            <label asp-for="tType.display" class="btn btn-default active">
+                                Display
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group pull-left">
+                        <br />
+                        <input type="checkbox" autocomplete="off" asp-for="tType.auto_display" />
+                        <div class="btn-group">
+                            <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                <span> </span>
+                            </label>
+                            <label asp-for="tType.auto_display" class="btn btn-default active">
+                                Automatic Display
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

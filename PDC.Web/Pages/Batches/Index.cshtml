@@ -103,12 +103,14 @@
             <div id='collapse_@rowNum' class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-2">
-                            <input type="submit" value="Approve" class="btn btn-warning" asp-route-id="@item.batch_id" asp-page-handler="Approve" onclick="return confirm('Are you sure you want to approve @item.batch_name?');" />
-                        </div>
-                        <div class="col-md-2">
-                            <input type="submit" value="Reject" class="btn btn-danger" asp-route-id="@item.batch_id" asp-page-handler="Reject" onclick="return confirm('Are you sure you want to reject @item.batch_name?');" />
-                        </div>
+                        <form>
+                            <div class="col-md-2">
+                                <input type="submit" value="Approve" class="btn btn-warning" asp-route-id="@item.batch_id" asp-page-handler="Approve" onclick="return confirm('Are you sure you want to approve @item.batch_name?');" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="submit" value="Reject" class="btn btn-danger" asp-route-id="@item.batch_id" asp-page-handler="Reject" onclick="return confirm('Are you sure you want to reject @item.batch_name?');" />
+                            </div>
+                        </form>
                     </div>
                     <div class="row">
                         <div class="col-md-12">

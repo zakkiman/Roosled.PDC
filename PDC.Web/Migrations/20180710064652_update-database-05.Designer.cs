@@ -11,9 +11,10 @@ using System;
 namespace PDC.Web.Migrations
 {
     [DbContext(typeof(PDCContext))]
-    partial class PDCContextModelSnapshot : ModelSnapshot
+    [Migration("20180710064652_update-database-05")]
+    partial class updatedatabase05
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

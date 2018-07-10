@@ -16,6 +16,10 @@
         <tr>
             <th>Type Name</th>
             <th>Alias</th>
+            <th>Substractor</th>
+            <th>Divider</th>
+            <th>Always Display</th>
+            <th>Automatic Display</th>
             <th>Create By</th>
             <th>Create Date</th>
             <th>Edit By</th>
@@ -28,15 +32,20 @@
         <tr>
             <td>@item.type_name</td>
             <td>@Html.DisplayFor(modelItem => item.type_alias)</td>
+            <td>@item.substractor.ToString("0.00#")</td>
+            <td>@item.divider.ToString("0.00#")</td>
+            <td>
+                <input type="checkbox" value="@item.display" class="checkbox" disabled checked="@item.display" />
+            </td>
+            <td>
+                <input type="checkbox" value="@item.auto_display" class="checkbox" disabled checked="@item.display"/>
+            </td>
             <td>@Html.DisplayFor(modelItem => item.create_by)</td>
             <td>@item.create_date.ToString("dd MMM yy HH:mm")</td>
             <td>@Html.DisplayFor(modelItem => item.edit_by)</td>
-            <td>item.edit_date.ToString("dd MMM yy HH:mm")
-            </td>
+            <td>@item.edit_date.ToString("dd MMM yy HH:mm")</td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.type_name">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.type_name">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.type_name">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.type_name">Edit</a>
             </td>
         </tr>
 }

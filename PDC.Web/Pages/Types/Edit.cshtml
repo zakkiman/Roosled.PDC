@@ -1,0 +1,93 @@
+﻿@page
+@model PDC.Web.Pages.Types.EditModel
+@section header{ 
+    <style>
+        .form-group input[type="checkbox"] {
+            display: none;
+        }
+        .form-group input[type="checkbox"] + .btn-group > label span {
+            width: 20px;
+        }
+        .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+            display: none;
+        }
+        .form-group input[type="checkbox"] + .btn-group > label span:last-child {
+            display: inline-block;
+        }
+        .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+            display: inline-block;
+        }
+        .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+            display: none;
+        }
+    </style>
+}
+@{
+    ViewData["Title"] = "Types";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="tType.type_name" />
+            <div class="form-group">
+                <label asp-for="tType.type_alias" class="control-label">Type Name</label>
+                <input type="text" disabled asp-for="tType.type_name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="tType.type_alias" class="control-label">Alias</label>
+                <input asp-for="tType.type_alias" class="form-control" autofocus />
+                <span asp-validation-for="tType.type_alias" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" autocomplete="off" asp-for="tType.display" />
+                <div class="btn-group">
+                    <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        <span> </span>
+                    </label>
+                    <label asp-for="tType.display" class="btn btn-default active">
+                        Display
+                    </label>
+                </div>
+
+                <input type="checkbox" autocomplete="off" asp-for="tType.auto_display" />
+                <div class="btn-group">
+                    <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        <span> </span>
+                    </label>
+                    <label asp-for="tType.auto_display" class="btn btn-default active">
+                        Automatic Display
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="tType.substractor" class="control-label">Substactor</label>
+                <input asp-for="tType.substractor" class="form-control" />
+                <span asp-validation-for="tType.substractor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tType.divider" class="control-label">Divider</label>
+                <input asp-for="tType.divider" class="form-control" />
+                <span asp-validation-for="tType.divider" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

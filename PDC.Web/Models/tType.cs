@@ -17,6 +17,10 @@ namespace PDC.Web.Models
         [Required(ErrorMessage ="Alias cannot be empty")]
         [StringLength(50)]
         public string type_alias { get; set; }
+        public bool display { get; set; }
+        public bool auto_display { get; set; }
+        public decimal substractor { get; set; }
+        public decimal divider { get; set; }
         [StringLength(50)]
         public string create_by { get; set; }
         public DateTime create_date { get; set; }

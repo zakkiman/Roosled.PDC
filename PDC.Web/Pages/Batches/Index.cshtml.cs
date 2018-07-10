@@ -71,5 +71,24 @@ namespace PDC.Web.Pages.Batches
             //           { client_name = baru.applicant.client.client_name, batch_name = baru.batch_name, program_id = baru.program_id, approval_status = baru.approval_status, approved_by = baru.approved_by, approved_date = baru.approved_date, batch_start = baru.batch_start, batch_end = baru.batch_end }).Distinct();
             //batch = await smt.AsNoTracking().ToListAsync();
         }
+
+        public async Task<IActionResult> OnPostRejectAsync(int ID)
+        {
+            tApplicant applicant = await _context.tApplicant.SingleOrDefaultAsync(a => a.applicant_id == ID);
+            _context.Attach(applicant).State = EntityState.Modified;
+            applicant.status = "Rejected";
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
+        }
+        public async Task<IActionResult> OnPostApproveAsync(int ID)
+        {
+            tApplicant applicant = await _context.tApplicant.SingleOrDefaultAsync(a => a.applicant_id == ID);
+            _context.Attach(applicant).State = EntityState.Modified;
+            applicant.status = "Approved";
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
+        }
     }
 }

@@ -27,9 +27,11 @@ namespace PDC.Web.Pages.Applicants
         public async Task<IActionResult> OnPostRejectAsync(int ID)
         {
 
-            tApplicant applicant = await _context.tApplicant.SingleOrDefaultAsync(a => a.applicant_id == ID);
-            _context.Attach(applicant).State = EntityState.Modified;
-            applicant.status = "Rejected";
+            tBatch batch = await _context.tBatch.SingleOrDefaultAsync(a => a.batch_id == ID);
+            _context.Attach(batch).State = EntityState.Modified;
+            batch.approval_status = "Rejected";
+            batch.approved_by = "System";
+            batch.approved_date = DateTime.Now.ToString();
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
@@ -37,9 +39,11 @@ namespace PDC.Web.Pages.Applicants
         public async Task<IActionResult> OnPostApproveAsync(int ID)
         {
 
-            tApplicant applicant = await _context.tApplicant.SingleOrDefaultAsync(a => a.applicant_id == ID);
-            _context.Attach(applicant).State = EntityState.Modified;
-            applicant.status = "Approved";
+            tBatch batch = await _context.tBatch.SingleOrDefaultAsync(a => a.batch_id == ID);
+            _context.Attach(batch).State = EntityState.Modified;
+            batch.approval_status = "Approved";
+            batch.approved_by = "System";
+            batch.approved_date = DateTime.Now.ToString();
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

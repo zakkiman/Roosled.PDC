@@ -15,13 +15,11 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
     <link href="~/css/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="~/css/moment/moment.js"></script>   
+    <script src="~/js/jquery-2.2.4.min.js"></script>
+    <script src="~/js/bootstrap-3.3.7.min.js"></script>
+    <script src="~/css/moment/moment.js"></script>
     <script src="~/js/custom.min.js"></script>
-    
+
     <link href="~/css/animate.css/animate.min.css" rel="stylesheet">
     <link href="~/css/nprogress/nprogress.css" rel="stylesheet" />
     <link href="~/css/custom.min.css" rel="stylesheet" />
@@ -73,6 +71,7 @@
                                             <li><a href="~/Clients">Clients</a></li>
                                             <li><a href="~/Applicants">Applicants</a></li>
                                             <li><a href="~/Questions">Questions</a></li>
+                                            <li><a href="~/Types">Types</a></li>
                                         </ul>
                                         <hr />
                                         <ul class="nav child_menu" style="display: block;">
@@ -108,7 +107,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li>
+                                <li style="display:none;">
                                     <a data-toggle="collapse" href="#collapsePresentation" data-parent="#menu_section"><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
                                     <div class="collapse" id="collapsePresentation" data-parent="#menu_section">
                                         <ul class="nav child_menu" style="display: block;">
@@ -123,7 +122,7 @@
 
                             </ul>
                         </div>
-                        <div class="menu_section">
+                        <div class="menu_section" style="display:none;">
                             <h3>Live On</h3>
                             <ul class="nav side-menu">
                                 <li>
@@ -186,7 +185,7 @@
                     </div>
                     <!-- /sidebar menu -->
                     <!-- /menu footer buttons -->
-                    <div class="sidebar-footer hidden-small">
+                    <div class="sidebar-footer hidden-small" style="display:none;">
                         <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Settings">
                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </a>
