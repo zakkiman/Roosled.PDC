@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,52 +10,59 @@ using PDC.Web.Models;
 namespace PDC.Web.Controller
 {
     [Produces("application/json")]
-    [Route("api/Applicants")]
-    public class ApplicantsController : ControllerBase
+    [Route("api/ClientApplicant")]
+    public class ClientApplicantController : ControllerBase
     {
         private readonly PDCContext _context;
 
-        public ApplicantsController(PDCContext context)
+        public ClientApplicantController(PDCContext context)
         {
             _context = context;
         }
 
-        // GET: api/Applicants
+        // GET: api/ClientApplicant
         [HttpGet]
         public IEnumerable<tApplicant> GettApplicant()
         {
-            IEnumerable<tApplicant> applicants = _context.tApplicant;
-            for(int i = 0; i < applicants.Count(); i++)
-            {
-                
-            }
             return _context.tApplicant;
         }
 
-        // GET: api/Applicants/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GettApplicant([FromRoute] int id)
+        // GET: api/ClientApplicant/5
+        [HttpGet("{clientID}/{batchID}")]
+        [Route("api/ClientApplicant/{clientID}/{batchID}")]
+        public async Task<IActionResult> GettApplicant([FromRoute] int clientID, int? batchID)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            //var tApplicant = await _context.tApplicant.SingleOrDefaultAsync(m => m.applicant_id == id);
-            //var tApplicant = await _context.tApplicant.Where(m => m.client_id == id).ToListAsync();
-            var tApplicant = await (from a in _context.tApplicant
-                                    where a.client_id == id && a.status == "Approved"
-                                    select new tApplicant { applicant_id = a.applicant_id, first_name = a.first_name, last_name = a.last_name, status = a.status, email = a.email, dob = a.dob }).ToListAsync();
-
-            if (tApplicant == null)
+            List<tApplicant> applicant = null;
+            if (batchID is null)
+            {
+                applicant = new List<tApplicant>();
+                tApplicant a= await _context.tApplicant.SingleOrDefaultAsync(m => m.client_id == clientID);
+                applicant.Add(a);
+            }
+            else
+            {
+                applicant = new List<tApplicant>();
+                var applicantPrograms = await _context.tApplicantProgram.Where(ap => ap.batch_id == batchID).ToListAsync();
+                for(int i = 0; i < applicantPrograms.Count; i++)
+                {
+                    tApplicant a = await _context.tApplicant.SingleOrDefaultAsync(m => m.client_id == clientID && m.applicant_id==applicantPrograms[i].applicant_id);
+                    applicant.Add(a);
+                }
+            }
+            
+            if (applicant == null)
             {
                 return NotFound();
             }
 
-            return Ok(tApplicant);
+            return Ok(applicant);
         }
 
-        // PUT: api/Applicants/5
+        // PUT: api/ClientApplicant/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PuttApplicant([FromRoute] int id, [FromBody] tApplicant tApplicant)
         {
@@ -92,7 +97,7 @@ namespace PDC.Web.Controller
             return NoContent();
         }
 
-        // POST: api/Applicants
+        // POST: api/ClientApplicant
         [HttpPost]
         public async Task<IActionResult> PosttApplicant([FromBody] tApplicant tApplicant)
         {
@@ -103,11 +108,11 @@ namespace PDC.Web.Controller
 
             _context.tApplicant.Add(tApplicant);
             await _context.SaveChangesAsync();
-            
+
             return CreatedAtAction("GettApplicant", new { id = tApplicant.applicant_id }, tApplicant);
         }
 
-        // DELETE: api/Applicants/5
+        // DELETE: api/ClientApplicant/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletetApplicant([FromRoute] int id)
         {

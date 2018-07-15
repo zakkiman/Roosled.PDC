@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace PDC.Web.Models
         public string phone { get; set; }
         [Required(ErrorMessage ="E-mail required")]
         public string contact_email { get; set; }
+        [DefaultValue(value:false)]
+        public bool use_alias { get; set; }
         public string create_by { get; set; }
         public DateTime create_date { get; set; }
         public string edit_by { get; set; }

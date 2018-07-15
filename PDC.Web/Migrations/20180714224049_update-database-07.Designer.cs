@@ -11,9 +11,10 @@ using System;
 namespace PDC.Web.Migrations
 {
     [DbContext(typeof(PDCContext))]
-    partial class PDCContextModelSnapshot : ModelSnapshot
+    [Migration("20180714224049_update-database-07")]
+    partial class updatedatabase07
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -328,8 +329,6 @@ namespace PDC.Web.Migrations
                     b.Property<string>("phone")
                         .IsRequired();
 
-                    b.Property<bool>("use_alias");
-
                     b.HasKey("client_id");
 
                     b.ToTable("tclient");
@@ -633,18 +632,6 @@ namespace PDC.Web.Migrations
                         .HasMaxLength(50);
 
                     b.Property<DateTime>("edit_date");
-
-                    b.Property<string>("pain_pleasure")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.Property<string>("passive_active")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.Property<string>("self_other")
-                        .IsRequired()
-                        .HasMaxLength(20);
 
                     b.Property<decimal>("substractor");
 

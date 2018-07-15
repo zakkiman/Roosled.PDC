@@ -32,11 +32,30 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<div class="row">
+    @{
+        var prevDisabled = !Model.pageQuestion.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.pageQuestion.HasNextPage ? "disabled" : "";
+    }
+    <div class="col-md-12">
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.pageQuestion.PageIndex - 1)"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.pageQuestion.PageIndex + 1)"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>#</th>
             <th>Details</th>
+            <th>Borderline</th>
             <th>Domain</th>
             <th>Type</th>
             <th>Create By</th>
@@ -47,16 +66,18 @@
         </tr>
     </thead>
     <tbody>
-        @{ int rowNo = 0; }
-        @foreach (var item in Model.tQuestion)
+        @foreach (var item in Model.pageQuestion)
         {
-           
-           int ansCount = 0;
-           ansCount = Model.tAnswer.Where(a => a.question_id == item.question_id).Count();
-           <tr>
-                <td>@(rowNo += 1)</td>
+            int ansCount = 0;
+            ansCount = item.answers.Count();
+            <tr>
+                <td>@(Model.rowNum += 1)</td>
                 <td>
+                    @*<a href="/Answers/Create?id=@item.question_id" data-toggle="tooltip" title="Answer count: @ansCount">@Html.DisplayFor(modelItem => item.question_detail)</a>*@
                     <a href="/Answers/Create?id=@item.question_id" data-toggle="tooltip" title="Answer count: @ansCount">@Html.DisplayFor(modelItem => item.question_detail)</a>
+                </td>
+                <td>
+                    <input type="checkbox" disabled checked="@item.isBorderline" class="form-control checkbox-inline" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.domain.domain_name)
@@ -85,6 +106,25 @@
         }
     </tbody>
 </table>
+
+<div class="row">
+    @{
+        prevDisabled = !Model.pageQuestion.HasPreviousPage ? "disabled" : "";
+        nextDisabled = !Model.pageQuestion.HasNextPage ? "disabled" : "";
+    }
+    <div class="col-md-12">
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.pageQuestion.PageIndex - 1)"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.pageQuestion.PageIndex + 1)"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
+    </div>
+</div>
 <p>
     <a asp-page="Create">Create New</a>
 </p>

@@ -18,5 +18,6 @@ namespace PDC.Web.Models
         public DateTime selected_time { get; set; }
         [ForeignKey("applicant_program_id")]
         public tApplicantProgram applicant_program { get; set; }
+        public int applicant_program_id { get; set; }
     }
 }

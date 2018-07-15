@@ -18,17 +18,26 @@ namespace PDC.Web.Pages.Questions
             _context = context;
         }
 
-        public IList<tQuestion> tQuestion { get;set; }
-        public IList<tQuestion> tq { get; set; }
         public IList<tAnswer> tAnswer { get; set; }
-        public tDomain domain { get; set; }
-
-        public async Task OnGetAsync()
+        public PaginatedList<tQuestion> pageQuestion { get; set; }
+        public IQueryable<tQuestion> iQ { get; set; }
+        public int rowNum { get; set; }
+        public async Task OnGetAsync(int? pageIndex)
         {
-            tQuestion = await _context.tQuestion.ToListAsync();
-            for(int i = 0; i < tQuestion.Count; i++)
+            iQ = from q in _context.tQuestion.Include(t => t.domain).Include(t => t.answers)
+                 select q;
+            int pageSize = 15;
+            if (pageIndex is null){
+                rowNum = 0;
+            }
+            else
             {
-                tQuestion[i].domain = await _context.tDomain.Where(d => d.domain_id == tQuestion[i].domain_id).SingleOrDefaultAsync();
+                rowNum = ((int)pageIndex - 1) * pageSize;
+            }
+            pageQuestion = await PaginatedList<tQuestion>.CreateAsync(iQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+            for (int i = 0; i < pageQuestion.Count; i++)
+            {
+                pageQuestion[i].domain = await _context.tDomain.Where(d => d.domain_id == pageQuestion[i].domain_id).SingleOrDefaultAsync();
             }
             tAnswer = await _context.tAnswer.ToListAsync();
         }

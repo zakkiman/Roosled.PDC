@@ -22,5 +22,7 @@ namespace PDC.Web.Models
         public int answer_id { get; set; }
         [Required]
         public DateTime selected_time { get; set; }
+        public tApplicantProgram applicant_program { get; set; }
+        public int applicant_program_id { get; set; }
     }
 }

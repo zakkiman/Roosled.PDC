@@ -33,10 +33,73 @@
                 if (!$(this).closest('li').find('.collapse').hasClass('in'))
                     $(this).addClass('active');
             });
+            $('.background-image').on('webkitAnimationEnd', function (e) {
+                $(this).addClass('visible');
+            });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("body").prepend('<div id="overlay" class="overlay" style="z-index: 1001; display: none;"><div><img src="/images/loading-infinity.gif"/></div></div>');
+            $('.btn').click(function () {
+                //var pass = true;
+                ////some validations
+
+                //if (pass == false) {
+                //    return false;
+                //}
+                $("#overlay").show();
+
+                return true;
+            });
         });
     </script>
+    <script type="text/javascript">
+        $(window).load(function () {
+            // Animate loader off screen
+            $(".se-pre-con").fadeOut("slow");
+        });
+    </script>
+    <script language="javascript" type="text/javascript">
+        /*  jQuery ready function. Specify a function to execute when the DOM is fully loaded.  */
+        $(document).ready(
+            /* This is the function that will get executed after the DOM is fully loaded */
+            function () {
+                /* Next part of code handles hovering effect and submenu appearing */
+                $('.nav li').hover(
+                    function () { //appearing on hover
+                        $('ul', this).fadeIn();
+                    },
+                    function () { //disappearing on hover
+                        $('ul', this).fadeOut();
+                    }
+                );
+            }
+        );
+    </script>
+    <style>
+        .overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: rgba(51,51,51,0.7);
+            opacity: 0.4;
+        }
+
+            .overlay img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 300px;
+                height: 300px;
+                margin-top: -150px; /* Half the height */
+                margin-left: -150px;
+            }
+    </style>
 </head>
 <body class="nav-md">
+    <div class="se-pre-con"></div>
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
@@ -102,8 +165,7 @@
                                     <a data-toggle="collapse" href="#collapseTables" data-parent="#menu_section"><i class="fa fa-table"></i> Reports <span class="fa fa-chevron-down"></span></a>
                                     <div class="collapse" id="collapseTables" data-parent="#menu_section">
                                         <ul class="nav child_menu" style="display: block;">
-                                            <li><a href="~/Reports/Summary">Summary</a></li>
-                                            <li><a href="~/Reports/Detail">Details</a></li>
+                                            <li><a href="~/Reports">View Reports</a></li>
                                         </ul>
                                     </div>
                                 </li>

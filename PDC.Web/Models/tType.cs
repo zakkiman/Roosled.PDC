@@ -21,6 +21,15 @@ namespace PDC.Web.Models
         public bool auto_display { get; set; }
         public decimal substractor { get; set; }
         public decimal divider { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string pain_pleasure { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string passive_active { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string self_other { get; set; }
         [StringLength(50)]
         public string create_by { get; set; }
         public DateTime create_date { get; set; }

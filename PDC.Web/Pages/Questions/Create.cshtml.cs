@@ -23,6 +23,7 @@ namespace PDC.Web.Pages.Questions
             ViewData["program"] = new SelectList(_context.tProgram, "program_id", "program_name");
             ViewData["type"] = new SelectList(_context.tType, "type_name", "type_name");
             ViewData["domain"] = new SelectList(_context.tDomain, "domain_id", "domain_name");
+            qCount = _context.tQuestion.Count();    
             return Page();
         }
 
@@ -30,6 +31,7 @@ namespace PDC.Web.Pages.Questions
         public tQuestion tQuestion { get; set; }
         [BindProperty]
         public tProgramQuestion pq { get; set; }
+        public int qCount { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -53,7 +55,19 @@ namespace PDC.Web.Pages.Questions
             pquestion.program_id = pq.program_id;
             _context.tProgramQuestion.Add(pquestion);
             await _context.SaveChangesAsync();
-
+            for(int i = 0; i < 5; i++)
+            {
+                tAnswer a = new tAnswer();
+                a.answer_detail = i.ToString(); ;
+                a.create_by = "System";
+                a.create_date = DateTime.Now;
+                a.edit_by = "System";
+                a.edit_date = DateTime.Now;
+                a.question_id = id;
+                a.score = i;
+                _context.tAnswer.Add(a);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToPage("./Index");
         }
     }

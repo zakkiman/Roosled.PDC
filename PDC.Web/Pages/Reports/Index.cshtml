@@ -1,0 +1,100 @@
+﻿@page
+@model PDC.Web.Pages.Reports.Detail.IndexModel
+@section header{
+    <script>
+        $(function () {
+            $('#client').change(function () {
+                var id = $(this).val();
+                var applicants = "http://localhost:60754/api/clientapplicant/" + id;
+                $("#tbl_applicants > tbody").remove();
+                $.ajax({
+                    type: "GET",
+                    url: applicants,
+                    async: false,
+                    beforeSend: function (x) {
+                        if (x && x.overrideMimeType) {
+                            x.overrideMimeType("application/j-son;charset=UTF-8");
+                        }
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        var _len = data.length;
+                        for (i = 0; i < _len; i++) {
+                            //debugger
+                            //post = data[i];
+                            var $tr = $('<tr>').append($('<td>').html('<input type="checkbox" class="chkSelect"/><input type="hidden" value="' + data[i].applicant_id + '"/>'));
+                            $tr = $tr.append($('<td>').text(data[i].full_name));
+                            $tr = $tr.append($('<td>').text(data[i].email));
+                            if (data[i].gender == 0) { $tr = $tr.append($('<td>').text('Male')); } else { $tr = $tr.append($('<td>').text('Female')); }
+                            $tr = $tr.append($('<td>').text(data[i].dob));
+                            $tr.appendTo("#tbl_applicants");
+
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+@{
+    ViewData["Title"] = "Reports";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Applicant Result List</h2>
+<form>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Client</label>
+                <select class="form-control" asp-items="ViewBag.client" name="clientID"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Batch</label>
+                <select class="form-control" asp-items="ViewBag.batch" name="batchID"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <br />
+                <input type="submit" value="Search" class="btn btn-warning" />
+            </div>
+        </div>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Full Name</th>
+            <th>Client</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.applicantPrograms != null)
+        {
+            @foreach (var item in Model.applicantPrograms)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.applicant.middle_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.applicant.full_name)
+            </td>
+            <td>@item.applicant.client.client_name</td>
+            <td>
+                <a asp-page="./Details" asp-route-id="@item.applicant_program_id" asp-route-app="@item.applicant_id">Details</a>
+            </td>
+        </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="2">No data found</td></tr>
+        }
+    </tbody>
+</table>

@@ -72,7 +72,6 @@
   <ItemGroup>
     <Folder Include="Pages\Domains\" />
     <Folder Include="Pages\Programs\" />
-    <Folder Include="Pages\Reports\Summary\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\css\animate.css\gulpfile.js" />
@@ -3273,6 +3272,7 @@
     <None Include="wwwroot\css\validator\multifield.js" />
     <None Include="wwwroot\css\validator\README.md" />
     <None Include="wwwroot\css\validator\validator.js" />
+    <None Include="wwwroot\js\jquery.flot.symbol.js" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\css\moment\moment.d.ts" />

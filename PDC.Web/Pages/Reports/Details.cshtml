@@ -1,0 +1,330 @@
+﻿@page
+@model PDC.Web.Pages.Reports.Detail.DetailsModel
+@section header{
+    <!--[if lte IE 8]>
+        <script language="javascript" type="text/javascript" src="/js/flot/excanvas.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.time.js"></script>
+    <script type="text/javascript" src="~/js/jshashtable-2.1.js"></script>
+    <script type="text/javascript" src="~/js/jquery.numberformatter-1.2.3.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.symbol.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.axislabels.js"></script>
+    <script>
+        var rawData = [
+            @for (int i = 0; i < 4; i++)
+            {
+                if (i < 3) {
+                    @: [@Model.rangkings[i].zScore, @i],
+            } else {
+                    @: [@Model.rangkings[i].zScore, @i]
+                }
+            }];
+            var dataSet = [{ label: "Z-Score", data: rawData, color: "#E8E800" }];
+            var ticks = [
+                @for(int i = 0; i < 4; i++)
+            {
+                if (i < 3)
+                {
+                    @: [@i, "@Model.rangkings[i].type.type_name"],
+            }
+                else
+                {
+                    @: [@i, "@Model.rangkings[i].type.type_name"]
+                }
+            }];
+        var options = {
+            series: {
+                bars: {
+                    show: true
+                }
+            },
+            bars: {
+                align: "center",
+                barWidth: 0.5,
+                horizontal: true,
+                fillColor: {
+                    colors: [{
+                        opacity: 0.5
+                    }, {
+                        opacity: 1
+                    }]
+                },
+                lineWidth: 1
+            },
+            xaxis: {
+                axisLabel: "Z-Score",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Verdana, Arial',
+                axisLabelPadding: 10,
+                max: 1.5,
+                min:-2,
+                tickColor: "#5E5E5E",
+                tickFormatter: function (v, axis) {
+                    return $.formatNumber(v, {
+                        format: "##.##",
+                        locale: "us"
+                    });
+                },
+                color: "black"
+            },
+            yaxis: {
+                axisLabel: "",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Verdana, Arial',
+                axisLabelPadding: 3,
+                tickColor: "#5E5E5E",
+                ticks: ticks,
+                color: "black"
+            },
+            legend: {
+                noColumns: 0,
+                labelBoxBorderColor: "#858585",
+                position: "ne"
+            },
+            grid: {
+                hoverable: true,
+                borderWidth: 2,
+                backgroundColor: {
+                    colors: ["#171717", "#4F4F4F"]
+                }
+            }
+        };
+
+        $(document).ready(function () {
+            $.plot($("#flot-placeholder"), dataSet, options);
+            $("#flot-placeholder").UseTooltip();
+        });
+
+
+
+        var previousPoint = null,
+            previousLabel = null;
+
+        $.fn.UseTooltip = function () {
+            $(this).bind("plothover", function (event, pos, item) {
+                if (item) {
+                    if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
+                        previousPoint = item.dataIndex;
+                        previousLabel = item.series.label;
+                        $("#tooltip").remove();
+
+                        var x = item.datapoint[0];
+                        var y = item.datapoint[1];
+
+                        var color = item.series.color;
+                        //alert(color)
+                        //console.log(item.series.xaxis.ticks[x].label);
+
+                        showTooltip(item.pageX,
+                            item.pageY,
+                            color, "<strong>" + item.series.label + "</strong><br>" + item.series.yaxis.ticks[y].label + " : <strong>" + $.formatNumber(x, {
+                                format: "##.##",
+                                locale: "us"
+                            }) + "</strong>");
+                    }
+                } else {
+                    $("#tooltip").remove();
+                    previousPoint = null;
+                }
+            });
+        };
+
+        function showTooltip(x, y, color, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css({
+                position: 'absolute',
+                display: 'none',
+                top: y - 10,
+                left: x + 10,
+                border: '2px solid ' + color,
+                padding: '3px',
+                'font-size': '9px',
+                'border-radius': '5px',
+                'background-color': '#fff',
+                'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+                opacity: 0.9
+            }).appendTo("body").fadeIn(200);
+        }
+    </script>
+}
+@{
+    ViewData["Title"] = "Reports - Detail";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        @if (Model.answers != null)
+        {
+            <dt>Batch Name</dt>
+            <dd>
+                @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_name)
+            </dd>
+            <dt>Start</dt>
+            <dd>
+                @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_start);
+            </dd>
+            <dt>End</dt>
+            <dd>
+                @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_end)
+            </dd>
+            <dt>Client</dt>
+            <dd>
+                @Html.DisplayFor(model => model.answers[0].applicant_program.batch.client.client_name)
+            </dd>
+        }
+        else
+        {
+
+        }
+    </dl>
+    <hr />
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#graphic" aria-controls="graphic" role="tab" data-toggle="tab">Graphic</a></li>
+        <li role="presentation"><a href="#score" aria-controls="list" role="tab" data-toggle="tab">Score</a></li>
+        <li role="presentation"><a href="#list" aria-controls="list" role="tab" data-toggle="tab">Check List</a></li>
+        <li role="presentation"><a href="#answer" aria-controls="list" role="tab" data-toggle="tab">Answer List</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="graphic">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="flot-placeholder" style="width:80%;height:300px;margin:10px auto"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Evolutionary and Domain Personality :</h4>
+                        <table class="table table-bordered table-hover" title="">
+                            <thead>
+                                <tr style="background-color:#000; color:#fff; font-size:.9em; text-align:center; width:50%">
+                                    <td>Personality</td>
+                                    <td>Pain >< Pleasure</td>
+                                    <td>Passive >< Active</td>
+                                    <td>Self >< Other</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < 4; i++)
+                                {
+                                    <tr style="text-align:center;">
+                                        <td>@Model.rangkings[i].type.type_name</td>
+                                        <td>@Model.rangkings[i].type.pain_pleasure</td>
+                                        <td>@Model.rangkings[i].type.passive_active</td>
+                                        <td>@Model.rangkings[i].type.self_other</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="score">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Type</th>
+                                <th>Raw Score</th>
+                                <th>Z-Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int rowNum = 0;
+                                foreach (var item in Model.rangkings)
+                                {
+                                    <tr>
+                                        <td>@(rowNum += 1)</td>
+                                        <td>@item.type.type_name</td>
+                                        <td>@item.rawScore</td>
+                                        <td>@item.zScore</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="list">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="2"></th>
+                                @foreach (var item in Model.rangkings[0].domainCount)
+                                {
+                                    <th>@item.domain.domain_name</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int row = 0; }
+                            @foreach (var item in Model.rangkings)
+                            {
+                                <tr>
+                                    <td>@(row += 1)</td>
+                                    <td>@item.type.type_name</td>
+                                    @foreach (var itm in item.domainCount)
+                                    {
+                                        if (itm.count == 0)
+                                        {
+                                            <td>-</td> }
+                                        else
+                                        {
+                                            <td>@itm.count</td>}
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="answer" class="tab-pane" role="tabpanel">
+            <table class="table table-responsive table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Question</th>
+                        <th>Answer</th>
+                        <th># Selected</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.answers)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>
+                                <span class="count_top">@item.answer.question.question_detail</span><br />
+                                <span class="count_bottom"><i class="red">[@item.answer.question.type_name][@item.answer.question.domain.domain_name]</i></span>
+                            </td>
+                            <td>@item.answer.answer_detail</td>
+                            <td>
+                                @foreach (var itm in Model.history.Where(h => h.answer.question_id == item.answer.question_id))
+                                {
+                                    <label>@itm.answer.answer_detail,</label>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>

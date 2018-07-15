@@ -41,6 +41,8 @@ namespace PDC.Web.Models
         [StringLength(50)]
         public string edit_by { get; set; }
         public DateTime edit_date { get; set; }
+        [DefaultValue(value: false)]
+        public bool? isBorderline { get; set; }
         public virtual ICollection<tAnswer> answers { get; set; }
     }
 }
