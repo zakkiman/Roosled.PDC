@@ -18,6 +18,8 @@ namespace PDC.Web.Pages.Reports.Detail
         {
             _context = context;
         }
+        [BindProperty]
+        public tApplicantProgram applicantProgram { get; set; }
         public IList<tAppllicantAnswer> answers { get; set; }
         public IList<tAnswerHistory> history { get; set; }
         public IList<tType> types { get; set; }
@@ -37,12 +39,15 @@ namespace PDC.Web.Pages.Reports.Detail
             public tDomain domain { get; set; }
         }
         public List<rangking> rangkings { get; set; }
+        public static tApplicantProgram ap;
         public async Task<IActionResult> OnGetAsync(int? id, int? app)
         {   
             if (id == null && app == null)
             {
                 return NotFound();
             }
+            applicantProgram = await _context.tApplicantProgram.Where(m => m.applicant_program_id == id).SingleOrDefaultAsync();
+            ap = applicantProgram;
             types = await _context.tType.ToListAsync();
             domains = await _context.tDomain.ToListAsync();
             answers = await _context.tApplicantAnswer
@@ -94,6 +99,20 @@ namespace PDC.Web.Pages.Reports.Detail
                 return NotFound();
             }
             return Page();
+        }
+        public async Task<IActionResult> OnPostAsync(int? id, int? app)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            applicantProgram.applicant_id = ap.applicant_id;
+            applicantProgram.program_id = ap.program_id;
+            applicantProgram.batch_id = ap.batch_id;
+            _context.Attach(applicantProgram).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            
+            return Redirect("./Details?id=" + id + "&app=" + app);
         }
     }
 }

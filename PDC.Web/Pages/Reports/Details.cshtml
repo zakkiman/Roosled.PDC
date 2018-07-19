@@ -4,150 +4,86 @@
     <!--[if lte IE 8]>
         <script language="javascript" type="text/javascript" src="/js/flot/excanvas.min.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="~/js/Chart.bundle.js"></script>
     <script type="text/javascript" src="~/js/jquery.flot.min.js"></script>
     <script type="text/javascript" src="~/js/jquery.flot.time.js"></script>
     <script type="text/javascript" src="~/js/jshashtable-2.1.js"></script>
     <script type="text/javascript" src="~/js/jquery.numberformatter-1.2.3.min.js"></script>
     <script type="text/javascript" src="~/js/jquery.flot.symbol.js"></script>
     <script type="text/javascript" src="~/js/jquery.flot.axislabels.js"></script>
+    <script src="~/css/tinymce/tinymce.min.js"></script>
     <script>
-        var rawData = [
-            @for (int i = 0; i < 4; i++)
-            {
-                if (i < 3) {
-                    @: [@Model.rangkings[i].zScore, @i],
-            } else {
-                    @: [@Model.rangkings[i].zScore, @i]
-                }
-            }];
-            var dataSet = [{ label: "Z-Score", data: rawData, color: "#E8E800" }];
-            var ticks = [
-                @for(int i = 0; i < 4; i++)
-            {
-                if (i < 3)
-                {
-                    @: [@i, "@Model.rangkings[i].type.type_name"],
-            }
-                else
-                {
-                    @: [@i, "@Model.rangkings[i].type.type_name"]
-                }
-            }];
-        var options = {
-            series: {
-                bars: {
-                    show: true
-                }
-            },
-            bars: {
-                align: "center",
-                barWidth: 0.5,
-                horizontal: true,
-                fillColor: {
-                    colors: [{
-                        opacity: 0.5
-                    }, {
-                        opacity: 1
-                    }]
-                },
-                lineWidth: 1
-            },
-            xaxis: {
-                axisLabel: "Z-Score",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 10,
-                max: 1.5,
-                min:-2,
-                tickColor: "#5E5E5E",
-                tickFormatter: function (v, axis) {
-                    return $.formatNumber(v, {
-                        format: "##.##",
-                        locale: "us"
-                    });
-                },
-                color: "black"
-            },
-            yaxis: {
-                axisLabel: "",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 3,
-                tickColor: "#5E5E5E",
-                ticks: ticks,
-                color: "black"
-            },
-            legend: {
-                noColumns: 0,
-                labelBoxBorderColor: "#858585",
-                position: "ne"
-            },
-            grid: {
-                hoverable: true,
-                borderWidth: 2,
-                backgroundColor: {
-                    colors: ["#171717", "#4F4F4F"]
-                }
-            }
+        var horizontalBarChartData = {
+            labels: [@for (int i = 0; i < 4; i++)
+                    {
+                        if (i < 3) {
+                            @: "@Model.rangkings[i].type.type_name",
+                        } else {
+                            @: "@Model.rangkings[i].type.type_name"
+                        }
+                    }],
+            datasets: [{
+                label: 'Z-Score',
+                backgroundColor: "rgba(220,220,220,0.5)",
+                data: [
+                        @for (int i = 0; i < 4; i++)
+                        {
+                            if (i < 3) {
+                                @: @Model.rangkings[i].zScore,
+                            } else {
+                                @: @Model.rangkings[i].zScore
+                            }
+                        }
+                ]
+            }]
         };
 
-        $(document).ready(function () {
-            $.plot($("#flot-placeholder"), dataSet, options);
-            $("#flot-placeholder").UseTooltip();
-        });
-
-
-
-        var previousPoint = null,
-            previousLabel = null;
-
-        $.fn.UseTooltip = function () {
-            $(this).bind("plothover", function (event, pos, item) {
-                if (item) {
-                    if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
-                        previousPoint = item.dataIndex;
-                        previousLabel = item.series.label;
-                        $("#tooltip").remove();
-
-                        var x = item.datapoint[0];
-                        var y = item.datapoint[1];
-
-                        var color = item.series.color;
-                        //alert(color)
-                        //console.log(item.series.xaxis.ticks[x].label);
-
-                        showTooltip(item.pageX,
-                            item.pageY,
-                            color, "<strong>" + item.series.label + "</strong><br>" + item.series.yaxis.ticks[y].label + " : <strong>" + $.formatNumber(x, {
-                                format: "##.##",
-                                locale: "us"
-                            }) + "</strong>");
+        window.onload = function () {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myHorizontalBar = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: horizontalBarChartData,
+                options: {
+                    // Elements options apply to all of the options unless overridden in a dataset
+                    // In this case, we are setting the border of each horizontal bar to be 2px wide and green
+                    elements: {
+                        rectangle: {
+                            borderWidth: 2,
+                            borderColor: 'rgb(0, 255, 0)',
+                            borderSkipped: 'left'
+                        }
+                    },
+                    responsive: true,
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Profile Graphic'
                     }
-                } else {
-                    $("#tooltip").remove();
-                    previousPoint = null;
                 }
             });
         };
-
-        function showTooltip(x, y, color, contents) {
-            $('<div id="tooltip">' + contents + '</div>').css({
-                position: 'absolute',
-                display: 'none',
-                top: y - 10,
-                left: x + 10,
-                border: '2px solid ' + color,
-                padding: '3px',
-                'font-size': '9px',
-                'border-radius': '5px',
-                'background-color': '#fff',
-                'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-                opacity: 0.9
-            }).appendTo("body").fadeIn(200);
+    </script>
+    <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
         }
+    </style>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            height: 500,
+            menubar: true,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor textcolor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table contextmenu paste code help wordcount'
+            ],
+            toolbar: 'undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
+        });
     </script>
 }
 @{
@@ -162,22 +98,25 @@
     <dl class="dl-horizontal">
         @if (Model.answers != null)
         {
-            <dt>Batch Name</dt>
-            <dd>
-                @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_name)
-            </dd>
-            <dt>Start</dt>
-            <dd>
-                @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_start);
-            </dd>
-            <dt>End</dt>
-            <dd>
-                @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_end)
-            </dd>
-            <dt>Client</dt>
-            <dd>
-                @Html.DisplayFor(model => model.answers[0].applicant_program.batch.client.client_name)
-            </dd>
+            @if (Model.answers.Count > 0)
+            {
+                <dt>Batch Name</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_name)
+                </dd>
+                <dt>Start</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_start);
+                </dd>
+                <dt>End</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_end)
+                </dd>
+                <dt>Client</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.answers[0].applicant_program.batch.client.client_name)
+                </dd>
+            }
         }
         else
         {
@@ -187,16 +126,17 @@
     <hr />
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#graphic" aria-controls="graphic" role="tab" data-toggle="tab">Graphic</a></li>
-        <li role="presentation"><a href="#score" aria-controls="list" role="tab" data-toggle="tab">Score</a></li>
+        <li role="presentation"><a href="#score" aria-controls="score" role="tab" data-toggle="tab">Score</a></li>
         <li role="presentation"><a href="#list" aria-controls="list" role="tab" data-toggle="tab">Check List</a></li>
-        <li role="presentation"><a href="#answer" aria-controls="list" role="tab" data-toggle="tab">Answer List</a></li>
+        <li role="presentation"><a href="#answer" aria-controls="answer" role="tab" data-toggle="tab">Answer List</a></li>
+        <li role="presentation"><a href="#profiling" aria-controls="profiling" role="tab" data-toggle="tab">Profile</a></li>
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="graphic">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="flot-placeholder" style="width:80%;height:300px;margin:10px auto"></div>
+                        <canvas id="canvas" width="450" height="140"></canvas>
                     </div>
                 </div>
                 <div class="row">
@@ -322,6 +262,61 @@
                     }
                 </tbody>
             </table>
+        </div>
+        <div id="profiling" class="tab-pane" role="tabpanel">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="hidden" asp-for="applicantProgram.applicant_program_id" />
+                        <div style="padding:10px; margin:15px;">
+                            <div class="btn-group" style="margin-bottom:5px;">
+                                <button type="button" class="btn btn-danger">Insert</button>
+                                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Name</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Gender</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Age</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Title</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="#">Graphic</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Score</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Checklist</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <textarea asp-for="applicantProgram.report_description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div style="padding:10px; margin:15px;">
+                            <input type="submit" value="Save Profile" class="btn btn-default" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="padding:10px; margin:15px;">
+                            <a href="./Summary?id=@Model.applicantProgram.applicant_program_id&app=@Model.applicantProgram.applicant_id" class="btn btn-info">Preview</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

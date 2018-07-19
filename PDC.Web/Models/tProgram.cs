@@ -20,11 +20,6 @@ namespace PDC.Web.Models
         [Required(ErrorMessage ="Test duration cannot be empty or 0")]
         [DefaultValue(30)]
         public int duration { get; set; }
-        [Required]
-        [DefaultValue("Requested")]
-        public string approval_status { get; set; }
-        public string approved_by { get; set; }
-        public DateTime approved_date { get; set; }
         public string create_by { get; set; }
         public DateTime create_date { get; set; }
         public string edit_by { get; set; }

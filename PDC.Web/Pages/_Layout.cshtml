@@ -18,7 +18,8 @@
     <script src="~/js/jquery-2.2.4.min.js"></script>
     <script src="~/js/bootstrap-3.3.7.min.js"></script>
     <script src="~/css/moment/moment.js"></script>
-    <script src="~/js/custom.min.js"></script>
+    <script src="~/js/smartresize.js"></script>
+    @*<script src="~/js/custom.min.js"></script>*@
 
     <link href="~/css/animate.css/animate.min.css" rel="stylesheet">
     <link href="~/css/nprogress/nprogress.css" rel="stylesheet" />
@@ -36,18 +37,19 @@
             $('.background-image').on('webkitAnimationEnd', function (e) {
                 $(this).addClass('visible');
             });
+        });
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
             $("body").prepend('<div id="overlay" class="overlay" style="z-index: 1001; display: none;"><div><img src="/images/loading-infinity.gif"/></div></div>');
-            $('.btn').click(function () {
+            $('form').submit(function () {
                 //var pass = true;
                 ////some validations
 
                 //if (pass == false) {
                 //    return false;
                 //}
-                $("#overlay").show();
+                $("#overlay").show();S
 
                 return true;
             });
@@ -169,99 +171,10 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li style="display:none;">
-                                    <a data-toggle="collapse" href="#collapsePresentation" data-parent="#menu_section"><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
-                                    <div class="collapse" id="collapsePresentation" data-parent="#menu_section">
-                                        <ul class="nav child_menu" style="display: block;">
-                                            <li><a href="chartjs.html">Chart JS</a></li>
-                                            <li><a href="chartjs2.html">Chart JS2</a></li>
-                                            <li><a href="morisjs.html">Moris JS</a></li>
-                                            <li><a href="echarts.html">ECharts</a></li>
-                                            <li><a href="other_charts.html">Other Charts</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <div class="menu_section" style="display:none;">
-                            <h3>Live On</h3>
-                            <ul class="nav side-menu">
-                                <li>
-                                    <a data-toggle="collapse" href="#collapseAdditional" data-parent="#menu_section"><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                                    <div class="collapse" id="collapseAdditional" data-parent="#menu_section">
-                                        <ul class="nav child_menu" style="display: block;">
-                                            <li><a href="e_commerce.html">E-commerce</a></li>
-                                            <li><a href="projects.html">Projects</a></li>
-                                            <li><a href="project_detail.html">Project Detail</a></li>
-                                            <li><a href="contacts.html">Contacts</a></li>
-                                            <li><a href="profile.html">Profile</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a data-toggle="collapse" href="#collapseExtra" data-parent="#menu_section"><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                                    <div class="collapse" id="collapseExtra" data-parent="#menu_section">
-                                        <ul class="nav child_menu" style="display: block;">
-                                            <li><a href="page_403.html">403 Error</a></li>
-                                            <li><a href="page_404.html">404 Error</a></li>
-                                            <li><a href="page_500.html">500 Error</a></li>
-                                            <li><a href="plain_page.html">Plain Page</a></li>
-                                            <li><a href="login.html">Login Page</a></li>
-                                            <li><a href="pricing_tables.html">Pricing Tables</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a data-toggle="collapse" href="#collapseMultiLevel" data-parent="#menu_section"><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
-                                    <div class="collapse" id="collapseMultiLevel" data-parent="#menu_section">
-                                        <ul class="nav child_menu" style="display: block;">
-                                            <li>
-                                                <a href="#level1_1" data-toggle="collapse" data-parent="#menu_section">Level One</a>
-                                            </li>
-                                            <li>
-                                                <a>Level One<span class="fa fa-chevron-down"></span></a>
-                                                <div class="collapse" id="level1_1">
-                                                    <ul class="nav child_menu" style="display: block;">
-                                                        <li class="sub_menu">
-                                                            <a href="level2.html">Level Two</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#level2_1">Level Two</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#level2_2">Level Two</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <a href="#level1_2">Level One</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
                             </ul>
                         </div>
                     </div>
                     <!-- /sidebar menu -->
-                    <!-- /menu footer buttons -->
-                    <div class="sidebar-footer hidden-small" style="display:none;">
-                        <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Settings">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="" data-original-title="FullScreen">
-                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Lock">
-                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="" href="login.html" data-original-title="Logout">
-                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                    <!-- /menu footer buttons -->
                 </div>
             </div>
             <div class="top_nav">
@@ -308,7 +221,7 @@
                                     </li>
                                     <li>
                                         <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
+                                            <span class="image"><img src="~/images/img.jpg" alt="Profile Image"></span>
                                             <span>
                                                 <span>John Smith</span>
                                                 <span class="time">3 mins ago</span>
@@ -320,7 +233,7 @@
                                     </li>
                                     <li>
                                         <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
+                                            <span class="image"><img src="~/images/img.jpg" alt="Profile Image"></span>
                                             <span>
                                                 <span>John Smith</span>
                                                 <span class="time">3 mins ago</span>
@@ -332,7 +245,7 @@
                                     </li>
                                     <li>
                                         <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
+                                            <span class="image"><img src="~/images/img.jpg" alt="Profile Image"></span>
                                             <span>
                                                 <span>John Smith</span>
                                                 <span class="time">3 mins ago</span>

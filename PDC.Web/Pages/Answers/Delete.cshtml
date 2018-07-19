@@ -12,39 +12,27 @@
     <h4>tAnswer</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.tAnswer.answer_detail)
-        </dt>
+        <dt>Detail</dt>
         <dd>
             @Html.DisplayFor(model => model.tAnswer.answer_detail)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tAnswer.score)
-        </dt>
+        <dt>Score</dt>
         <dd>
             @Html.DisplayFor(model => model.tAnswer.score)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tAnswer.create_by)
-        </dt>
+        <dt>Create By</dt>
         <dd>
             @Html.DisplayFor(model => model.tAnswer.create_by)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tAnswer.create_date)
-        </dt>
+        <dt>Create Date</dt>
         <dd>
             @Html.DisplayFor(model => model.tAnswer.create_date)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tAnswer.edit_by)
-        </dt>
+        <dt>Edit By</dt>
         <dd>
             @Html.DisplayFor(model => model.tAnswer.edit_by)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tAnswer.edit_date)
-        </dt>
+        <dt>Edit Date</dt>
         <dd>
             @Html.DisplayFor(model => model.tAnswer.edit_date)
         </dd>
@@ -53,6 +41,6 @@
     <form method="post">
         <input type="hidden" asp-for="tAnswer.answer_id" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-page="./Index">Back to List</a>
+        <a asp-page="./Create">Back to List</a>
     </form>
 </div>

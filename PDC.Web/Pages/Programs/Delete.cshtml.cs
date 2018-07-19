@@ -49,8 +49,6 @@ namespace PDC.Web.Pages.Programs
             if (tProgram != null)
             {
                 //_context.tProgram.Remove(tProgram);
-                tProgram.approval_status = "Rejected";
-                tProgram.approved_by = "System";
                 _context.tProgram.Update(tProgram);
                 await _context.SaveChangesAsync();
             }

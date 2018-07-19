@@ -183,6 +183,8 @@ namespace PDC.Web.Migrations
 
                     b.Property<int>("program_id");
 
+                    b.Property<string>("report_description");
+
                     b.HasKey("applicant_program_id");
 
                     b.HasIndex("applicant_id");
@@ -290,7 +292,7 @@ namespace PDC.Web.Migrations
 
                     b.Property<DateTime>("edit_date");
 
-                    b.Property<int?>("province_id");
+                    b.Property<int>("province_id");
 
                     b.Property<int>("time_area");
 
@@ -499,13 +501,6 @@ namespace PDC.Web.Migrations
                 {
                     b.Property<int>("program_id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("approval_status")
-                        .IsRequired();
-
-                    b.Property<string>("approved_by");
-
-                    b.Property<DateTime>("approved_date");
 
                     b.Property<string>("create_by");
 
@@ -791,7 +786,8 @@ namespace PDC.Web.Migrations
                 {
                     b.HasOne("PDC.Web.Models.tProvince", "province")
                         .WithMany()
-                        .HasForeignKey("province_id");
+                        .HasForeignKey("province_id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PDC.Web.Models.tGroupMenu", b =>

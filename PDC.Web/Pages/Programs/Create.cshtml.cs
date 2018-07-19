@@ -32,8 +32,6 @@ namespace PDC.Web.Pages.Programs
             {
                 return Page();
             }
-            tProgram.approval_status = "Requested";
-            tProgram.approved_date = DateTime.MaxValue;
             tProgram.create_by = "System";
             tProgram.create_date = DateTime.Now;
             tProgram.edit_by = "system";

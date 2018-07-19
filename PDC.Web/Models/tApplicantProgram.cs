@@ -25,5 +25,7 @@ namespace PDC.Web.Models
         public int batch_id { get; set; }
         [ForeignKey("batch_id")]
         public tBatch batch { get; set; }
+        [DefaultValue("-")]
+        public string report_description { get; set; }
     }
 }

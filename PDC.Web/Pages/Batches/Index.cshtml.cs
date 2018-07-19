@@ -24,6 +24,7 @@ namespace PDC.Web.Pages.Batches
         public string currentSort { get; set; }
 
         public IList<tBatch> batches { get; set; }
+        public static tBatch batchTemp { get; set; }
         public async Task OnGetAsync()
         {   
             batches = await _context.tBatch.ToListAsync();
@@ -74,18 +75,23 @@ namespace PDC.Web.Pages.Batches
 
         public async Task<IActionResult> OnPostRejectAsync(int ID)
         {
-            tApplicant applicant = await _context.tApplicant.SingleOrDefaultAsync(a => a.applicant_id == ID);
-            _context.Attach(applicant).State = EntityState.Modified;
-            applicant.status = "Rejected";
+            tBatch batch = await _context.tBatch.SingleOrDefaultAsync(b => b.batch_id == ID);
+            batchTemp = batch;
+            _context.Attach(batch).State = EntityState.Modified;
+            batch.approval_status = "Rejected";
+            batch.approved_date = DateTime.Now.ToString("dd MMM yyyy HH:mm");
+            batch.approved_by = "System";
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
         public async Task<IActionResult> OnPostApproveAsync(int ID)
         {
-            tApplicant applicant = await _context.tApplicant.SingleOrDefaultAsync(a => a.applicant_id == ID);
-            _context.Attach(applicant).State = EntityState.Modified;
-            applicant.status = "Approved";
+             tBatch batch = await _context.tBatch.SingleOrDefaultAsync(b => b.batch_id == ID);
+            _context.Attach(batch).State = EntityState.Modified;
+            batch.approval_status = "Rejected";
+            batch.approved_date = DateTime.Now.ToString("dd MMM yyyy HH:mm");
+            batch.approved_by = "System";
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

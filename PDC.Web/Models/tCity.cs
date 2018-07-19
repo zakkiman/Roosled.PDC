@@ -18,6 +18,8 @@ namespace PDC.Web.Models
         [ForeignKey("province_id")]
         public tProvince province { get; set; }
         [Required]
+        public int province_id { get; set; }
+        [Required]
         [DefaultValue(0)]
         public int time_area { get; set; }
         public string create_by { get; set; }

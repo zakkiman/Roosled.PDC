@@ -21,6 +21,7 @@ namespace PDC.Web.Pages.Answers
 
         [BindProperty]
         public tAnswer tAnswer { get; set; }
+        public static tAnswer answer { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,7 +31,7 @@ namespace PDC.Web.Pages.Answers
             }
 
             tAnswer = await _context.tAnswer.SingleOrDefaultAsync(m => m.answer_id == id);
-
+            answer = tAnswer;
             if (tAnswer == null)
             {
                 return NotFound();
@@ -38,13 +39,17 @@ namespace PDC.Web.Pages.Answers
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int ID)
         {
+            tAnswer.create_by = answer.create_by;
+            tAnswer.create_date = answer.create_date;
+            tAnswer.edit_by = "System";
+            tAnswer.edit_date = DateTime.Now;
+            tAnswer.question_id = answer.question_id;
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-
             _context.Attach(tAnswer).State = EntityState.Modified;
 
             try
@@ -63,7 +68,7 @@ namespace PDC.Web.Pages.Answers
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Questions");
         }
 
         private bool tAnswerExists(int id)

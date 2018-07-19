@@ -7,6 +7,6 @@ namespace PDC.Web.Helper
 {
     public class WebMail
     {
-
+        public string emailTemplate { get; set; }
     }
 }
