@@ -20,6 +20,163 @@ namespace PDC.Web.Migrations
                 .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026");
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("PDC.Web.Data.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
+                });
+
             modelBuilder.Entity("PDC.Web.Models.tAnswer", b =>
                 {
                     b.Property<int>("answer_id")
@@ -124,6 +281,9 @@ namespace PDC.Web.Migrations
                         .IsRequired();
 
                     b.Property<string>("middle_name");
+
+                    b.Property<string>("notes")
+                        .HasMaxLength(250);
 
                     b.Property<string>("password")
                         .IsRequired();
@@ -269,6 +429,8 @@ namespace PDC.Web.Migrations
 
                     b.Property<DateTime>("edit_date");
 
+                    b.Property<bool>("isExpired");
+
                     b.HasKey("batch_id");
 
                     b.HasIndex("client_id");
@@ -313,6 +475,8 @@ namespace PDC.Web.Migrations
 
                     b.Property<string>("address2");
 
+                    b.Property<string>("api_key");
+
                     b.Property<string>("client_name")
                         .IsRequired();
 
@@ -332,9 +496,41 @@ namespace PDC.Web.Migrations
 
                     b.Property<bool>("use_alias");
 
+                    b.Property<bool>("use_api");
+
                     b.HasKey("client_id");
 
                     b.ToTable("tclient");
+                });
+
+            modelBuilder.Entity("PDC.Web.Models.tConfiguration", b =>
+                {
+                    b.Property<string>("config_name")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("email_address")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<string>("email_name")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<string>("email_tempate")
+                        .IsRequired();
+
+                    b.Property<bool>("is_secure");
+
+                    b.Property<string>("smtp_host")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<int>("smtp_port");
+
+                    b.HasKey("config_name");
+
+                    b.ToTable("tconfiguration");
                 });
 
             modelBuilder.Entity("PDC.Web.Models.tDomain", b =>
@@ -607,6 +803,45 @@ namespace PDC.Web.Migrations
                     b.ToTable("tquestion");
                 });
 
+            modelBuilder.Entity("PDC.Web.Models.tRequestLog", b =>
+                {
+                    b.Property<int>("request_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("request_data")
+                        .IsRequired();
+
+                    b.Property<DateTime>("request_date");
+
+                    b.Property<string>("request_header")
+                        .IsRequired();
+
+                    b.Property<string>("request_ip")
+                        .IsRequired();
+
+                    b.HasKey("request_id");
+
+                    b.ToTable("trequestlog");
+                });
+
+            modelBuilder.Entity("PDC.Web.Models.tResponseLog", b =>
+                {
+                    b.Property<int>("response_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("request_ip")
+                        .IsRequired();
+
+                    b.Property<string>("response_data")
+                        .IsRequired();
+
+                    b.Property<DateTime>("response_date");
+
+                    b.HasKey("response_id");
+
+                    b.ToTable("tresponseLog");
+                });
+
             modelBuilder.Entity("PDC.Web.Models.tType", b =>
                 {
                     b.Property<string>("type_name")
@@ -652,43 +887,49 @@ namespace PDC.Web.Migrations
                     b.ToTable("ttype");
                 });
 
-            modelBuilder.Entity("PDC.Web.Models.tUser", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.Property<string>("user_id")
-                        .ValueGeneratedOnAdd();
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                    b.Property<string>("create_by");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("PDC.Web.Data.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                    b.Property<DateTime>("create_date");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("PDC.Web.Data.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                    b.Property<string>("edit_by");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Property<DateTime>("edit_date");
+                    b.HasOne("PDC.Web.Data.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                    b.Property<string>("email")
-                        .IsRequired();
-
-                    b.Property<string>("first_name")
-                        .IsRequired();
-
-                    b.Property<int?>("group_id");
-
-                    b.Property<DateTime>("last_login");
-
-                    b.Property<string>("last_name")
-                        .IsRequired();
-
-                    b.Property<string>("password")
-                        .IsRequired();
-
-                    b.Property<string>("status")
-                        .IsRequired();
-
-                    b.HasKey("user_id");
-
-                    b.HasIndex("group_id");
-
-                    b.ToTable("tuser");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("PDC.Web.Data.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PDC.Web.Models.tAnswer", b =>
@@ -825,13 +1066,6 @@ namespace PDC.Web.Migrations
                         .WithMany()
                         .HasForeignKey("type_name")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PDC.Web.Models.tUser", b =>
-                {
-                    b.HasOne("PDC.Web.Models.tGroup", "group")
-                        .WithMany()
-                        .HasForeignKey("group_id");
                 });
 #pragma warning restore 612, 618
         }

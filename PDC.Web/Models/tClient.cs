@@ -24,6 +24,9 @@ namespace PDC.Web.Models
         public string contact_email { get; set; }
         [DefaultValue(value:false)]
         public bool use_alias { get; set; }
+        [DefaultValue(value: false)]
+        public bool use_api { get; set; }
+        public string api_key { get; set; }
         public string create_by { get; set; }
         public DateTime create_date { get; set; }
         public string edit_by { get; set; }

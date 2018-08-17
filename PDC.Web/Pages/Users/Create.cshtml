@@ -7,60 +7,39 @@
 
 <h2>Create</h2>
 
-<h4>tUser</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h4>Create a new account.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="tUser.first_name" class="control-label"></label>
-                <input asp-for="tUser.first_name" class="form-control" />
-                <span asp-validation-for="tUser.first_name" class="text-danger"></span>
+                <label asp-for="Input.UserName"></label>
+                <input asp-for="Input.UserName" class="form-control" />
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="tUser.last_name" class="control-label"></label>
-                <input asp-for="tUser.last_name" class="form-control" />
-                <span asp-validation-for="tUser.last_name" class="text-danger"></span>
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="tUser.email" class="control-label"></label>
-                <input asp-for="tUser.email" class="form-control" />
-                <span asp-validation-for="tUser.email" class="text-danger"></span>
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="tUser.status" class="control-label"></label>
-                <input asp-for="tUser.status" class="form-control" />
-                <span asp-validation-for="tUser.status" class="text-danger"></span>
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="tUser.last_login" class="control-label"></label>
-                <input asp-for="tUser.last_login" class="form-control" />
-                <span asp-validation-for="tUser.last_login" class="text-danger"></span>
+                <label asp-for="Input.Role" class="control-label">Role</label>
+                <select asp-for="Input.Role" class="form-control" asp-items="ViewBag.roles"></select>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="tUser.create_by" class="control-label"></label>
-                <input asp-for="tUser.create_by" class="form-control" />
-                <span asp-validation-for="tUser.create_by" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="tUser.create_date" class="control-label"></label>
-                <input asp-for="tUser.create_date" class="form-control" />
-                <span asp-validation-for="tUser.create_date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="tUser.edit_by" class="control-label"></label>
-                <input asp-for="tUser.edit_by" class="form-control" />
-                <span asp-validation-for="tUser.edit_by" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="tUser.edit_date" class="control-label"></label>
-                <input asp-for="tUser.edit_date" class="form-control" />
-                <span asp-validation-for="tUser.edit_date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+            <button type="submit" class="btn btn-primary">Create User</button>
         </form>
     </div>
 </div>

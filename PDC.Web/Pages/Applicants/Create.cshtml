@@ -1,8 +1,8 @@
 @page
 @model PDC.Web.Pages.Applicants.CreateModel
 @section header{
-    <script src="~/css/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-    <link type="text/css" href="~/css/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <script src="~/js/bootstrap-datetimepicker.js"></script>
+    <link type="text/css" href="~/css/bootstrap-datetimepicker.css" rel="stylesheet">
     <script>
         $(function () {
             $(".datepicker").datetimepicker({
@@ -128,7 +128,7 @@
                     <div class="form-group">
                         <label asp-for="tApplicant.self_opinion" class="control-label">Self Opinion</label>
                         <input type="text" asp-for="tApplicant.self_opinion" class="form-control" />
-                        <span asp-validation-for="tApplicant.city_id" class="text-danger"></span>
+                        <span asp-validation-for="tApplicant.self_opinion" class="text-danger"></span>
                     </div>
                 </div>
             </div>

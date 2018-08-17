@@ -21,7 +21,15 @@
                         } else {
                             @: "@Model.rangkings[i].type.type_name"
                         }
-                    }],
+                    }
+                    @for(int j=0; j < Model.rangkings.Count; j++)
+                    {
+                        if (Model.rangkings[j].type.type_name.ToUpper() == "BORDERLINE" && Model.rangkings[j].zScore > 0)
+                        {
+                            @: ,"@Model.rangkings[j].type.type_name" 
+                        }
+                    }
+            ],
             datasets: [{
                 label: 'Z-Score',
                 backgroundColor: "rgba(220,220,220,0.5)",
@@ -32,6 +40,13 @@
                                 @: @Model.rangkings[i].zScore,
                             } else {
                                 @: @Model.rangkings[i].zScore
+                            }
+                        }
+                        @for(int j=0; j < Model.rangkings.Count; j++)
+                        {
+                            if (Model.rangkings[j].type.type_name.ToUpper() == "BORDERLINE" && Model.rangkings[j].zScore > 0)
+                            {
+                                @: ,@Model.rangkings[j].zScore
                             }
                         }
                 ]
@@ -95,34 +110,54 @@
 
 <div>
     <hr />
-    <dl class="dl-horizontal">
-        @if (Model.answers != null)
-        {
-            @if (Model.answers.Count > 0)
-            {
-                <dt>Batch Name</dt>
-                <dd>
-                    @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_name)
-                </dd>
-                <dt>Start</dt>
-                <dd>
-                    @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_start);
-                </dd>
-                <dt>End</dt>
-                <dd>
-                    @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_end)
-                </dd>
-                <dt>Client</dt>
-                <dd>
-                    @Html.DisplayFor(model => model.answers[0].applicant_program.batch.client.client_name)
-                </dd>
-            }
-        }
-        else
-        {
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                @if (Model.answers != null)
+                {
+                    @if (Model.answers.Count > 0)
+                    {
+                        <dt>Batch Name</dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_name)
+                        </dd>
+                        <dt>Start</dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_start);
+                        </dd>
+                        <dt>End</dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_end)
+                        </dd>
+                        <dt>Client</dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.answers[0].applicant_program.batch.client.client_name)
+                        </dd>
+                    }
+                }
+                else
+                {
 
-        }
-    </dl>
+                }
+            </dl>
+        </div>
+        <div class="col-md-6">
+
+            <dl class="dl-horizontal">
+                @if (Model.answers != null)
+                {
+                    @if (Model.answers.Count > 0)
+                    {
+                        <dt>Name</dt>
+                        <dd>@Html.DisplayFor(model => model.answers[0].applicant.full_name)</dd>
+                        <dt>E-mail</dt>
+                        <dd>@Html.DisplayFor(model => model.answers[0].applicant.email)</dd>
+                    }
+
+                }
+            </dl>
+        </div>
+    </div>
     <hr />
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#graphic" aria-controls="graphic" role="tab" data-toggle="tab">Graphic</a></li>
@@ -249,7 +284,10 @@
                             <td></td>
                             <td>
                                 <span class="count_top">@item.answer.question.question_detail</span><br />
-                                <span class="count_bottom"><i class="red">[@item.answer.question.type_name][@item.answer.question.domain.domain_name]</i></span>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <span class="count_bottom"><i class="red">[@item.answer.question.type_name][@item.answer.question.domain.domain_name]</i></span>
+                                }
                             </td>
                             <td>@item.answer.answer_detail</td>
                             <td>
@@ -312,7 +350,7 @@
                     </div>
                     <div class="col-md-3">
                         <div style="padding:10px; margin:15px;">
-                            <a href="./Summary?id=@Model.applicantProgram.applicant_program_id&app=@Model.applicantProgram.applicant_id" class="btn btn-info">Preview</a>
+                            <a href="./Preview?id=@Model.applicantProgram.applicant_program_id&app=@Model.applicantProgram.applicant_id" class="btn btn-info" target="_blank">Preview</a>
                         </div>
                     </div>
                 </div>

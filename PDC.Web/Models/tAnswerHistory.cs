@@ -15,6 +15,8 @@ namespace PDC.Web.Models
         [Required]
         public tAnswer answer { get; set; }
         [Required]
+        public int answer_id { get; set; }
+        [Required]
         public DateTime selected_time { get; set; }
         [ForeignKey("applicant_program_id")]
         public tApplicantProgram applicant_program { get; set; }

@@ -1,11 +1,11 @@
 ﻿@page
 @model PDC.Web.Pages.Batches.CreateModel
 @section header{
-    <script src="~/css/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-    <link type="text/css" href="~/css/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <script src="~/js/bootstrap-datetimepicker.js"></script>
+    <link type="text/css" href="~/css/bootstrap-datetimepicker.css" rel="stylesheet">
     <script>
         $(function () {
-            $('#dateStart').datetimepicker({ useCurrent: true, minDate: Date() });
+            $('#dateStart').datetimepicker({ minDate: Date() });
             $('#dateEnd').datetimepicker({
                 useCurrent: false //Important! See issue #1075
             });
@@ -21,7 +21,7 @@
         $(function () {
             $('#client').change(function () {
                 var id = $(this).val();
-                var applicants = "http://localhost:60754/api/applicants/" + id;
+                var applicants = "../api/applicants/" + id;
                 $("#tbl_applicants > tbody").remove();
                 $.ajax({
                     type: "GET",
@@ -38,7 +38,7 @@
                         for (i = 0; i < _len; i++) {
                             //debugger
                             //post = data[i];
-                            var $tr = $('<tr>').append($('<td>').html('<input type="checkbox" class="chkSelect"/><input type="hidden" value="' + data[i].applicant_id + '"/>'));
+                            var $tr = $('<tr>').append($('<td>').html(i+1 + '<input type="hidden" value="' + data[i].applicant_id + '"/>'));
                             $tr = $tr.append($('<td>').text(data[i].full_name));
                             $tr = $tr.append($('<td>').text(data[i].email));
                             if (data[i].gender == 0) { $tr = $tr.append($('<td>').text('Male')); } else { $tr = $tr.append($('<td>').text('Female')); }
@@ -53,60 +53,38 @@
     </script>
     <script>
         $(document).ready(function () {
-            $('#ckbCheckAll').click(function () {
-                var isChecked = $(this).prop('checked');
-                $('#tbl_applicants tr:has(td)').find('input[type="checkbox"]').prop('checked', isChecked);
-                //if (isChecked == true) {
-                //    $('#tbl_applicants tr:has(td)').find('input[type="checkbox"]').attr('checked', 'checked');
-                //} else {
-                //    $('#tbl_applicants tr:has(td)').find('input[type="checkbox"]').removeAttr('checked');
-                //}
-            });
-
-            $('#tbl_applicants tr:has(td)').find('input[type="checkbox"]').click(function () {
-                var isChecked = $(this).prop('checked');
-                var isHeaderChecked = $("#ckbCheckAll").prop('checked');
-                alert(isChecked);
-                if (isChecked == false && isHeaderChecked) {
-                    //$("#ckbCheckAll").removeAttr('checked');
-                    $("#ckbCheckAll").prop('checked', isChecked);
-                }
-                else {
-                    $('#tbl_applicants tr:has(td)').find('input[type="checkbox"]').each(function () {
-                        if ($(this).prop("checked") == false)
-                            isChecked = false;
-                    });
-                    console.log(isChecked);
-                    $("#ckbCheckAll").prop('checked', isChecked);
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
+            var count = 0;
+            var successBatch = false;
+            var successApplicant = false;
             $('#btnCreate').click(function () {
+                $('#overlay').show();
+                $('#btnCreate').attr("disabled", "disabled");
                 var batches = new Array();
                 var batch = {};
                 batch.client_id = parseInt($('#client').val());
                 batch.batch_name = $('#tBatch_batch_name').val();
                 batch.batch_start = $('#dateStart').val();
                 batch.batch_end = $('#dateEnd').val();
+                batch.create_by = $('#hdnUser').val();
                 batches.push(batch);
                 $.each(batches, function (index, item) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:60754/api/batch",
+                        url: "../api/batch",
                         data: JSON.stringify(item),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (r) {
                             //Loop through the Table rows and build a JSON array.
                             var applicants = new Array();
-
+                            successBatch = true;
+                            console.log(successBatch);
+                            $('#hdnBatch').val(successBatch)
                             $("#tbl_applicants tbody tr").each(function () {
                                 var row = $(this);
                                 var applicant = {};
-                                var isChecked = row.find($('.chkSelect')).prop('checked')
+                                //var isChecked = row.find($('.selected'));
+                                var isChecked = row.hasClass('selected');
                                 if (isChecked == true) {
                                     //applicant.applicant_program_id = parseInt(0);
                                     applicant.applicant_id = parseInt(row.find('input[type="hidden"]').eq(0).val());
@@ -115,114 +93,149 @@
                                     applicants.push(applicant);
                                 }
                             });
+                            
                             //Send the JSON array to Controller using AJAX.
                             $.each(applicants, function (idx, itm) {
                                 $.ajax({
                                     type: "POST",
-                                    url: "http://localhost:60754/api/batchdetail",
+                                    url: "../api/batchdetail",
                                     data: JSON.stringify(itm),
                                     contentType: "application/json; charset=utf-8",
                                     dataType: "json",
                                     success: function (r) {
-                                        alert(r + " record(s) inserted.");
-                                        alert(JSON.stringify(itm));
-                                        window.location.replace("http://localhost:60754/Batches/");
+                                        count += 1;
+                                        $('#hdnCount').val(count);
+                                        console.log(count);
+                                        //alert(JSON.stringify(itm));
+                                        successApplicant = true;
                                     },
                                     error: function () {
-                                        alert('failure');
-                                        alert(JSON.stringify(itm));
+                                        //alert(JSON.stringify(itm));
+                                        successApplicant = false;
                                     }
                                 });
                             });
                         },
                         error: function () {
-                            alert('failure');
                             alert(JSON.stringify(item));
+                            successBatch = false;
                         }
                     });
                 });
+                alert($('#hdnCount').val() + " applicants have added to batch " + $('#tBatch_batch_name').val());
+                window.location.replace("../Batches/");
+                $('#overlay').hide();
+                $('#btnCreate').removeAttr("disabled");
             });
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            $("#tbl_applicants").on('click', 'tbody tr', function (event) {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                } else {
+                    $(this).addClass('selected');
+                    //var value = $(this).find('td:first').find('input[type="hidden"]').val();
+                    //var isChecked = $(this).hasClass('selected');
+                    //alert(isChecked);
+                }
+            });
+        });
+    </script>
+    <style>
+        td {
+            cursor: pointer;
+        }
+
+        tbody tr:hover {
+            background-color: #2A3F54;
+            color: #FFF;
+        }
+
+        .selected {
+            background-color: brown;
+            color: #FFF;
+        }
+    </style>
 }
 @{
     ViewData["Title"] = "Batches";
     Layout = "~/Pages/_Layout.cshtml";
 }
-
 <h2>Create Batch</h2>
-
 <hr />
 <div class="row">
+    <input type="hidden" id="hdnCount" />
+    <input type="hidden" id="hdnBatch" />
     <div class="col-md-12">
+        <input asp-for="userName" type="hidden" value="@Model.userName" id="hdnUser" />
         @*<form method="post">*@
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="tBatch.batch_name" class="control-label">Batch Name</label>
-                        <input asp-for="tBatch.batch_name" class="form-control" placeholder="Batch Name" />
-                        <span asp-validation-for="tBatch.batch_name" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="tApplicantProgram.program_id" class="control-label">Program</label>
-                        <select asp-for="tApplicantProgram.program.program_id" class="form-control" asp-items="ViewBag.programs"></select>
-                    </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="tBatch.batch_name" class="control-label">Batch Name</label>
+                    <input asp-for="tBatch.batch_name" class="form-control" placeholder="Batch Name" />
+                    <span asp-validation-for="tBatch.batch_name" class="text-danger"></span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label asp-for="tApplicantProgram.applicant.client_id" class="control-label">Client</label>
-                        <select class="form-control" asp-items="ViewBag.clients" asp-for="tApplicantProgram.applicant.client_id" id="client">
-                            <option selected="selected">- Select Client -</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-4 has-feedback">
-                    <div class="form-group">
-                        <label asp-for="tBatch.batch_start" class="control-label">Batch Start</label>
-                        <input type="text" asp-for="tBatch.batch_start" class="form-control has-feedback-left" id="dateStart" required />
-                        <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                    </div>
-                </div>
-                <div class="col-md-4 has-feedback">
-                    <div class="form-group">
-                        <label asp-for="tBatch.batch_end" class="control-label">Batch End</label>
-                        <input type="text" asp-for="tBatch.batch_end" class="form-control has-feedback-left" id="dateEnd" required />
-                        <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                    </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="tApplicantProgram.program_id" class="control-label">Program</label>
+                    <select asp-for="tApplicantProgram.program.program_id" class="form-control" asp-items="ViewBag.programs"></select>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <table id="tbl_applicants" class="table table-striped table-bordered bulk_action dataTable no-footer">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <input id="ckbCheckAll" class="flat" type="checkbox">
-                                </th>
-                                <th>Name</th>
-                                <th>E-mail</th>
-                                <th>Gender</th>
-                                <th>Date of Birth</th>
-                            </tr>
-                        </thead>
-                    </table>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="tApplicantProgram.applicant.client_id" class="control-label">Client</label>
+                    <select class="form-control" asp-items="ViewBag.clients" asp-for="tApplicantProgram.applicant.client_id" id="client">
+                        <option selected="selected">- Select Client -</option>
+                    </select>
                 </div>
             </div>
-            <div class="form-group">
-                <input value="Create" class="btn btn-primary" id="btnCreate" type="submit" />
+            <div class="col-md-4 has-feedback">
+                <div class="form-group">
+                    <label asp-for="tBatch.batch_start" class="control-label">Batch Start</label>
+                    <input type="text" asp-for="tBatch.batch_start" class="form-control has-feedback-left" id="dateStart" required />
+                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                </div>
             </div>
+            <div class="col-md-4 has-feedback">
+                <div class="form-group">
+                    <label asp-for="tBatch.batch_end" class="control-label">Batch End</label>
+                    <input type="text" asp-for="tBatch.batch_end" class="form-control has-feedback-left" id="dateEnd" required />
+                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" id="tableContainer">
+                <table id="tbl_applicants" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>E-mail</th>
+                            <th>Gender</th>
+                            <th>Date of Birth</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <input value="Create" class="btn btn-primary" id="btnCreate" type="submit" />
+        </div>
         @*</form>*@
     </div>
 </div>
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

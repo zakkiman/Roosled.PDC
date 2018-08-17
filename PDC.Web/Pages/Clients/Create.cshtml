@@ -1,6 +1,24 @@
 @page
 @model PDC.Web.Pages.Clients.CreateModel
+@section header{ 
+    <script src="~/js/switchery.js"></script>
+    <link href="~/css/switchery.css" />
+    <script>
+        $(document).ready(function () {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            $('#btnGenerate').click(function () {
+                $('#gUID').val(s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4());
+            });
+            $('#chkAPI').change(function () { 
 
+            });
+        });
+    </script>
+}
 @{
     ViewData["Title"] = "Create Client";
 }
@@ -48,6 +66,27 @@
                         <label asp-for="tClient.address2" class="control-label">&nbsp;</label>
                         <input asp-for="tClient.address2" class="form-control" placeholder="Address 2" />
                         <span asp-validation-for="tClient.address2" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input asp-for="tClient.use_alias" class="checkbox checkbox-inline" type="checkbox" /><label asp-for="tClient.use_alias" style="margin-left:7px; margin-top:5px;">Use Alias</label>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <input asp-for="tClient.use_api" class="checkbox checkbox-inline" type="checkbox" id="chkAPI" /><label asp-for="tClient.use_api" style="margin-left:7px; margin-top:5px;">Use API</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input asp-for="tClient.api_key" class="form-control" placeholder="API Key" id="gUID" />
+                        <span asp-validation-for="tClient.api_key" class="text-danger"></span>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" id="btnGenerate">Generate Key</button>
+                        </span>
                     </div>
                 </div>
             </div>

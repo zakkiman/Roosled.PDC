@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -47,6 +48,8 @@ namespace PDC.Web.Models
         public DateTime create_date { get; set; }
         public string edit_by { get; set; }
         public DateTime edit_date { get; set; }
+        [NotMapped]
+        public string full_name { get { return string.Format("{0} {1}", first_name, last_name); } }
 
         static readonly string PasswordHash = "P@@Sw0rd";
         static readonly string SaltKey = "ENcRyPTBOLT!1234";

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PDC.Web.Models;
 
 namespace PDC.Web.Controller
 {
+    [AllowAnonymous]
     [Produces("application/json")]
     [Route("api/Batch")]
     public class BatchController : ControllerBase
@@ -21,45 +24,45 @@ namespace PDC.Web.Controller
 
         // GET: api/Batch
         [HttpGet]
-        public IEnumerable<tApplicantProgram> GettApplicantProgram()
+        public IEnumerable<tBatch> GettBatch()
         {
-            return _context.tApplicantProgram;
+            return _context.tBatch;
         }
 
         // GET: api/Batch/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GettApplicantProgram([FromRoute] int id)
+        public async Task<Object> GettBatch([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var tApplicantProgram = await _context.tApplicantProgram.SingleOrDefaultAsync(m => m.applicant_program_id == id);
+            var tBatch = await _context.tBatch.Where(m => m.client_id == id && m.approval_status == "Approved").ToListAsync();
 
-            if (tApplicantProgram == null)
+            if (tBatch == null)
             {
                 return NotFound();
             }
 
-            return Ok(tApplicantProgram);
+            return Ok(tBatch);
         }
 
         // PUT: api/Batch/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PuttApplicantProgram([FromRoute] int id, [FromBody] tApplicantProgram tApplicantProgram)
+        public async Task<IActionResult> PuttBatch([FromRoute] int id, [FromBody] tBatch tBatch)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != tApplicantProgram.applicant_program_id)
+            if (id != tBatch.batch_id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(tApplicantProgram).State = EntityState.Modified;
+            _context.Entry(tBatch).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +70,7 @@ namespace PDC.Web.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!tApplicantProgramExists(id))
+                if (!tBatchExists(id))
                 {
                     return NotFound();
                 }
@@ -82,46 +85,27 @@ namespace PDC.Web.Controller
 
         // POST: api/Batch
         [HttpPost]
-        public async Task<IActionResult> PosttBatch([FromBody] tBatch batch)
+        public async Task<Object> PosttBatch([FromBody] tBatch batch)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             batch.approval_status = "Requested";
-            batch.create_by = "System";
+            batch.create_by = batch.create_by;
             batch.create_date = DateTime.Now;
-            batch.edit_by = "System";
+            batch.edit_by = batch.create_by;
             batch.edit_date = DateTime.Now;
             _context.tBatch.Add(batch);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GettBatch", new { id = batch.batch_id }, batch);
+            //return CreatedAtAction("GettBatch", new { id = batch.batch_id }, batch);
+            return batch;
         }
 
-        // DELETE: api/Batch/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletetApplicantProgram([FromRoute] int id)
+        private bool tBatchExists(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var tApplicantProgram = await _context.tApplicantProgram.SingleOrDefaultAsync(m => m.applicant_program_id == id);
-            if (tApplicantProgram == null)
-            {
-                return NotFound();
-            }
-
-            _context.tApplicantProgram.Remove(tApplicantProgram);
-            await _context.SaveChangesAsync();
-            return Ok(tApplicantProgram);
-        }
-
-        private bool tApplicantProgramExists(int id)
-        {
-            return _context.tApplicantProgram.Any(e => e.applicant_program_id == id);
+            return _context.tBatch.Any(e => e.batch_id == id);
         }
     }
 }

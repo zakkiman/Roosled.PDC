@@ -61,11 +61,21 @@ namespace PDC.Web.Models
         public string position { get; set; }
         [StringLength(50, ErrorMessage = "Position cannot be longer than 50 characters")]
         public string position_location { get; set; }
+        [StringLength(250, ErrorMessage = "Position cannot be longer than 250 characters")]
+        public string notes { get; set; }
         public string self_opinion { get; set; }
         public string create_by { get; set; }
         public DateTime create_date { get; set; }
         public string edit_by { get; set; }
         public DateTime edit_date { get; set; }
+        [NotMapped]
+        public string gender_name
+        {
+            get
+            {
+                return Enum.GetName(typeof(Gender), this.gender);
+            }
+        }
         public string full_name { get { return string.Format("{0} {1}", first_name, last_name); } }
         public enum Gender{Male, Female};
     }

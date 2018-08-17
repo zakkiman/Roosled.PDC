@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using PDC.Web.Models;
 
 namespace PDC.Web.Controller
 {
+    [AllowAnonymous]
     [Produces("application/json")]
     [Route("api/BatchDetail")]
     public class BatchDetailController : ControllerBase
@@ -85,7 +87,7 @@ namespace PDC.Web.Controller
 
         // POST: api/BatchDetail
         [HttpPost]
-        public async Task<IActionResult> PosttApplicantProgram([FromBody] tApplicantProgram tApplicantProgram)
+        public async Task<Object> PosttApplicantProgram([FromBody] tApplicantProgram tApplicantProgram)
         {
             if (!ModelState.IsValid)
             {
@@ -150,7 +152,7 @@ namespace PDC.Web.Controller
                 msg.Sender = mailAddress;
                 msg.Subject = "Test";
                 msg.To.Add(new MailAddress("ahmad.zakki@bolt.id", "Ahmad Zakki Bolt"));
-                smtp.Send(msg);
+                //smtp.Send(msg);
                 //end sending email
             }
             catch (Exception ex)
@@ -159,28 +161,8 @@ namespace PDC.Web.Controller
             }
             #endregion
 
-            return CreatedAtAction("GettApplicantProgram", new { id = tApplicantProgram.applicant_program_id }, tApplicantProgram);
-        }
-
-        // DELETE: api/BatchDetail/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletetApplicantProgram([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var tApplicantProgram = await _context.tApplicantProgram.SingleOrDefaultAsync(m => m.applicant_program_id == id);
-            if (tApplicantProgram == null)
-            {
-                return NotFound();
-            }
-
-            _context.tApplicantProgram.Remove(tApplicantProgram);
-            await _context.SaveChangesAsync();
-
-            return Ok(tApplicantProgram);
+            //return CreatedAtAction("GettApplicantProgram", new { id = tApplicantProgram.applicant_program_id }, tApplicantProgram);
+            return tApplicantProgram;
         }
 
         private bool tApplicantProgramExists(int id)

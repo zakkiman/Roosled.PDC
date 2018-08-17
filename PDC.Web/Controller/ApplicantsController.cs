@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using PDC.Web.Models;
 
 namespace PDC.Web.Controller
 {
+    [AllowAnonymous]
     [Produces("application/json")]
     [Route("api/Applicants")]
     public class ApplicantsController : ControllerBase
@@ -26,12 +28,8 @@ namespace PDC.Web.Controller
         [HttpGet]
         public IEnumerable<tApplicant> GettApplicant()
         {
-            IEnumerable<tApplicant> applicants = _context.tApplicant;
-            for(int i = 0; i < applicants.Count(); i++)
-            {
-                
-            }
-            return _context.tApplicant;
+            return (from a in _context.tApplicant.Include(t=> t.client)
+                    select new tApplicant { applicant_id = a.applicant_id, first_name = a.first_name, last_name = a.last_name, status = a.status, email = a.email, dob = a.dob, address1 = a.address1, address2 = a.address2, address3 = a.address3, phone = a.phone, client=(from c in _context.tClient.Where(p=>p.client_id== a.client_id) select new tClient { client_id = c.client_id, client_name = c.client_name }).SingleOrDefault(), gender=a.gender }).ToList();
         }
 
         // GET: api/Applicants/5
@@ -45,85 +43,14 @@ namespace PDC.Web.Controller
 
             //var tApplicant = await _context.tApplicant.SingleOrDefaultAsync(m => m.applicant_id == id);
             //var tApplicant = await _context.tApplicant.Where(m => m.client_id == id).ToListAsync();
-            var tApplicant = await (from a in _context.tApplicant
-                                    where a.client_id == id && a.status == "Approved"
-                                    select new tApplicant { applicant_id = a.applicant_id, first_name = a.first_name, last_name = a.last_name, status = a.status, email = a.email, dob = a.dob }).ToListAsync();
+            var tApplicant = await (from a in _context.tApplicant.Include(t => t.client)
+                                    where a.client_id == id
+                                    select new tApplicant { applicant_id = a.applicant_id, first_name = a.first_name, last_name = a.last_name, status = a.status, email = a.email, dob = a.dob, address1 = a.address1, address2 = a.address2, address3 = a.address3, phone = a.phone, client = (from c in _context.tClient.Where(p => p.client_id == a.client_id) select new tClient { client_id = c.client_id, client_name = c.client_name }).SingleOrDefault(), gender = a.gender }).ToListAsync();
 
             if (tApplicant == null)
             {
                 return NotFound();
             }
-
-            return Ok(tApplicant);
-        }
-
-        // PUT: api/Applicants/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PuttApplicant([FromRoute] int id, [FromBody] tApplicant tApplicant)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != tApplicant.applicant_id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(tApplicant).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!tApplicantExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Applicants
-        [HttpPost]
-        public async Task<IActionResult> PosttApplicant([FromBody] tApplicant tApplicant)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _context.tApplicant.Add(tApplicant);
-            await _context.SaveChangesAsync();
-            
-            return CreatedAtAction("GettApplicant", new { id = tApplicant.applicant_id }, tApplicant);
-        }
-
-        // DELETE: api/Applicants/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletetApplicant([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var tApplicant = await _context.tApplicant.SingleOrDefaultAsync(m => m.applicant_id == id);
-            if (tApplicant == null)
-            {
-                return NotFound();
-            }
-
-            _context.tApplicant.Remove(tApplicant);
-            await _context.SaveChangesAsync();
 
             return Ok(tApplicant);
         }

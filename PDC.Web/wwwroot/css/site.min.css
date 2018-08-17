@@ -1,1 +1,235 @@
 body{padding-bottom:20px}.body-content{padding-left:15px;padding-right:15px}.carousel-caption p{font-size:20px;line-height:1.4}.carousel-inner .item img[src$=".svg"]{width:100%}#qrCode{margin:15px}@media screen and (max-width:767px){.carousel-caption{display:none}}
+body {
+    padding-bottom: 20px;
+    background-image: url(../images/background.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #999;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+table th, td {
+    font-weight: bold;
+}
+
+fieldset.authorization-border {
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+}
+
+.se-pre-con {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url(../images/Preloader_3.gif) center no-repeat #fff;
+}
+
+legend.authorization-border {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width: auto;
+    padding: 0 10px;
+    border-bottom: none;
+}
+
+@import "compass/css3";
+
+@-webkit-keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.Requested {
+    background-color: grey;
+    color: #fff;
+}
+
+.Approved {
+    background-color: green;
+    color: #fff;
+}
+
+.Rejected {
+    background-color: red;
+    color: #fff;
+}
+
+.Pending {
+    background-color: lime;
+    color: #fff;
+}
+
+.columns .ui-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+    background-color: transparent;
+    border: solid 1px #D5D5D5
+}
+
+    .columns .ui-table thead {
+        background-color: #E5E5E5
+    }
+
+        .columns .ui-table thead th {
+            background-color: transparent;
+            color: #222222;
+            padding: 10px;
+            border-right: solid 1px #D5D5D5;
+            cursor: pointer
+        }
+
+            .columns .ui-table thead th.ui-table-sort-up, .columns .ui-table thead th.ui-table-sort-down {
+                background-color: #CCCCCC
+            }
+
+            .columns .ui-table thead th:last-child {
+                border-right: 0px
+            }
+
+            .columns .ui-table thead th .ui-arrow {
+                float: right;
+                font-size: 10px
+            }
+
+    .columns .ui-table tbody {
+        background-color: transparent
+    }
+
+        .columns .ui-table tbody tr.ui-table-rows-odd {
+            background-color: #F2F2F2
+        }
+
+        .columns .ui-table tbody tr.ui-table-rows-even {
+            background: #FFFFFF
+        }
+
+        .columns .ui-table tbody tr td {
+            background: transparent;
+            border-right: solid 1px #D5D5D5;
+            color: #656565;
+            padding: 10px
+        }
+
+.columns .ui-table-controls span {
+    font-size: 12px;
+    padding: 5px;
+    vertical-align: middle
+}
+
+    .columns .ui-table-controls span.ui-table-control-next, .columns .ui-table-controls span.ui-table-control-prev {
+        cursor: pointer;
+        font-family: "Arial Narrow";
+        font-size: 16px
+    }
+
+    .columns .ui-table-controls span.ui-table-control-disabled {
+        color: #999999;
+        font-family: "Arial Narrow";
+        font-size: 16px
+    }
+
+.columns .ui-table-footer {
+    width: 100%;
+    padding: 8px 0;
+    font-size: 11px;
+    text-align: left;
+    color: #333
+}
+
+    .columns .ui-table-footer span {
+        vertical-align: middle
+    }
+
+    .columns .ui-table-footer .ui-table-show-rows, .columns .ui-table-footer .ui-table-results, .columns .ui-table-footer .ui-table-controls {
+        display: inline-block;
+        width: 32%
+    }
+
+    .columns .ui-table-footer .ui-table-show-rows {
+        padding-left: 20px
+    }
+
+    .columns .ui-table-footer .ui-table-results {
+        text-align: center
+    }
+
+    .columns .ui-table-footer .ui-table-controls {
+        text-align: right
+    }
+
+    .columns .ui-table-footer .ui-table-control-next, .columns .ui-table-footer .ui-table-control-prev, .columns .ui-table-footer .ui-table-control-disabled {
+        display: inline-block;
+        background-color: transparent;
+        padding: 5px;
+        vertical-align: middle;
+        cursor: pointer;
+        text-align: center
+    }
+
+        .columns .ui-table-footer .ui-table-control-disabled img {
+            opacity: 0.5
+        }
+
+.columns .ui-columns-search {
+    text-align: right
+}
+
+    .columns .ui-columns-search input {
+        width: 200px;
+        border-radius: 10px;
+        padding: 4px 10px 4px 25px;
+        border: 2px solid #ccc;
+        background-image: url(../images/search.png);
+        background-position: 5px center;
+        background-repeat: no-repeat
+    }
+
+        .columns .ui-columns-search input:focus {
+            border: 2px solid #6196CD;
+            outline: none
+        }

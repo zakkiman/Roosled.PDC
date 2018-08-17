@@ -13,33 +13,13 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.tUser[0].first_name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tUser[0].last_name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tUser[0].email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tUser[0].status)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tUser[0].last_login)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tUser[0].create_by)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tUser[0].create_date)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tUser[0].edit_by)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tUser[0].edit_date)
-                </th>
+            <th>@Html.DisplayNameFor(model => model.tUser[0].UserName)</th>
+            <th>
+                @Html.DisplayNameFor(model => model.tUser[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tUser[0].EmailConfirmed)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -47,36 +27,18 @@
 @foreach (var item in Model.tUser) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.first_name)
+                @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.last_name)
+                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.email)
+                @Html.DisplayFor(modelItem => item.EmailConfirmed)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.last_login)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.create_by)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.create_date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.edit_by)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.edit_date)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.user_id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.user_id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.user_id">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

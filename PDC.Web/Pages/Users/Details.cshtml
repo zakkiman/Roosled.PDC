@@ -12,62 +12,20 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.tUser.first_name)
+            @Html.DisplayNameFor(model => model.tUser.UserName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.tUser.first_name)
+            @Html.DisplayFor(model => model.tUser.UserName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.tUser.last_name)
+            @Html.DisplayNameFor(model => model.tUser.Email)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.tUser.last_name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tUser.email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.tUser.email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tUser.status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.tUser.status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tUser.last_login)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.tUser.last_login)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tUser.create_by)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.tUser.create_by)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tUser.create_date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.tUser.create_date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tUser.edit_by)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.tUser.edit_by)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.tUser.edit_date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.tUser.edit_date)
+            @Html.DisplayFor(model => model.tUser.Email)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.tUser.user_id">Edit</a> |
+    <a asp-page="./Edit" asp-route-id="@Model.tUser.Id">Edit</a> |
     <a asp-page="./Index">Back to List</a>
 </div>

@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - eLearning</title>
     <environment include="Development">
-        <link rel="stylesheet" href="~/css/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/bootstrap/dist/css/bootstrap-theme.css" />
+        <link rel="stylesheet" href="~/css/bootstrap.css" />
+        @*<link rel="stylesheet" href="~/css/bootstrap-theme.css" />*@
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="~/css/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/bootstrap/dist/css/bootstrap-theme.css" />
+        <link rel="stylesheet" href="~/css/bootstrap.css" />
+        @*<link rel="stylesheet" href="~/css/bootstrap-theme.css" />*@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
     <link href="~/css/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -19,13 +19,14 @@
     <script src="~/js/bootstrap-3.3.7.min.js"></script>
     <script src="~/css/moment/moment.js"></script>
     <script src="~/js/smartresize.js"></script>
-    @*<script src="~/js/custom.min.js"></script>*@
-
-    <link href="~/css/animate.css/animate.min.css" rel="stylesheet">
-    <link href="~/css/nprogress/nprogress.css" rel="stylesheet" />
-    <link href="~/css/custom.min.css" rel="stylesheet" />
+    <script src="~/js/icheck.js"></script>
     <script src="~/js/custom.js"></script>
-    @RenderSection("header", required: false)
+    @*<script src="~/js/custom.min.js"></script>*@
+    @*<link href="~/css/animate.css/animate.min.css" rel="stylesheet">
+        <link href="~/css/nprogress/nprogress.css" rel="stylesheet" />*@
+    <link href="~/css/custom.min.css" rel="stylesheet" />
+    <link href="~/css/NewFolder/skins/flat/green.css" />
+    <link href="~/css/clean.css" />
     <script>
         $(document).ready(function () {
             $('.side-menu li').click(function () {
@@ -41,18 +42,26 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("body").prepend('<div id="overlay" class="overlay" style="z-index: 1001; display: none;"><div><img src="/images/loading-infinity.gif"/></div></div>');
+            $('#overlay').hide();
             $('form').submit(function () {
                 //var pass = true;
                 ////some validations
 
                 //if (pass == false) {
                 //    return false;
+                //} else {
+                //    return true;
                 //}
-                $("#overlay").show();S
+                $("#overlay").show();
 
                 return true;
             });
+        });
+        $(document).ajaxStart(function () {
+            $("#loadingDiv").css("display", "block");
+        });
+        $(document).ajaxComplete(function () {
+            $("#loadingDiv").css("display", "none");
         });
     </script>
     <script type="text/javascript">
@@ -60,23 +69,6 @@
             // Animate loader off screen
             $(".se-pre-con").fadeOut("slow");
         });
-    </script>
-    <script language="javascript" type="text/javascript">
-        /*  jQuery ready function. Specify a function to execute when the DOM is fully loaded.  */
-        $(document).ready(
-            /* This is the function that will get executed after the DOM is fully loaded */
-            function () {
-                /* Next part of code handles hovering effect and submenu appearing */
-                $('.nav li').hover(
-                    function () { //appearing on hover
-                        $('ul', this).fadeIn();
-                    },
-                    function () { //disappearing on hover
-                        $('ul', this).fadeOut();
-                    }
-                );
-            }
-        );
     </script>
     <style>
         .overlay {
@@ -88,30 +80,34 @@
             background: rgba(51,51,51,0.7);
             opacity: 0.4;
         }
-
-            .overlay img {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 300px;
-                height: 300px;
-                margin-top: -150px; /* Half the height */
-                margin-left: -150px;
-            }
+        #loadingDiv {
+            display: none;
+        }
+        .overlay img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            margin-top: -150px; /* Half the height */
+            margin-left: -150px;
+        }
     </style>
+    @RenderSection("header", required: false)
 </head>
 <body class="nav-md">
+    <div id="overlay" class="overlay" style="z-index: 1001; display:none;"><div><img src="/images/loading-infinity.gif" /></div></div>
     <div class="se-pre-con"></div>
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>PDC</span></a>
+                        <a href="/" class="site_title"><img src="~/images/logo.png" class="profile_pic" /><span> PDC</span></a>
                     </div>
                     <div class="clearfix"></div>
                     <!-- menu profile quick info -->
-                    <div class="profile clearfix">
+                    <div class="profile clearfix" style="display:none;">
                         <div class="profile_pic">
                             <img src="~/images/img.jpg" alt="..." class="img-circle profile_img">
                         </div>
@@ -133,36 +129,51 @@
                                     <a data-toggle="collapse" href="#collapseForm" data-parent="#menu_section"><i class="fa fa-edit"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                                     <div class="collapse" id="collapseForm" data-parent="#sidebar-menu">
                                         <ul class="nav child_menu" style="display: block;">
+                                            @if (User.IsInRole("Admin"))
+                                            {
                                             <li><a href="~/Clients">Clients</a></li>
+                                            }
                                             <li><a href="~/Applicants">Applicants</a></li>
-                                            <li><a href="~/Questions">Questions</a></li>
-                                            <li><a href="~/Types">Types</a></li>
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <li><a href="~/Questions">Questions</a></li>
+                                                <li><a href="~/Types">Types</a></li>
+                                            }
                                         </ul>
                                         <hr />
+                                        @if (User.IsInRole("Admin"))
+                                        {
                                         <ul class="nav child_menu" style="display: block;">
                                             <li><a href="~/Provinces">Provinces</a></li>
                                             <li><a href="~/Cities">Cities</a></li>
                                         </ul>
+                                        }
                                     </div>
                                 </li>
                                 <li>
                                     <a data-toggle="collapse" href="#collapseLayout" data-parent="#menu_section"><i class="fa fa-clone"></i>Programs &amp; Batches <span class="fa fa-chevron-down"></span></a>
                                     <div class="collapse" id="collapseLayout" data-parent="#menu_section">
                                         <ul class="nav child_menu" style="display: block;">
-                                            <li><a href="~/Programs">Programs</a></li>
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                           <li><a href="~/Programs">Programs</a></li>
+                                            }
                                             <li><a href="~/Batches">Batches</a></li>
                                         </ul>
                                     </div>
                                 </li>
+                                @if (User.IsInRole("Admin"))
+                                {
                                 <li>
                                     <a data-toggle="collapse" href="#collapseElement" data-parent="#menu_section"><i class="fa fa-key"></i> Access <span class="fa fa-chevron-down"></span></a>
                                     <div class="collapse" id="collapseElement" data-parent="#sidebar-menu">
                                         <ul class="nav child_menu" style="display: block;">
-                                            <li><a href="~/Groups">Groups</a></li>
+                                            <li><a href="~/Roles">Roles</a></li>
                                             <li><a href="~/Users">Users</a></li>
                                         </ul>
                                     </div>
                                 </li>
+                                }
                                 <li>
                                     <a data-toggle="collapse" href="#collapseTables" data-parent="#menu_section"><i class="fa fa-table"></i> Reports <span class="fa fa-chevron-down"></span></a>
                                     <div class="collapse" id="collapseTables" data-parent="#menu_section">
@@ -171,106 +182,26 @@
                                         </ul>
                                     </div>
                                 </li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a data-toggle="collapse" href="#collapseConfig" data-parent="#menu_section"><i class="fa fa-gear"></i> Configuration <span class="fa fa-chevron-down"></span></a>
+                                        <div class="collapse" id="collapseConfig" data-parent="#menu_section">
+                                            <ul class="nav child_menu" style="display:block;">
+                                                <li><a href="~/Configuration">Configuration</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
                     <!-- /sidebar menu -->
                 </div>
             </div>
-            <div class="top_nav">
-                <div class="nav_menu">
-                    <nav>
-                        <div class="nav toggle invisible">
-                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                        </div>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="~/images/img.jpg" alt="">John Doe
-                                    <span class=" fa fa-angle-down"></span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="javascript:;"> Profile</a></li>
-                                    <li>
-                                        <a href="javascript:;">
-                                            <span class="badge bg-red pull-right">50%</span>
-                                            <span>Settings</span>
-                                        </a>
-                                    </li>
-                                    <li><a href="javascript:;">Help</a></li>
-                                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                                </ul>
-                            </li>
-                            <li role="presentation" class="dropdown invisible">
-                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span class="badge bg-green">6</span>
-                                </a>
-                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="~/images/img.jpg" alt="Profile Image"></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="~/images/img.jpg" alt="Profile Image"></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="~/images/img.jpg" alt="Profile Image"></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="~/images/img.jpg" alt="Profile Image"></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="text-center">
-                                            <a>
-                                                <strong>See All Alerts</strong>
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+            @await Html.PartialAsync("_LoginPartial")
 
-            <div class="right_col" role="main" style="min-height: 1006px;">
+            <div class="right_col" role="main" style="min-height:800px;">
                 @RenderBody()
                 <br>
             </div>
@@ -280,14 +211,19 @@
             </footer>
         </div>
     </div>
-
     <environment include="Development">
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.columns-1.0.min.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.columns-1.0.min.js" asp-append-version="true"></script>
     </environment>
-
+    <script>
+        window.addEventListener('unload', function (event) {
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        });
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

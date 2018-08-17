@@ -54,6 +54,27 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input asp-for="tClient.use_alias" class="checkbox checkbox-inline" type="checkbox" /><label asp-for="tClient.use_alias" style="margin-left:7px; margin-top:5px;">Use Alias</label>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <input asp-for="tClient.use_api" class="checkbox checkbox-inline" type="checkbox" id="chkAPI" /><label asp-for="tClient.use_api" style="margin-left:7px; margin-top:5px;">Use API</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input asp-for="tClient.api_key" class="form-control" placeholder="API Key" id="gUID" />
+                        <span asp-validation-for="tClient.api_key" class="text-danger"></span>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" id="btnGenerate">Generate Key</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

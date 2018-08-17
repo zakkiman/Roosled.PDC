@@ -86,3 +86,7 @@ div[data-role="editor-toolbar"] {
 .fs-Five {
 	font-size: x-large;
 }
+@page {
+    size: auto; /* auto is the current printer page size */
+    margin: 0mm; /* this affects the margin in the printer settings */
+}

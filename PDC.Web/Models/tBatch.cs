@@ -22,6 +22,8 @@ namespace PDC.Web.Models
         [StringLength(50)]
         public string approved_by { get; set; }
         public string approved_date { get; set; }
+        [DefaultValue(false)]
+        public bool isExpired { get; set; }
         [ForeignKey("client_id")]
         public tClient client { get; set; }
         public int client_id { get; set; }
