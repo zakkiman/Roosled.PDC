@@ -44,6 +44,15 @@
         $(document).ready(function () {
             $('#overlay').hide();
             $('form').submit(function () {
+                if ($(this).valid()) {
+                    alert('the form is valid');
+                    $("#overlay").show();
+                    return true;
+                } else {
+                    alert('Missing required field(s)');
+                    $("#overlay").hide();
+                    return false;
+                }
                 //var pass = true;
                 ////some validations
 
@@ -52,9 +61,6 @@
                 //} else {
                 //    return true;
                 //}
-                $("#overlay").show();
-
-                return true;
             });
         });
         $(document).ajaxStart(function () {

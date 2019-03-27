@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PDC.Web.Data;
+using PDC.Web.Helper;
 using PDC.Web.Models;
 using PDC.Web.Services;
 
@@ -83,7 +84,6 @@ namespace PDC.Web
                                  .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,19 +105,20 @@ namespace PDC.Web
 
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
+                //app.UseBrowserLink();
+                //app.UseDeveloperExceptionPage();
+                //app.UseDatabaseErrorPage();
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                //app.UseExceptionHandler("/Error");
+                app.UseMiddleware<ExceptionHandler>();
             }
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc();
-
-            CreateUserRoles(services).Wait();
+            //CreateUserRoles(services).Wait();
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)

@@ -26,7 +26,8 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="tApplicant.middle_name" class="control-label">User Name</label>
-                        <input asp-for="tApplicant.middle_name" class="form-control" placeholder="User Name" />
+                        <input asp-for="tApplicant.middle_name" class="form-control" placeholder="User Name" required />
+                        <span asp-validation-for="tApplicant.middle_name" class="text-danger">User name cannot be empty</span>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -87,19 +88,19 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="tApplicant.id_number" class="control-label">ID Number</label>
-                        <input type="text" asp-for="tApplicant.id_number" class="form-control" placeholder="ID Number" />
+                        <input type="text" asp-for="tApplicant.id_number" class="form-control" placeholder="ID Number" required  />
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label asp-for="tApplicant.last_education" class="control-label">Last Education</label>
-                        <input type="text" asp-for="tApplicant.last_education" class="form-control" />
+                        <input type="text" asp-for="tApplicant.last_education" class="form-control" required  />
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="tApplicant.last_education_location" class="control-label">At</label>
-                        <input type="text" asp-for="tApplicant.last_education_location" class="form-control" />
+                        <input type="text" asp-for="tApplicant.last_education_location" class="form-control" required  />
                     </div>
                 </div>
             </div>
@@ -107,19 +108,19 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="tApplicant.last_job" class="control-label">Last Occupation</label>
-                        <input type="text" asp-for="tApplicant.last_job" class="form-control" />
+                        <input type="text" asp-for="tApplicant.last_job" class="form-control" required  />
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="tApplicant.last_job_location" class="control-label">At</label>
-                        <input type="text" asp-for="tApplicant.last_job_location" class="form-control" />
+                        <input type="text" asp-for="tApplicant.last_job_location" class="form-control" required  />
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="tApplicant.position" class="control-label">Last Position</label>
-                        <input type="text" asp-for="tApplicant.position" class="form-control" />
+                        <input type="text" asp-for="tApplicant.position" class="form-control" required  />
                     </div>
                 </div>
             </div>

@@ -1,0 +1,82 @@
+﻿@page
+@model PDC.Web.Pages.Reports.Preview.ScoreModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/css/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <script src="~/js/jquery-2.2.4.min.js"></script>
+    <script src="~/js/bootstrap-3.3.7.min.js"></script>
+    <script src="~/css/moment/moment.js"></script>
+    <!--[if lte IE 8]>
+        <script language="javascript" type="text/javascript" src="/js/flot/excanvas.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="~/js/Chart.bundle.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.time.js"></script>
+    <script type="text/javascript" src="~/js/jshashtable-2.1.js"></script>
+    <script type="text/javascript" src="~/js/jquery.numberformatter-1.2.3.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.symbol.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.axislabels.js"></script>
+    <script src="~/css/tinymce/tinymce.min.js"></script>
+    <script src="~/js/magnifiy.js"></script>
+    <link href="~/css/magnify.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <style>
+        main {
+            position: relative;
+            background: white;
+            height: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            resize: both;
+            overflow: auto;
+        }
+
+            main div {
+                transform: translate(-50%, -50%);
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                padding: 20px;
+                resize: both;
+                overflow: auto;
+            }
+    </style>
+</head>
+<body>
+    <main>
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Type</th>
+                        <th>Raw Score</th>
+                        <th>Z-Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int rowNum = 0;
+                                foreach (var item in Model.rangkings)
+                                {
+                        <tr>
+                            <td>@(rowNum += 1)</td>
+                            <td>@item.type.type_name</td>
+                            <td>@item.rawScore</td>
+                            <td>@item.zScore</td>
+                        </tr>
+                                }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

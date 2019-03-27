@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using PDC.Web.Models;
-using Rotativa.NetCore;
 
 namespace PDC.Web.Pages.Reports
 {
@@ -118,7 +117,7 @@ namespace PDC.Web.Pages.Reports
             int age = 0;
             int years = DateTime.Now.Year - tApplicantProgram.applicant.dob.Year;
             DateTime birthdayThisYear = tApplicantProgram.applicant.dob.AddYears(years);
-            string graphic = "<div class=\"col-md-12\"><div class=\"row\"><div class=\"col-md-12\"> <canvas id=\"canvas\" width=\"450\" height=\"140\"></canvas></div></div><div class=\"row\"><div class=\"col-md-12\"><h4>Evolutionary and Domain Personality :</h4><table class=\"table table-bordered table-hover\" title=\"\"><thead><tr style=\"background-color:#000; color:#fff; font-size:.9em; text-align:center; width:50%\"><td>Personality</td><td>Pain >< Pleasure</td><td>Passive >< Active</td><td>Self >< Other</td></tr></thead><tbody>";
+            string graphic = "<div class=\"col-md-12\"><div class=\"row\"><div class=\"col-md-12\"> <canvas id=\"canvas\" width=\"450\" height=\"200\"></canvas></div></div><div class=\"row\"><div class=\"col-md-12\"><h4>Evolutionary and Domain Personality :</h4><table style=\"border: 1px solid #ddd;width:100%;max-width:100%;margin-bottom:20px;\" title=\"\"><thead><tr style=\"background-color:#000; color:#fff; font-size:.9em; text-align:center; width:50%\"><td>Personality</td><td>Pain >< Pleasure</td><td>Passive >< Active</td><td>Self >< Other</td><td>Score</td></tr></thead><tbody>";
             for (int i = 0; i < 4; i++)
             {
                 graphic += "<tr style=\"text-align:center;\">";
@@ -126,6 +125,7 @@ namespace PDC.Web.Pages.Reports
                 graphic += "<td>" + rangkings[i].type.pain_pleasure + "</td>";
                 graphic += "<td>" + rangkings[i].type.passive_active + "</td>";
                 graphic += "<td>" + rangkings[i].type.self_other + "</td>";
+                graphic += "<td>" + rangkings[i].zScore.ToString("#.###0") + "</td>";
             }
             graphic += "</tbody></table></div></div></div>";
             age = birthdayThisYear > DateTime.Now ? years - 1 : years;
@@ -138,10 +138,9 @@ namespace PDC.Web.Pages.Reports
             {
                 return NotFound();
             }
-
-            return new ViewAsPdf();
-
-            //return Page();
+            //var report = new Rotativa.NetCore.ActionAsPdf("OnGetAsync");
+            //return report;
+            return Page();
         }
     }
 }

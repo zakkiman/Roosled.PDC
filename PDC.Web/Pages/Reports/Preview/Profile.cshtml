@@ -1,0 +1,72 @@
+﻿@page
+@model PDC.Web.Pages.Reports.Preview.CreateModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/css/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <script src="~/js/jquery-2.2.4.min.js"></script>
+    <script src="~/js/bootstrap-3.3.7.min.js"></script>
+    <script src="~/css/moment/moment.js"></script>
+    <!--[if lte IE 8]>
+        <script language="javascript" type="text/javascript" src="/js/flot/excanvas.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="~/js/Chart.bundle.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.time.js"></script>
+    <script type="text/javascript" src="~/js/jshashtable-2.1.js"></script>
+    <script type="text/javascript" src="~/js/jquery.numberformatter-1.2.3.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.symbol.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.axislabels.js"></script>
+    <script src="~/css/tinymce/tinymce.min.js"></script>
+    <script src="~/js/magnifiy.js"></script>
+    <link href="~/css/magnify.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+
+<h4>tAppllicantAnswer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="tAppllicantAnswer.applicant_id" class="control-label"></label>
+                <select asp-for="tAppllicantAnswer.applicant_id" class ="form-control" asp-items="ViewBag.applicant_id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="tAppllicantAnswer.answer_id" class="control-label"></label>
+                <select asp-for="tAppllicantAnswer.answer_id" class ="form-control" asp-items="ViewBag.answer_id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="tAppllicantAnswer.selected_time" class="control-label"></label>
+                <input asp-for="tAppllicantAnswer.selected_time" class="form-control" />
+                <span asp-validation-for="tAppllicantAnswer.selected_time" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tAppllicantAnswer.applicant_program_id" class="control-label"></label>
+                <select asp-for="tAppllicantAnswer.applicant_program_id" class ="form-control" asp-items="ViewBag.applicant_program_id"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

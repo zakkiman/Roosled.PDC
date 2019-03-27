@@ -4,7 +4,7 @@
     <!--[if lte IE 8]>
         <script language="javascript" type="text/javascript" src="/js/flot/excanvas.min.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="~/js/Chart.bundle.js"></script>
+    <script type="text/javascript" src="~/js/Chart.js"></script>
     <script type="text/javascript" src="~/js/jquery.flot.min.js"></script>
     <script type="text/javascript" src="~/js/jquery.flot.time.js"></script>
     <script type="text/javascript" src="~/js/jshashtable-2.1.js"></script>
@@ -12,81 +12,11 @@
     <script type="text/javascript" src="~/js/jquery.flot.symbol.js"></script>
     <script type="text/javascript" src="~/js/jquery.flot.axislabels.js"></script>
     <script src="~/css/tinymce/tinymce.min.js"></script>
-    <script>
-        var horizontalBarChartData = {
-            labels: [@for (int i = 0; i < 4; i++)
-                    {
-                        if (i < 3) {
-                            @: "@Model.rangkings[i].type.type_name",
-                        } else {
-                            @: "@Model.rangkings[i].type.type_name"
-                        }
-                    }
-                    @for(int j=0; j < Model.rangkings.Count; j++)
-                    {
-                        if (Model.rangkings[j].type.type_name.ToUpper() == "BORDERLINE" && Model.rangkings[j].zScore > 0)
-                        {
-                            @: ,"@Model.rangkings[j].type.type_name" 
-                        }
-                    }
-            ],
-            datasets: [{
-                label: 'Z-Score',
-                backgroundColor: "rgba(220,220,220,0.5)",
-                data: [
-                        @for (int i = 0; i < 4; i++)
-                        {
-                            if (i < 3) {
-                                @: @Model.rangkings[i].zScore,
-                            } else {
-                                @: @Model.rangkings[i].zScore
-                            }
-                        }
-                        @for(int j=0; j < Model.rangkings.Count; j++)
-                        {
-                            if (Model.rangkings[j].type.type_name.ToUpper() == "BORDERLINE" && Model.rangkings[j].zScore > 0)
-                            {
-                                @: ,@Model.rangkings[j].zScore
-                            }
-                        }
-                ]
-            }]
-        };
+    <script type="text/javascript" src="~/js/jspdf.min.js"></script>
+    <script type="text/javascript" src="~/js/html2canvas.js"></script>
+    <script src="~/js/magnifiy.js"></script>
+    <link href="~/css/magnify.css" rel="stylesheet" />
 
-        window.onload = function () {
-            var ctx = document.getElementById("canvas").getContext("2d");
-            window.myHorizontalBar = new Chart(ctx, {
-                type: 'horizontalBar',
-                data: horizontalBarChartData,
-                options: {
-                    // Elements options apply to all of the options unless overridden in a dataset
-                    // In this case, we are setting the border of each horizontal bar to be 2px wide and green
-                    elements: {
-                        rectangle: {
-                            borderWidth: 2,
-                            borderColor: 'rgb(0, 255, 0)',
-                            borderSkipped: 'left'
-                        }
-                    },
-                    responsive: true,
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Profile Graphic'
-                    }
-                }
-            });
-        };
-    </script>
-    <style>
-        canvas {
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-        }
-    </style>
     <script>
         tinymce.init({
             selector: 'textarea',
@@ -100,6 +30,28 @@
             toolbar: 'undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            $('#divImage').magnificPopup({
+                type: 'image',
+                delegate: 'a',
+                gallery: {
+                    enabled: true
+                }, navigateByImgClick: true,
+                arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>',
+                tPrev: 'Previous (Left arrow key)',
+                tNext: 'Next (Right arrow key)',
+                tCounter: '<span class="mfp-counter">%curr% of %total%</span>'
+            });
+        });
+    </script>
+    <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
 }
 @{
     ViewData["Title"] = "Reports - Detail";
@@ -113,49 +65,47 @@
     <div class="row">
         <div class="col-md-6">
             <dl class="dl-horizontal">
-                @if (Model.answers != null)
+                <dt>Batch Name</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.applicantProgram.batch.batch_name)
+                </dd>
+                <dt>Start</dt>
+                <dd>
+                    @Model.applicantProgram.batch.batch_start.ToString("dd MMM yyyy HH:mm")
+                </dd>
+                <dt>End</dt>
+                <dd>
+                    @Model.applicantProgram.batch.batch_end.ToString("dd MMM yyyy HH:mm")
+                </dd>
+                <dt>Client</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.applicantProgram.applicant.client.client_name)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                <dt>Name</dt>
+                <dd>@Html.DisplayFor(model => model.applicantProgram.applicant.full_name)</dd>
+                <dt>E-mail</dt>
+                <dd>@Html.DisplayFor(model => model.applicantProgram.applicant.email)</dd>
+            </dl>
+        </div>
+        <div class="col-md-2">
+            <div id="divImage">
+                @if (Model.applicantHistory.Count <= 0)
                 {
-                    @if (Model.answers.Count > 0)
-                    {
-                        <dt>Batch Name</dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_name)
-                        </dd>
-                        <dt>Start</dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_start);
-                        </dd>
-                        <dt>End</dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.answers[0].applicant_program.batch.batch_end)
-                        </dd>
-                        <dt>Client</dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.answers[0].applicant_program.batch.client.client_name)
-                        </dd>
-                    }
+                    <a href="#">
+                        <img src="" alt="no-image" id="imgApplicant" height="200" />
+                    </a>
                 }
                 else
                 {
-
+                    <a href="@Model.applicantHistory[0].photo" class="image-link">
+                        <img src="@Model.applicantHistory[0].photo" alt="no-image" id="imgApplicant" class="img-rounded" height="80px" />
+                    </a>
                 }
-            </dl>
-        </div>
-        <div class="col-md-6">
-
-            <dl class="dl-horizontal">
-                @if (Model.answers != null)
-                {
-                    @if (Model.answers.Count > 0)
-                    {
-                        <dt>Name</dt>
-                        <dd>@Html.DisplayFor(model => model.answers[0].applicant.full_name)</dd>
-                        <dt>E-mail</dt>
-                        <dd>@Html.DisplayFor(model => model.answers[0].applicant.email)</dd>
-                    }
-
-                }
-            </dl>
+            </div>
         </div>
     </div>
     <hr />
@@ -165,25 +115,27 @@
         <li role="presentation"><a href="#list" aria-controls="list" role="tab" data-toggle="tab">Check List</a></li>
         <li role="presentation"><a href="#answer" aria-controls="answer" role="tab" data-toggle="tab">Answer List</a></li>
         <li role="presentation"><a href="#profiling" aria-controls="profiling" role="tab" data-toggle="tab">Profile</a></li>
+        <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab">History</a></li>
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="graphic">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12">
-                        <canvas id="canvas" width="450" height="140"></canvas>
+                        <canvas id="canvas" style="height:200px; width:450px;" class="canvas"></canvas>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <h4>Evolutionary and Domain Personality :</h4>
-                        <table class="table table-bordered table-hover" title="">
+                        <table class="table table-bordered table-responsive">
                             <thead>
                                 <tr style="background-color:#000; color:#fff; font-size:.9em; text-align:center; width:50%">
                                     <td>Personality</td>
                                     <td>Pain >< Pleasure</td>
                                     <td>Passive >< Active</td>
                                     <td>Self >< Other</td>
+                                    <td>Score</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -194,6 +146,7 @@
                                         <td>@Model.rangkings[i].type.pain_pleasure</td>
                                         <td>@Model.rangkings[i].type.passive_active</td>
                                         <td>@Model.rangkings[i].type.self_other</td>
+                                        <td>@Model.rangkings[i].zScore.ToString("#.###0")</td>
                                     </tr>
                                 }
                             </tbody>
@@ -268,7 +221,7 @@
             </div>
         </div>
         <div id="answer" class="tab-pane" role="tabpanel">
-            <table class="table table-responsive table-bordered table-hover">
+            <table class="table table-responsive table-bordered table-hover" id="tblAnswer">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -278,10 +231,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @{ int rowNo = 0; }
                     @foreach (var item in Model.answers)
                     {
                         <tr>
-                            <td></td>
+                            <td>@(rowNo += 1)</td>
                             <td>
                                 <span class="count_top">@item.answer.question.question_detail</span><br />
                                 @if (User.IsInRole("Admin"))
@@ -307,7 +261,7 @@
                     <div class="col-md-12">
                         <input type="hidden" asp-for="applicantProgram.applicant_program_id" />
                         <div style="padding:10px; margin:15px;">
-                            <div class="btn-group" style="margin-bottom:5px;">
+                            <div class="btn-group" style="margin-bottom:5px; display:none;">
                                 <button type="button" class="btn btn-danger">Insert</button>
                                 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <span class="caret"></span>
@@ -343,21 +297,224 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div style="padding:10px; margin:15px;">
                             <input type="submit" value="Save Profile" class="btn btn-default" />
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div style="padding:10px; margin:15px;">
-                            <a href="./Preview?id=@Model.applicantProgram.applicant_program_id&app=@Model.applicantProgram.applicant_id" class="btn btn-info" target="_blank">Preview</a>
-                        </div>
+                    <div class="col-md-2">
+                        @if (Model.answers != null)
+                        {
+                            <div style="padding:10px; margin:15px;">
+                                <a href="./Preview/Index?id=@Model.applicantProgram.applicant_program_id&app=@Model.applicantProgram.applicant_id" class="btn btn-info" target="_blank">Preview</a>
+                            </div>
+                        }
                     </div>
                 </div>
             </form>
         </div>
+        <div id="history" class="tab-pane">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Question</th>
+                                <th>Answer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.history)
+                            {
+                                <tr>
+                                    <td>@item.applicant_program.applicant.full_name</td>
+                                    <td>@item.answer.question.question_detail</td>
+                                    <td>@item.answer.answer_detail</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+    </script>
+    <script>
+        var horizontalBarChartData = {
+            labels: [@for (int i = 0; i < Model.rangkings.Count; i++)
+            {
+                if (i < Model.rangkings.Count - 1)
+                {
+                    @: "@Model.rangkings[i].type.type_name",
+                }
+                else
+                {
+                    @: "@Model.rangkings[i].type.type_name"
+                }
+            }
+                    @*@for (int j = 0; j < Model.rangkings.Count; j++)
+                    {
+                        if (Model.rangkings[j].type.type_name.ToUpper() == "BORDERLINE" && Model.rangkings[j].zScore > 0)
+                        {
+                            @: ,"@Model.rangkings[j].type.type_name"
+                        }
+                    }*@
+            ],
+            datasets: [{
+                label: 'Z-Score',
+                backgroundColor: "rgba(220,220,220,0.5)",
+                data: [
+                        @for (int i = 0; i < Model.rangkings.Count; i++)
+                        {
+                            if (i < Model.rangkings.Count - 1) {
+                                @: @Model.rangkings[i].zScore.ToString("#.###0"),
+                            } else {
+                                @: @Model.rangkings[i].zScore.ToString("#.###0")
+                            }
+                        }
+                        @*@for (int j = 0; j < Model.rangkings.Count; j++)
+                        {
+                            if (Model.rangkings[j].type.type_name.ToUpper() == "BORDERLINE" && Model.rangkings[j].zScore > 0)
+                            {
+                                @: ,@Model.rangkings[j].zScore
+                            }
+                        }*@
+                ]
+            }]
+        };
+
+        var ctx = document.getElementById("canvas").getContext("2d");
+        window.myHorizontalBar = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: horizontalBarChartData,
+            options: {
+                // Elements options apply to all of the options unless overridden in a dataset
+                // In this case, we are setting the border of each horizontal bar to be 2px wide and green
+                elements: {
+                    rectangle: {
+                        borderWidth: 2,
+                        borderColor: 'rgb(0, 255, 0)',
+                        borderSkipped: 'left'
+                    }
+                },
+                //responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Profile Graphic'
+                }
+            },
+            animation: {
+                duration: 1500,
+                onComplete: function (animation) {
+                    document.getElementById('imgGraph').setAttribute('src', this.toBase64Image());
+                    alert(this.toBase64Image());
+                }
+            }
+        });
+    </script>
+    <script>
+
+        margins = {
+            top: 70,
+            bottom: 40,
+            left: 30,
+            width: 550
+        };
+        var pdf, page_section, HTML_Width, HTML_Height, top_left_margin, PDF_Width, PDF_Height, canvas_image_width, canvas_image_height;
+
+        function calculatePDF_height_width(selector, index) {
+            page_section = $(selector).eq(index);
+            HTML_Width = page_section.width();
+            HTML_Height = page_section.height();
+            top_left_margin = 15;
+            PDF_Width = HTML_Width + (top_left_margin * 2);
+            PDF_Height = (PDF_Width * 1.2) + (top_left_margin * 2);
+            canvas_image_width = HTML_Width;
+            canvas_image_height = HTML_Height;
+        }
+        generate = function () {
+
+            html2canvas($(".graphic")[0], { allowTaint: true }).then(function (canvas) {
+
+                var imgData = canvas.toDataURL("image/png", 1.0);
+                pdf.addPage();
+                pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                //console.log((page_section.length-1)+"==="+index);
+                setTimeout(function () {
+
+                    //Save PDF Doc
+                    pdf.save("HTML-Document.pdf");
+
+                    //Generate BLOB object
+                    var blob = pdf.output("blob");
+
+                    //Getting URL of blob object
+                    var blobURL = URL.createObjectURL(blob);
+
+                    //Showing PDF generated in iFrame element
+                    var iframe = document.getElementById('sample-pdf');
+                    iframe.src = blobURL;
+
+                    //Setting download link
+                    var downloadLink = document.getElementById('pdf-download-link');
+                    downloadLink.href = blobURL;
+                }, 0);
+            });
+            //var pdf = new jsPDF('p', 'pt', 'a4');
+            ////pdf.setFontSize(18);
+            //pdf.fromHTML($('#graphic').html() + $('#score').html() + $('#score').html(),
+            //    margins.left, // x coord
+            //    margins.top,
+            //    {
+            //        // y coord
+            //        width: margins.width// max width of content on PDF
+            //    }, function (dispose) {
+            //        headerFooterFormatting(pdf, pdf.internal.getNumberOfPages());
+            //    },
+            //    margins);
+
+            //var iframe = document.createElement('iframe');
+            //iframe.setAttribute('style', 'height:100%; width:100%; padding:20px;height:1000px;');
+            //$('#preview').append(iframe);
+
+            //iframe.src = pdf.output('datauristring');
+        };
+        function headerFooterFormatting(doc, totalPages) {
+            for (var i = totalPages; i >= 1; i--) {
+                doc.setPage(i);
+                //header
+                header(doc);
+
+                footer(doc, i, totalPages);
+                doc.page++;
+            }
+        };
+
+        function header(doc) {
+            doc.setFontSize(30);
+            doc.setTextColor(40);
+            doc.setFontStyle('normal');
+
+            doc.text("Report Template", margins.left + 50, 40);
+            doc.setLineCap(2);
+            doc.line(3, 70, margins.width + 43, 70); // horizontal line
+        };
+        function footer(doc, pageNumber, totalPages) {
+            var str = "Page " + pageNumber + " of " + totalPages
+            doc.setFontSize(10);
+            doc.text(str, margins.left, doc.internal.pageSize.height - 20);
+        };
+    </script>
+}

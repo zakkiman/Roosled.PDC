@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,7 +15,6 @@ namespace PDC.Web.Pages.Reports.Detail
     public class DetailsModel : PageModel
     {
         private readonly PDC.Web.Models.PDCContext _context;
-
         public DetailsModel(PDC.Web.Models.PDCContext context)
         {
             _context = context;
@@ -25,6 +26,7 @@ namespace PDC.Web.Pages.Reports.Detail
         public IList<tType> types { get; set; }
         public IList<tDomain> domains { get; set; }
         public tApplicant applicant { get; set; }
+        public IList<tApplicantHistory> applicantHistory { get; set; }
         public class rangking
         {
             public int rankID { get; set; }
@@ -40,75 +42,56 @@ namespace PDC.Web.Pages.Reports.Detail
         }
         public List<rangking> rangkings { get; set; }
         public static tApplicantProgram ap;
+        public int applicantID { get; set; }
+        public int programID { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id, int? app)
         {   
             if (id == null && app == null)
             {
                 return NotFound();
             }
-            applicantProgram = await _context.tApplicantProgram.Where(m => m.applicant_program_id == id).SingleOrDefaultAsync();
-            ap = applicantProgram;
-            types = await _context.tType.ToListAsync();
-            domains = await _context.tDomain.ToListAsync();
-            answers = await _context.tApplicantAnswer
-                .Include(t => t.answer.question)
-                .Include(t => t.answer.question.domain)
-                .Include(t => t.answer.question.type)
-                .Include(t => t.answer)
-                .Include(t => t.applicant_program)
-                .Include(t => t.applicant_program.batch)
-                .Include(t => t.applicant_program.batch.client)
-                .Where(ap => ap.applicant_program.applicant_program_id == id && ap.applicant_id == app).ToListAsync();
-            history = await _context.tAnswerHistory
-                .Include(t => t.answer)
-                .Include(t => t.answer.question)
-                .Where(h => h.applicant_program.applicant_id == app && h.applicant_program.applicant_program_id == id).ToListAsync();
-            applicant = await _context.tApplicant.Include(t => t.client).Where(a => a.applicant_id == app).SingleOrDefaultAsync();
-
-            // ranking process
-            int sort = 1;
-            rangkings = new List<rangking>();
-            rangking bRank = new rangking();
-            foreach(tType t in types)
+            try
             {
-                rangking r = new rangking();
-                r.rankID = sort;
+                applicantID = (int)app;
+                programID = (int)id;
+                applicantHistory = await _context.tApplicantHistory.Where(h => h.applicant_id == app).ToListAsync();
+                applicantProgram = await _context.tApplicantProgram.Include(t => t.batch).Include(t => t.applicant).Where(m => m.applicant_program_id == id).SingleOrDefaultAsync();
+                ap = applicantProgram;
+                types = await _context.tType.ToListAsync();
+                domains = await _context.tDomain.ToListAsync();
+                answers = await _context.tApplicantAnswer
+                    .Include(t => t.answer.question)
+                    .Include(t => t.answer.question.domain)
+                    .Include(t => t.answer.question.type)
+                    .Include(t => t.answer)
+                    .Include(t => t.applicant_program)
+                    .Include(t => t.applicant_program.batch)
+                    .Include(t => t.applicant_program.batch.client)
+                    .Where(ap => ap.applicant_program.applicant_program_id == id && ap.applicant_id == app).ToListAsync();
+                history = await _context.tAnswerHistory
+                    .Include(t => t.applicant_program.applicant)
+                    .Include(t => t.answer)
+                    .Include(t => t.answer.question)
+                    .Where(h => h.applicant_program.applicant_id == app && h.applicant_program.applicant_program_id == id).ToListAsync();
+                applicant = await _context.tApplicant.Include(t => t.client).Where(a => a.applicant_id == app).SingleOrDefaultAsync();
 
-                //if (t.type_name == "Borderline")
-                //{
-                //    List<tAppllicantAnswer> lap = answers.Where(a => a.answer.question.isBorderline == true).ToList();
-                //    foreach (tAppllicantAnswer ap in lap)
-                //    {
-                //        if (ap.answer.question.isBorderline == true)
-                //        {
-                //            r.rawScore += ap.answer.score;
-                //        }
-                //        r.type = new tType();
-                //        r.type = t;
-                //        r.zScore = (r.rawScore - t.substractor) / t.divider;
-                //        r.domainCount = new List<domainCount>();
-                //        foreach (tDomain d in domains)
-                //        {
-                //            domainCount dc = new domainCount();
-                //            dc.count = answers.Where(a => a.answer.question.type_name == t.type_name && a.answer.question.domain.domain_id == d.domain_id && a.answer.score > 2).Count();
-                //            dc.domain = new tDomain();
-                //            dc.domain = d;
-                //            r.domainCount.Add(dc);
-                //        }
-                //        rangkings.Add(r);
-                //        sort++;
-                //    }
-                //}
-                //else
-                //{
+                // ranking process
+                int sort = 1;
+                rangkings = new List<rangking>();
+                rangking bRank = new rangking();
+                foreach (tType t in types)
+                {
+                    rangking r = new rangking();
+                    r.rankID = sort;
+
                     List<tAppllicantAnswer> lap = answers.Where(a => a.answer.question.type_name == t.type_name).ToList();
-                    foreach (tAppllicantAnswer ap in lap)
+                    foreach (tAppllicantAnswer tap in lap)
                     {
-                        if (ap.answer.question.isBorderline == true)
+                        if (tap.answer.question.isBorderline == true)
                         {
-                            bRank.rawScore += ap.answer.score;
+                            bRank.rawScore += tap.answer.score;
                         }
-                        r.rawScore += ap.answer.score;
+                        r.rawScore += tap.answer.score;
                     }
                     r.type = new tType();
                     r.type = t;
@@ -122,33 +105,35 @@ namespace PDC.Web.Pages.Reports.Detail
                         dc.domain = d;
                         r.domainCount.Add(dc);
                     }
-                if (t.type_name == "Borderline")
-                {
-                    r.type = new tType();
-                    r.type = t;
-                    r.zScore = (bRank.rawScore - t.substractor) / t.divider;
-                    r.rawScore = bRank.rawScore;
-                    r.domainCount = new List<domainCount>();
-                    foreach (tDomain d in domains)
+                    if (t != null)
                     {
-                        domainCount dc = new domainCount();
-                        dc.count = answers.Where(a => a.answer.question.isBorderline == true && a.answer.question.domain.domain_id == d.domain_id && a.answer.score > 2).Count();
-                        dc.domain = new tDomain();
-                        dc.domain = d;
-                        r.domainCount.Add(dc);
+                        if (t.type_name == "Borderline")
+                        {
+                            r.type = new tType();
+                            r.type = t;
+                            r.zScore = (bRank.rawScore - t.substractor) / t.divider;
+                            r.rawScore = bRank.rawScore;
+                            r.domainCount = new List<domainCount>();
+                            foreach (tDomain d in domains)
+                            {
+                                domainCount dc = new domainCount();
+                                dc.count = answers.Where(a => a.answer.question.isBorderline == true && a.answer.question.domain.domain_id == d.domain_id && a.answer.score > 2).Count();
+                                dc.domain = new tDomain();
+                                dc.domain = d;
+                                r.domainCount.Add(dc);
+                            }
+                        }
                     }
-                }
                     rangkings.Add(r);
                     sort++;
-                //}
+                }
+                rangkings = rangkings.OrderByDescending(o => o.zScore).ToList();
+                return Page();
             }
-            rangkings = rangkings.OrderByDescending(o => o.zScore).ToList();
-
-            if (answers == null)
+            catch(Exception ex)
             {
                 return NotFound();
             }
-            return Page();
         }
         public async Task<IActionResult> OnPostAsync(int? id, int? app)
         {
@@ -161,7 +146,7 @@ namespace PDC.Web.Pages.Reports.Detail
             applicantProgram.batch_id = ap.batch_id;
             _context.Attach(applicantProgram).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            
+
             return Redirect("./Details?id=" + id + "&app=" + app);
         }
     }

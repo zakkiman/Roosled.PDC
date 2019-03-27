@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -241,10 +242,10 @@
     <Compile Remove="Migrations\20180803133450_update-database-13.cs" />
     <Compile Remove="Migrations\20180803133450_update-database-13.Designer.cs" />
     <Compile Remove="Models\tUser.cs" />
-    <Compile Remove="Pages\Users\Delete.cshtml.cs" />
+    <Compile Remove="Pages\Reports\Preview.cshtml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="Pages\Users\Delete.cshtml" />
+    <Content Remove="Pages\Reports\Preview.cshtml" />
     <Content Remove="wwwroot\css\summernote-bs4.css" />
     <Content Remove="wwwroot\css\summernote-lite.css" />
     <Content Remove="wwwroot\css\summernote.css" />
@@ -271,6 +272,7 @@
     <Content Include="wwwroot\css\parsleyjs\bower_components\uwidget\uwidget.css" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ChartJSCore" Version="1.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
@@ -284,6 +286,7 @@
     <Folder Include="Pages\Configurations\" />
     <Folder Include="Pages\Programs\" />
     <Folder Include="wwwroot\css\NewFolder\" />
+    <Folder Include="wwwroot\images\graph\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\css\animate.css\gulpfile.js" />
@@ -1166,5 +1169,4 @@
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\css\moment\moment.d.ts" />
   </ItemGroup>
-  
 </Project>

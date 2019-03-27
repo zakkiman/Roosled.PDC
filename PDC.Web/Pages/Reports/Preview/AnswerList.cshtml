@@ -1,0 +1,67 @@
+﻿@page
+@model PDC.Web.Pages.Reports.Preview.DetailsModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/css/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <script src="~/js/jquery-2.2.4.min.js"></script>
+    <script src="~/js/bootstrap-3.3.7.min.js"></script>
+    <script src="~/css/moment/moment.js"></script>
+    <!--[if lte IE 8]>
+        <script language="javascript" type="text/javascript" src="/js/flot/excanvas.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="~/js/Chart.bundle.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.time.js"></script>
+    <script type="text/javascript" src="~/js/jshashtable-2.1.js"></script>
+    <script type="text/javascript" src="~/js/jquery.numberformatter-1.2.3.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.symbol.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flot.axislabels.js"></script>
+    <script src="~/css/tinymce/tinymce.min.js"></script>
+    <script src="~/js/magnifiy.js"></script>
+    <link href="~/css/magnify.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <table class="table table-responsive table-bordered table-hover" style="display:none;">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Question</th>
+                <th>Answer</th>
+                <th># Selected</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int rowNo = 0; }
+            @foreach (var item in Model.answers)
+            {
+                <tr>
+                    <td>@(rowNo += 1)</td>
+                    <td>
+                        <span class="count_top">@item.answer.question.question_detail</span><br />
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <span class="count_bottom"><i class="red">[@item.answer.question.type_name][@item.answer.question.domain.domain_name]</i></span>
+                        }
+                    </td>
+                    <td>@item.answer.answer_detail</td>
+                    <td>
+                        @foreach (var itm in Model.history.Where(h => h.answer.question_id == item.answer.question_id))
+                        {
+                            <label>@itm.answer.answer_detail,</label>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

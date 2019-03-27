@@ -224,3 +224,53 @@ cursor: pointer
     border: 2px solid #6196CD;
     outline: none
 }
+@media print {
+    #canvas {
+        padding-right: 1cm;
+    }
+
+    .col-md-12 {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+    }
+
+    .row:before, .row:after {
+        display: table;
+        content: " ";
+    }
+
+    .row:after {
+        clear: both;
+    }
+
+    .row {
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+
+    #btnPrint {
+        display: none;
+    }
+
+    table thead > tr {
+        background-color: #fff !important;
+    }
+    body {
+        -webkit-print-color-adjust: exact;
+    }
+    a[href]:after {
+        content: none !important;
+    }
+    @page {
+        margin: 0;
+    }
+    body {
+        margin: 1.6cm;
+    }
+}
